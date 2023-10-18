@@ -3,14 +3,10 @@
 	using System;
 	using System.Collections.Generic;
 
-	using Skyline.DataMiner.Net.DMSState.Agents;
 	using Skyline.PollingManager.Enums;
 
 	public abstract class PollableBase : IPollable
 	{
-        private List<IPollable> _parents = new List<IPollable>();
-        private List<IPollable> _children = new List<IPollable>();
-
         public PollableBase(object[] row)
         {
             Name = (string)row[1];
@@ -43,61 +39,61 @@
 
         public Status Status { get; set; }
 
-        public List<IPollable> Parents => _parents;
+        public List<IPollable> Parents { get; set; } = new List<IPollable>();
 
-        public List<IPollable> Children => _children;
+        public List<IPollable> Children { get; set; } = new List<IPollable>();
 
         public abstract bool Poll();
 
         void IPollable.AddParent(IPollable parent)
         {
-			if (_children.Contains(parent))
+			if (Children.Contains(parent))
 				throw new InvalidOperationException($"Circular dependency, {parent.Name} is already a child of {Name}!");
 
-			if (_parents.Contains(parent))
+			if (Parents.Contains(parent))
                 return;
 
-			_parents.Add(parent);
+			Parents.Add(parent);
 		}
 
         public void AddParents(params IPollable[] parents)
 		{
             foreach (var parent in parents)
             {
-                if (_children.Contains(parent))
+                if (Children.Contains(parent))
                     throw new InvalidOperationException($"Circular dependency, {parent.Name} is already a child of {Name}!");
 
-                if (_parents.Contains(parent))
+                if (Parents.Contains(parent))
                     return;
 
                 parent.AddChild(this);
-                _parents.Add(parent);
+                Parents.Add(parent);
             }
 		}
 
         void IPollable.AddChild(IPollable child)
         {
-			if (_parents.Contains(child))
+			if (Parents.Contains(child))
 				throw new InvalidOperationException($"Circular dependency, {child.Name} is already a parent of {Name}!");
 
-			if (_children.Contains(child))
+			if (Children.Contains(child))
 				return;
 
-			_children.Add(child);
+			Children.Add(child);
 		}
 
         public void AddChildren(params IPollable[] children)
 		{
             foreach (var child in children)
             {
-                if (_parents.Contains(child))
+                if (Parents.Contains(child))
                     throw new InvalidOperationException($"Circular dependency, {child.Name} is already a parent of {Name}!");
 
-                if (_children.Contains(child))
+                if (Children.Contains(child))
                     return;
 
                 child.AddParent(this);
-                _children.Add(child);
+                Children.Add(child);
             }
 		}
 	}

@@ -19,9 +19,9 @@
 
         Status Status { get; set; }
 
-        List<IPollable> Parents { get; }
+        List<IPollable> Parents { get; set; }
 
-        List<IPollable> Children { get; }
+        List<IPollable> Children { get; set; }
 
         bool Poll();
 

@@ -12,7 +12,7 @@
 		private static PollingManager _instance;
 		private readonly PollingmanagerQActionTable _table;
 		private readonly Dictionary<string, PollableBase> _rows = new Dictionary<string, PollableBase>();
-		private IPollableBaseFactory _pollableFactory;
+		private readonly IPollableBaseFactory _pollableFactory;
 
 		private PollingManager(PollingmanagerQActionTable table, List<PollableBase> rows, IPollableBaseFactory pollableFactory)
 		{
@@ -44,7 +44,7 @@
 
 		public void CheckForUpdate()
 		{
-			Dictionary<string, PollableBase> rowsToUpdate = new Dictionary<string, PollableBase>();
+			bool requiresUpdate = false;
 
 			foreach (var row in _rows)
 			{
@@ -83,14 +83,11 @@
 				else
 					row.Value.Status = Status.Failed;
 
-				rowsToUpdate.Add(row.Key, row.Value);
+				requiresUpdate = true;
 			}
 
-			if (rowsToUpdate.Count > 0)
-			{
-				UpdateInternalRows(rowsToUpdate);
-				FillTableNoDelete(rowsToUpdate);
-			}
+			if (requiresUpdate)
+				FillTableNoDelete(_rows);
 		}
 
 		public void PollRow(string id)
@@ -127,9 +124,21 @@
 					break;
 			}
 
-			_rows[id] = tableRow;
+			UpdateInternalRow(id, tableRow);
 
 			FillTableNoDelete(id, tableRow);
+		}
+
+		private void UpdateInternalRow(string id, PollableBase newValue)
+		{
+			_rows[id].Name = newValue.Name;
+			_rows[id].Period = newValue.Period;
+			_rows[id].DefaultPeriod = newValue.DefaultPeriod;
+			_rows[id].PeriodType = newValue.PeriodType;
+			_rows[id].LastPoll = newValue.LastPoll;
+			_rows[id].Status = newValue.Status;
+			_rows[id].Parents = newValue.Parents;
+			_rows[id].Children = newValue.Children;
 		}
 
 		private bool CheckParents(PollableBase row)
@@ -141,14 +150,6 @@
 			}
 
 			return true;
-		}
-
-		private void UpdateInternalRows(Dictionary<string, PollableBase> rowsToUpdate)
-		{
-            foreach (var row in rowsToUpdate)
-            {
-				_rows[row.Key] = row.Value;
-            }
 		}
 
 		private bool CheckLastPollTime(int period, DateTime lastPoll)
