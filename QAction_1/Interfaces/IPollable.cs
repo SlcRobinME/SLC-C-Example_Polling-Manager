@@ -19,6 +19,8 @@
 
         Status Status { get; set; }
 
+        State State { get; set; }
+
         List<IPollable> Parents { get; set; }
 
         List<IPollable> Children { get; set; }

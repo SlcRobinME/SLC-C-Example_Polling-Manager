@@ -10,5 +10,6 @@
 		LastPoll = 5,
 		Status = 6,
 		Poll = 7,
+		State = 8,
 	}
 }

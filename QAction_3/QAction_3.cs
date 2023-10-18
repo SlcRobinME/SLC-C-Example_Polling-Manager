@@ -15,23 +15,7 @@ public static class QAction
 			Trigger trigger = (Trigger)protocol.GetTriggerParameter();
 			string rowId = protocol.RowKey();
 
-			switch (trigger)
-			{
-				case Trigger.Period:
-					PollingManager.Instance.UpdateRow(rowId, Column.Period);
-					break;
-
-				case Trigger.PeriodType:
-					PollingManager.Instance.UpdateRow(rowId, Column.PeriodType);
-					break;
-
-				case Trigger.Poll:
-					PollingManager.Instance.PollRow(rowId);
-					break;
-
-				default:
-					break;
-			}
+			PollingManager.Instance.UpdateRow(rowId, trigger.ToColumn());
 		}
 		catch (Exception ex)
 		{

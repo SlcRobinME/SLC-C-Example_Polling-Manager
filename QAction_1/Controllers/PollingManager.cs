@@ -2,10 +2,12 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 
 	using Skyline.DataMiner.Scripting;
 	using Skyline.PollingManager.Enums;
 	using Skyline.PollingManager.Interfaces;
+	using Skyline.PollingManager.Providers;
 
 	public class PollingManager
 	{
@@ -48,7 +50,7 @@
 
 			foreach (var row in _rows)
 			{
-				if (row.Value.Status == Status.Disabled)
+				if (row.Value.State == State.Disabled || row.Value.State == State.DisabledParents)
 					continue;
 
 				bool readyToPoll;
@@ -90,21 +92,6 @@
 				FillTableNoDelete(_rows);
 		}
 
-		public void PollRow(string id)
-		{
-			PollableBase rowToPoll = _rows[id];
-
-			bool pollSucceeded = rowToPoll.Poll();
-			rowToPoll.LastPoll = DateTime.Now;
-
-			if (pollSucceeded)
-				rowToPoll.Status = Status.Succeeded;
-			else
-				rowToPoll.Status = Status.Failed;
-
-			FillTableNoDelete(id, rowToPoll);
-		}
-
 		public void UpdateRow(string id, Column column)
 		{
 			PollableBase tableRow = CreateIPollable(_table.GetRow(id));
@@ -120,13 +107,78 @@
 						tableRow.Period = _rows[id].Period;
 					break;
 
+				case Column.Poll:
+					PollRow(tableRow);
+					break;
+
+				case Column.State:
+					UpdateState(tableRow);
+					break;
+
 				default:
 					break;
 			}
 
 			UpdateInternalRow(id, tableRow);
+			FillTableNoDelete(_rows);
+		}
 
-			FillTableNoDelete(id, tableRow);
+		private void UpdateState(IPollable row)
+		{
+			if (row.Parents.Where(parent => parent.State == State.Disabled).Any())
+			{
+				row.State = State.Disabled;
+				return;
+			}
+
+			switch (row.State)
+			{
+				case State.Disabled:
+					row.Status = Status.Disabled;
+					UpdateRelatedStates(row.Children, State.Disabled);
+					return;
+
+				case State.Enabled:
+					row.Status = Status.NotPolled;
+					return;
+
+				case State.DisabledParents:
+					row.Status = Status.Disabled;
+					UpdateRelatedStates(row.Parents, State.Disabled);
+					return;
+
+				case State.EnabledChildren:
+					row.Status = Status.NotPolled;
+					UpdateRelatedStates(row.Children, State.Enabled);
+					return;
+			}
+		}
+
+		private void UpdateRelatedStates(List<IPollable> collection, State state)
+		{
+			SLProtocolProvider.Protocol.Log($"collection.Count [{collection.Count}]");
+
+			foreach (var item in collection)
+			{
+				item.Status = Status.Disabled;
+				item.State = state;
+				SLProtocolProvider.Protocol.Log($"item.Name [{item.Name}]");
+				UpdateState(item);
+			}
+		}
+
+		private void PollRow(PollableBase row)
+		{
+			if (row.State == State.Disabled || row.State == State.DisabledParents)
+				return;
+
+			bool pollSucceeded = row.Poll();
+			row.LastPoll = DateTime.Now;
+
+			if (pollSucceeded)
+				row.Status = Status.Succeeded;
+			else
+				row.Status = Status.Failed;
 		}
 
 		private void UpdateInternalRow(string id, PollableBase newValue)
@@ -137,6 +189,7 @@
 			_rows[id].PeriodType = newValue.PeriodType;
 			_rows[id].LastPoll = newValue.LastPoll;
 			_rows[id].Status = newValue.Status;
+			_rows[id].State = newValue.State;
 			_rows[id].Parents = newValue.Parents;
 			_rows[id].Children = newValue.Children;
 		}
@@ -190,6 +243,7 @@
 				Pollingmanagerperiodtype_1005 = value.PeriodType,
 				Pollingmanagerlastpoll_1006 = value.Status == Status.NotPolled ? (double)Status.NotPolled : value.LastPoll.ToOADate(),
 				Pollingmanagerstatus_1007 = value.Status,
+				Pollingmanagerstate_1009 = value.State,
 			};
 		}
 
@@ -205,9 +259,15 @@
 			return tableRows.ToArray();
 		}
 
-		private PollableBase CreateIPollable(object[] row)
+		private PollableBase CreateIPollable(object[] tableRow)
 		{
-			return _pollableFactory.CreatePollableBase(row);
+			string id = (string)tableRow[0];
+			PollableBase row = _pollableFactory.CreatePollableBase(tableRow);
+
+			row.Parents = _rows[id].Parents;
+			row.Children = _rows[id].Children;
+
+			return row;
 		}
 	}
 }

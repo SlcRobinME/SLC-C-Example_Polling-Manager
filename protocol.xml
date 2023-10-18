@@ -71,7 +71,8 @@
 				<ColumnOption idx="5" pid="1006" type="retrieved" options=""/>
 				<ColumnOption idx="6" pid="1007" type="retrieved" options=""/>
 				<ColumnOption idx="7" pid="1108" type="retrieved" options=""/>
-				<ColumnOption idx="8" pid="1099" type="displaykey" options=""/>
+				<ColumnOption idx="8" pid="1009" type="retrieved" options=""/>
+				<ColumnOption idx="9" pid="1099" type="displaykey" options=""/>
 			</ArrayOptions>
 			<Display>
 				<RTDisplay>true</RTDisplay>
@@ -84,7 +85,7 @@
 				</Positions>
 			</Display>
 			<Measurement>
-				<Type options="tab=columns:1001|0-1099|8-1002|1-1003|2-1004|3-1005|4-1006|5-1007|6-1108|7,width:100-100-100-150-150-175-150-100-100,sort:STRING-STRING-STRING-INT-INT-INT-STRING-STRING-STRING,lines:25,filter:true">table</Type>
+				<Type options="tab=columns:1001|0-1099|9-1002|1-1009|8-1003|2-1004|3-1005|4-1006|5-1007|6-1108|7,width:100-100-100-200-150-150-175-150-100-100,sort:STRING-STRING-STRING-STRING-INT-INT-INT-STRING-STRING-STRING,lines:25,filter:true">table</Type>
 			</Measurement>
 		</Param>
 		<Param id="1001" trending="false">
@@ -252,6 +253,16 @@
 				<RawType>numeric text</RawType>
 				<Type>double</Type>
 				<LengthType>next param</LengthType>
+				<Exceptions>
+					<Exception id="1" value="-2">
+						<Display state="disabled">Not Initialized</Display>
+						<Value>-2</Value>
+					</Exception>
+					<Exception id="2" value="0">
+						<Display state="disabled">Disabled</Display>
+						<Value>0</Value>
+					</Exception>
+				</Exceptions>
 			</Interprete>
 			<Display>
 				<RTDisplay>true</RTDisplay>
@@ -260,16 +271,8 @@
 				<Type>discreet</Type>
 				<Discreets>
 					<Discreet>
-						<Display>Not Initialized</Display>
-						<Value>-2</Value>
-					</Discreet>
-					<Discreet>
 						<Display>Failed</Display>
 						<Value>-1</Value>
-					</Discreet>
-					<Discreet>
-						<Display>Disabled</Display>
-						<Value>0</Value>
 					</Discreet>
 					<Discreet>
 						<Display>Succeeded</Display>
@@ -300,6 +303,74 @@
 				</Discreets>
 			</Measurement>
 		</Param>
+		<Param id="1009" trending="false">
+			<Name>PollingManagerState</Name>
+			<Description>State (PollingManager)</Description>
+			<Type>read</Type>
+			<Interprete>
+				<RawType>numeric text</RawType>
+				<Type>double</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type>discreet</Type>
+				<Discreets>
+					<Discreet>
+						<Display>Disabled</Display>
+						<Value>1</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Enabled</Display>
+						<Value>2</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Disabled(Including Parents)</Display>
+						<Value>3</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Enabled(Including Children)</Display>
+						<Value>4</Value>
+					</Discreet>
+				</Discreets>
+			</Measurement>
+		</Param>
+		<Param id="1109" setter="true">
+			<Name>PollingManagerState</Name>
+			<Description>State (PollingManager)</Description>
+			<Type>write</Type>
+			<Interprete>
+				<RawType>numeric text</RawType>
+				<Type>double</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type>discreet</Type>
+				<Discreets>
+					<Discreet>
+						<Display>Disabled</Display>
+						<Value>1</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Enabled</Display>
+						<Value>2</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Disabled(Including Parents)</Display>
+						<Value>3</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Enabled(Including Children)</Display>
+						<Value>4</Value>
+					</Discreet>
+				</Discreets>
+			</Measurement>
+		</Param>
 		<Param id="1099" trending="false">
 			<Name>PollingManagerDisplayKey</Name>
 			<Description>Display Key (PollingManager)</Description>
@@ -321,7 +392,7 @@
 	<QActions>
 		<QAction id="1" name="Precompiled Code" encoding="csharp" options="precompile" />
 		<QAction id="2" name="Polling Manager" encoding="csharp" triggers="1;998;999" entryPoint="PollingManagerCheck;PollingManagerInit;PollingManagerCheck"/>
-		<QAction id="3" name="Polling Manager Update" encoding="csharp" row="true" triggers="1103;1105;1108" />
+		<QAction id="3" name="Polling Manager Update" encoding="csharp" row="true" triggers="1103;1105;1108;1109" />
 	</QActions>
 
 	<Groups>
@@ -379,7 +450,7 @@
 			<Time initial="true">1000</Time>
 			<Interval>75</Interval>
 			<Content>
-				<Group>2</Group>
+				<Group></Group>
 			</Content>
 		</Timer>
 	</Timers>

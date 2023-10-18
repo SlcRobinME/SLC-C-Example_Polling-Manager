@@ -15,6 +15,7 @@
             PeriodType = (PeriodType)(double)row[4];
             LastPoll = DateTime.FromOADate((double)row[5]);
             Status = (Status)(double)row[6];
+            State = (State)(double)row[8];
         }
 
         public PollableBase(string name)
@@ -25,6 +26,7 @@
             PeriodType = PeriodType.Default;
             LastPoll = default;
             Status = Status.NotPolled;
+            State = State.Enabled;
         }
 
         public string Name { get; set; }
@@ -38,6 +40,8 @@
         public DateTime LastPoll { get; set; }
 
         public Status Status { get; set; }
+
+        public State State { get; set; }
 
         public List<IPollable> Parents { get; set; } = new List<IPollable>();
 
