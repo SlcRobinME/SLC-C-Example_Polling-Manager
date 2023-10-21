@@ -3,8 +3,8 @@
 	public enum Status
 	{
 		NotPolled = -2,
-		Failed = -1,
-		Disabled = 0,
+		Disabled = -1,
+		Failed = 0,
 		Succeeded = 1,
 	}
 }

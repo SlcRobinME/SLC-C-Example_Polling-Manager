@@ -3,21 +3,20 @@
 	using Skyline.DataMiner.Scripting;
 
 	using Skyline.PollingManager.Interfaces;
-	using Skyline.PollingManager.Providers;
 
 	public class Pollable : PollableBase
 	{
-		public Pollable(string name) : base(name)
+		public Pollable(SLProtocol protocol, string name) : base(protocol, name)
 		{
 		}
 
-		public Pollable(object[] row) : base(row)
+		public Pollable(SLProtocol protocol, object[] row) : base(protocol, row)
 		{
 		}
 
 		public override bool Poll()
 		{
-			SLProtocolProvider.Protocol.Log($"Name [{Name}]");
+			Protocol.Log($"Name [{Name}]");
 
 			return true;
 		}

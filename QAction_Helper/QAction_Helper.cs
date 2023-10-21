@@ -155,7 +155,7 @@ public class WriteParameters
 	public System.Object Pollingmanagerperiodtype {get { return Protocol.GetParameter(1105); }set { Protocol.SetParameter(1105, value); }}
 	/// <summary>PID: 1108  | Type: write | DISCREETS: Poll = 1</summary>
 	public System.Object Pollingmanagerpoll {get { return Protocol.GetParameter(1108); }set { Protocol.SetParameter(1108, value); }}
-	/// <summary>PID: 1109  | Type: write | DISCREETS: Disabled = 1, Enabled = 2, Disabled(Including Parents) = 3, Enabled(Including Children) = 4</summary>
+	/// <summary>PID: 1109  | Type: write | DISCREETS: Disable = 1, Enable = 2, Force Disable = 3, Force Enable = 4</summary>
 	public System.Object Pollingmanagerstate {get { return Protocol.GetParameter(1109); }set { Protocol.SetParameter(1109, value); }}
 	public SLProtocolExt Protocol;
 	public WriteParameters(SLProtocolExt protocol)
@@ -218,10 +218,10 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Pollingmanagername_1002 {get { return GetParameter(1002); }set { SetParameter(1002, value); }}
 	/// <summary>PID: 1002  | Type: read</summary>
 	public System.Object Pollingmanagername {get { return GetParameter(1002); }set { SetParameter(1002, value); }}
-	/// <summary>PID: 1003  | Type: read</summary>
+	/// <summary>PID: 1003  | Type: read | EXCEPTIONS: Disabled = -1</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public System.Object Pollingmanagerperiod_1003 {get { return GetParameter(1003); }set { SetParameter(1003, value); }}
-	/// <summary>PID: 1003  | Type: read</summary>
+	/// <summary>PID: 1003  | Type: read | EXCEPTIONS: Disabled = -1</summary>
 	public System.Object Pollingmanagerperiod {get { return GetParameter(1003); }set { SetParameter(1003, value); }}
 	/// <summary>PID: 1004  | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
@@ -243,10 +243,10 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Pollingmanagerstatus_1007 {get { return GetParameter(1007); }set { SetParameter(1007, value); }}
 	/// <summary>PID: 1007  | Type: read | DISCREETS: Failed = -1, Succeeded = 1 | EXCEPTIONS: Not Initialized = -2, Disabled = 0</summary>
 	public System.Object Pollingmanagerstatus {get { return GetParameter(1007); }set { SetParameter(1007, value); }}
-	/// <summary>PID: 1009  | Type: read | DISCREETS: Disabled = 1, Enabled = 2, Disabled(Including Parents) = 3, Enabled(Including Children) = 4</summary>
+	/// <summary>PID: 1009  | Type: read | DISCREETS: Disabled = 1, Enabled = 2, Force Disabled = 3, Force Enabled = 4</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public System.Object Pollingmanagerstate_1009 {get { return GetParameter(1009); }set { SetParameter(1009, value); }}
-	/// <summary>PID: 1009  | Type: read | DISCREETS: Disabled = 1, Enabled = 2, Disabled(Including Parents) = 3, Enabled(Including Children) = 4</summary>
+	/// <summary>PID: 1009  | Type: read | DISCREETS: Disabled = 1, Enabled = 2, Force Disabled = 3, Force Enabled = 4</summary>
 	public System.Object Pollingmanagerstate {get { return GetParameter(1009); }set { SetParameter(1009, value); }}
 	/// <summary>PID: 1099  | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
@@ -263,7 +263,7 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Pollingmanagerpoll_1108 {get { return GetParameter(1108); }set { SetParameter(1108, value); }}
 	/// <summary>PID: 1108  | Type: write | DISCREETS: Poll = 1</summary>
 	public System.Object Pollingmanagerpoll {get { return Write.Pollingmanagerpoll; }set { Write.Pollingmanagerpoll = value; }}
-	/// <summary>PID: 1109  | Type: write | DISCREETS: Disabled = 1, Enabled = 2, Disabled(Including Parents) = 3, Enabled(Including Children) = 4</summary>
+	/// <summary>PID: 1109  | Type: write | DISCREETS: Disable = 1, Enable = 2, Force Disable = 3, Force Enable = 4</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public System.Object Pollingmanagerstate_1109 {get { return GetParameter(1109); }set { SetParameter(1109, value); }}
 	public WriteParameters Write { get; set; }

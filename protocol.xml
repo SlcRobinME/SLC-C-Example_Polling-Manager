@@ -71,7 +71,7 @@
 				<ColumnOption idx="5" pid="1006" type="retrieved" options=""/>
 				<ColumnOption idx="6" pid="1007" type="retrieved" options=""/>
 				<ColumnOption idx="7" pid="1108" type="retrieved" options=""/>
-				<ColumnOption idx="8" pid="1009" type="retrieved" options=""/>
+				<ColumnOption idx="8" pid="1009" type="retrieved" options=";rowTextColoring"/>
 				<ColumnOption idx="9" pid="1099" type="displaykey" options=""/>
 			</ArrayOptions>
 			<Display>
@@ -85,7 +85,7 @@
 				</Positions>
 			</Display>
 			<Measurement>
-				<Type options="tab=columns:1001|0-1099|9-1002|1-1009|8-1003|2-1004|3-1005|4-1006|5-1007|6-1108|7,width:100-100-100-200-150-150-175-150-100-100,sort:STRING-STRING-STRING-STRING-INT-INT-INT-STRING-STRING-STRING,lines:25,filter:true">table</Type>
+				<Type options="tab=columns:1001|0-1099|9-1009|8-1003|2-1004|3-1005|4-1006|5-1007|6-1108|7,width:0-100-200-150-150-175-150-100-100,sort:STRING-STRING-STRING-INT-INT-INT-STRING-STRING-STRING,lines:25,filter:true">table</Type>
 			</Measurement>
 		</Param>
 		<Param id="1001" trending="false">
@@ -129,6 +129,12 @@
 				<Type>double</Type>
 				<LengthType>next param</LengthType>
 				<Decimals>8</Decimals>
+				<Exceptions>
+					<Exception id="1" value="-1">
+						<Display state="disabled">Disabled</Display>
+						<Value>-1</Value>
+					</Exception>
+				</Exceptions>
 			</Interprete>
 			<Display>
 				<RTDisplay>true</RTDisplay>
@@ -318,7 +324,7 @@
 			<Measurement>
 				<Type>discreet</Type>
 				<Discreets>
-					<Discreet>
+					<Discreet options=";rowTextColor=#979797">
 						<Display>Disabled</Display>
 						<Value>1</Value>
 					</Discreet>
@@ -326,12 +332,12 @@
 						<Display>Enabled</Display>
 						<Value>2</Value>
 					</Discreet>
-					<Discreet>
-						<Display>Disabled(Including Parents)</Display>
+					<Discreet options=";rowTextColor=#979797">
+						<Display>Force Disabled</Display>
 						<Value>3</Value>
 					</Discreet>
 					<Discreet>
-						<Display>Enabled(Including Children)</Display>
+						<Display>Force Enabled</Display>
 						<Value>4</Value>
 					</Discreet>
 				</Discreets>
@@ -353,19 +359,19 @@
 				<Type>discreet</Type>
 				<Discreets>
 					<Discreet>
-						<Display>Disabled</Display>
+						<Display>Disable</Display>
 						<Value>1</Value>
 					</Discreet>
 					<Discreet>
-						<Display>Enabled</Display>
+						<Display>Enable</Display>
 						<Value>2</Value>
 					</Discreet>
 					<Discreet>
-						<Display>Disabled(Including Parents)</Display>
+						<Display>Force Disable</Display>
 						<Value>3</Value>
 					</Discreet>
 					<Discreet>
-						<Display>Enabled(Including Children)</Display>
+						<Display>Force Enable</Display>
 						<Value>4</Value>
 					</Discreet>
 				</Discreets>

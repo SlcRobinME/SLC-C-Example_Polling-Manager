@@ -5,14 +5,22 @@ namespace Skyline.PollingManager
 
 	using Skyline.PollingManager.Client;
 	using Skyline.PollingManager.Interfaces;
+	using Skyline.PollingManager.Providers;
 
 	public static class PollingManagerConfiguration
 	{
 		private static readonly Dictionary<string, PollableBase> _rows = new Dictionary<string, PollableBase>()
 		{
-			{ "Simon", new Pollable("Simon") },
-			{ "Jelle", new Pollable("Jelle") },
-			{ "Edib", new Pollable("Edib") },
+			{ "Simon", new Pollable(SLProtocolProvider.Protocol, "Simon") },
+			{ "Jelle", new Pollable(SLProtocolProvider.Protocol, "Jelle") },
+			{ "Edib", new Pollable(SLProtocolProvider.Protocol, "Edib") },
+			{ "Ben", new Pollable(SLProtocolProvider.Protocol, "Ben") },
+			{ "Bert", new Pollable(SLProtocolProvider.Protocol, "Bert") },
+			{ "Robbie", new Pollable(SLProtocolProvider.Protocol, "Robbie") },
+			{ "Merima", new Pollable(SLProtocolProvider.Protocol, "Merima") },
+			{ "Ibrahim", new Pollable(SLProtocolProvider.Protocol, "Ibrahim") },
+			{ "Thomas", new Pollable(SLProtocolProvider.Protocol, "Thomas") },
+			{ "Victor", new Pollable(SLProtocolProvider.Protocol, "Victor") },
 		};
 
 		static PollingManagerConfiguration()
@@ -24,7 +32,9 @@ namespace Skyline.PollingManager
 
 		private static void SetDependencies()
 		{
-			_rows["Simon"].AddChildren(_rows["Edib"], _rows["Jelle"]);
+			_rows["Simon"].AddChildren(_rows["Edib"], _rows["Jelle"], _rows["Thomas"]);
+			_rows["Jelle"].AddChildren(_rows["Edib"], _rows["Ibrahim"]);
+			_rows["Ben"].AddChildren(_rows["Bert"], _rows["Simon"]);
 		}
 	}
 }

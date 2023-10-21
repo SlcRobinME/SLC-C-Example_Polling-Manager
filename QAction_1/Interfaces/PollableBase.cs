@@ -3,23 +3,26 @@
 	using System;
 	using System.Collections.Generic;
 
+	using Skyline.DataMiner.Scripting;
 	using Skyline.PollingManager.Enums;
 
 	public abstract class PollableBase : IPollable
 	{
-        public PollableBase(object[] row)
-        {
-            Name = (string)row[1];
-            Period = (int)(double)row[2];
-            DefaultPeriod = (int)(double)row[3];
-            PeriodType = (PeriodType)(double)row[4];
-            LastPoll = DateTime.FromOADate((double)row[5]);
-            Status = (Status)(double)row[6];
-            State = (State)(double)row[8];
-        }
+        public PollableBase(SLProtocol protocol, object[] row)
+		{
+			Protocol = protocol;
+			Name = (string)row[1];
+			Period = (int)(double)row[2];
+			DefaultPeriod = (int)(double)row[3];
+			PeriodType = (PeriodType)(double)row[4];
+			LastPoll = DateTime.FromOADate((double)row[5]);
+			Status = (Status)(double)row[6];
+			State = (State)(double)row[8];
+		}
 
-        public PollableBase(string name)
+        public PollableBase(SLProtocol protocol, string name)
         {
+            Protocol = protocol;
             Name = name;
             Period = 60;
             DefaultPeriod = 60;
@@ -28,6 +31,8 @@
             Status = Status.NotPolled;
             State = State.Enabled;
         }
+
+        public SLProtocol Protocol { get; set; }
 
         public string Name { get; set; }
 

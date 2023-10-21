@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 
 using Skyline.DataMiner.Scripting;
 using Skyline.PollingManager;
 using Skyline.PollingManager.Client;
 using Skyline.PollingManager.Controllers;
-using Skyline.PollingManager.Interfaces;
 using Skyline.PollingManager.Providers;
 
 public static class QAction
@@ -20,7 +18,7 @@ public static class QAction
 
             var factory = new PollableFactory();
 
-            PollingManager.Init(protocol.pollingmanager, PollingManagerConfiguration.Rows, factory);
+            PollingManagerContainer.AddManager(protocol, protocol.pollingmanager, PollingManagerConfiguration.Rows, factory);
         }
         catch (Exception ex)
         {
@@ -34,7 +32,7 @@ public static class QAction
 		{
 			protocol.Log("QAction_2.PollingManagerCheck");
 
-			PollingManager.Instance.CheckForUpdate();
+			PollingManagerContainer.GetManager(protocol).CheckForUpdate();
 		}
 		catch (Exception ex)
 		{

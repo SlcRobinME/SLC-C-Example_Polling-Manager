@@ -15,7 +15,7 @@ public static class QAction
 			Trigger trigger = (Trigger)protocol.GetTriggerParameter();
 			string rowId = protocol.RowKey();
 
-			PollingManager.Instance.UpdateRow(rowId, trigger.ToColumn());
+			PollingManagerContainer.GetManager(protocol).UpdateRow(rowId, trigger.ToColumn());
 		}
 		catch (Exception ex)
 		{

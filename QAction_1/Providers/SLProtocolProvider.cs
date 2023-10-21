@@ -4,11 +4,11 @@
 
 	public class SLProtocolProvider
 	{
-		public SLProtocolProvider(SLProtocolExt protocol)
+		public SLProtocolProvider(SLProtocol protocol)
 		{
 			Protocol = protocol;
 		}
 
-		public static SLProtocolExt Protocol { get; set; }
+		public static SLProtocol Protocol { get; set; }
 	}
 }

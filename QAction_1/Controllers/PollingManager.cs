@@ -7,17 +7,52 @@
 	using Skyline.DataMiner.Scripting;
 	using Skyline.PollingManager.Enums;
 	using Skyline.PollingManager.Interfaces;
-	using Skyline.PollingManager.Providers;
+
+	public static class PollingManagerContainer
+	{
+		private static Dictionary<string, PollingManager> _managers = new Dictionary<string, PollingManager>();
+
+		public static PollingManager AddManager(SLProtocol protocol, PollingmanagerQActionTable table, List<PollableBase> rows, IPollableBaseFactory pollableFactory)
+		{
+			string key = GetKey(protocol);
+
+			if (!_managers.ContainsKey(key))
+			{
+				var manager = new PollingManager(protocol, table, rows, pollableFactory);
+
+				_managers.Add(key, manager);
+			}
+
+			return _managers[key];
+		}
+
+		public static PollingManager GetManager(SLProtocol protocol)
+		{
+			string key = GetKey(protocol);
+
+			if (!_managers.ContainsKey(key))
+				throw new InvalidOperationException("Polling manager for this element is not initialized, please call AddManager first.");
+
+			_managers[key].Protocol = protocol;
+
+			return _managers[key];
+		}
+
+		private static string GetKey(SLProtocol protocol)
+		{
+			return string.Join("/", protocol.DataMinerID, protocol.ElementID);
+		}
+	}
 
 	public class PollingManager
 	{
-		private static PollingManager _instance;
 		private readonly PollingmanagerQActionTable _table;
 		private readonly Dictionary<string, PollableBase> _rows = new Dictionary<string, PollableBase>();
 		private readonly IPollableBaseFactory _pollableFactory;
 
-		private PollingManager(PollingmanagerQActionTable table, List<PollableBase> rows, IPollableBaseFactory pollableFactory)
+		internal PollingManager(SLProtocol protocol, PollingmanagerQActionTable table, List<PollableBase> rows, IPollableBaseFactory pollableFactory)
 		{
+			Protocol = protocol;
 			_table = table;
 			_pollableFactory = pollableFactory;
 
@@ -28,21 +63,13 @@
 				if (!names.Add(rows[i].Name))
 					throw new ArgumentException($"Duplicate name: {rows[i].Name}");
 
-				_rows.Add((i+1).ToString(), rows[i]);
+				_rows.Add((i + 1).ToString(), rows[i]);
 			}
 
 			FillTable(_rows);
 		}
 
-		public static PollingManager Instance => _instance ?? throw new InvalidOperationException("Polling manager is not initialized, call Init!");
-
-		public static PollingManager Init(PollingmanagerQActionTable table, List<PollableBase> rows, IPollableBaseFactory pollableFactory)
-		{
-			if (_instance == null)
-				_instance = new PollingManager(table, rows, pollableFactory);
-
-			return _instance;
-		}
+		public SLProtocol Protocol { get; set; }
 
 		public void CheckForUpdate()
 		{
@@ -50,7 +77,7 @@
 
 			foreach (var row in _rows)
 			{
-				if (row.Value.State == State.Disabled || row.Value.State == State.DisabledParents)
+				if (row.Value.State == State.Disabled)
 					continue;
 
 				bool readyToPoll;
@@ -105,6 +132,7 @@
 				case Column.PeriodType:
 					if (tableRow.PeriodType == PeriodType.Custom)
 						tableRow.Period = _rows[id].Period;
+
 					break;
 
 				case Column.Poll:
@@ -125,51 +153,73 @@
 
 		private void UpdateState(IPollable row)
 		{
-			if (row.Parents.Where(parent => parent.State == State.Disabled).Any())
-			{
-				row.State = State.Disabled;
-				return;
-			}
-
 			switch (row.State)
 			{
 				case State.Disabled:
+					if (row.Children.Any(child => child.State == State.Enabled))
+					{
+						ShowChildren(row);
+						row.State = State.Enabled;
+						return;
+					}
+
 					row.Status = Status.Disabled;
 					UpdateRelatedStates(row.Children, State.Disabled);
 					return;
 
 				case State.Enabled:
-					row.Status = Status.NotPolled;
+					if (row.Parents.Any(parent => parent.State == State.Disabled))
+					{
+						ShowParents(row);
+						row.State = State.Disabled;
+					}
+
 					return;
 
-				case State.DisabledParents:
+				case State.ForceDisabled:
+					row.State = State.Disabled;
 					row.Status = Status.Disabled;
-					UpdateRelatedStates(row.Parents, State.Disabled);
+					UpdateRelatedStates(row.Children, State.ForceDisabled);
 					return;
 
-				case State.EnabledChildren:
-					row.Status = Status.NotPolled;
-					UpdateRelatedStates(row.Children, State.Enabled);
+				case State.ForceEnabled:
+					row.State = State.Enabled;
+					UpdateRelatedStates(row.Parents, State.ForceEnabled);
 					return;
 			}
 		}
 
+		private void ShowChildren(IPollable row)
+		{
+			string children = string.Join("\n", row.Children.Select(child => child.Name));
+
+			string message = $"Unable to disable [{row.Name}] because the following rows are dependand on it:\n{children}\nPlease disable them first or use [Force Disable].";
+
+			Protocol.ShowInformationMessage(message);
+		}
+
+		private void ShowParents(IPollable row)
+		{
+			string parents = string.Join("\n", row.Parents.Select(parent => parent.Name));
+
+			string message = $"Unable to enable [{row.Name}] because it depends on the following rows:\n{parents}\nPlease enable them first or use [Force Enable].";
+
+			Protocol.ShowInformationMessage(message);
+		}
+
 		private void UpdateRelatedStates(List<IPollable> collection, State state)
 		{
-			SLProtocolProvider.Protocol.Log($"collection.Count [{collection.Count}]");
-
 			foreach (var item in collection)
 			{
 				item.Status = Status.Disabled;
 				item.State = state;
-				SLProtocolProvider.Protocol.Log($"item.Name [{item.Name}]");
 				UpdateState(item);
 			}
 		}
 
 		private void PollRow(PollableBase row)
 		{
-			if (row.State == State.Disabled || row.State == State.DisabledParents)
+			if (row.State == State.Disabled)
 				return;
 
 			bool pollSucceeded = row.Poll();
@@ -238,7 +288,7 @@
 			{
 				Pollingmanagerindex_1001 = key,
 				Pollingmanagername_1002 = value.Name,
-				Pollingmanagerperiod_1003 = value.PeriodType == PeriodType.Custom ? value.Period : value.DefaultPeriod,
+				Pollingmanagerperiod_1003 = value.State == State.Disabled ? -1 : value.PeriodType == PeriodType.Custom ? value.Period : value.DefaultPeriod,
 				Pollingmanagerdefaultperiod_1004 = value.DefaultPeriod,
 				Pollingmanagerperiodtype_1005 = value.PeriodType,
 				Pollingmanagerlastpoll_1006 = value.Status == Status.NotPolled ? (double)Status.NotPolled : value.LastPoll.ToOADate(),
@@ -262,7 +312,7 @@
 		private PollableBase CreateIPollable(object[] tableRow)
 		{
 			string id = (string)tableRow[0];
-			PollableBase row = _pollableFactory.CreatePollableBase(tableRow);
+			PollableBase row = _pollableFactory.CreatePollableBase(Protocol, tableRow);
 
 			row.Parents = _rows[id].Parents;
 			row.Children = _rows[id].Children;
@@ -270,4 +320,5 @@
 			return row;
 		}
 	}
+
 }

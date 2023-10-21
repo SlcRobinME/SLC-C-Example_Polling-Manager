@@ -3,10 +3,13 @@
 	using System;
 	using System.Collections.Generic;
 
+	using Skyline.DataMiner.Scripting;
 	using Skyline.PollingManager.Enums;
 
 	public interface IPollable
 	{
+        SLProtocol Protocol { get; }
+
         string Name { get; set; }
 
         int Period { get; set; }
