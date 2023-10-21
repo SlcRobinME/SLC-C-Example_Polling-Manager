@@ -4,11 +4,6 @@
 
 	public class SLProtocolProvider
 	{
-		public SLProtocolProvider(SLProtocol protocol)
-		{
-			Protocol = protocol;
-		}
-
 		public static SLProtocol Protocol { get; set; }
 	}
 }

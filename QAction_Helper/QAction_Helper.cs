@@ -8,6 +8,21 @@ namespace Skyline.DataMiner.Scripting
 {
 public static class Parameter
 {
+	/// <summary>PID: 10 | Type: read</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public const int parama_10 = 10;
+	/// <summary>PID: 10 | Type: read</summary>
+	public const int parama = 10;
+	/// <summary>PID: 12 | Type: read</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public const int paramb_12 = 12;
+	/// <summary>PID: 12 | Type: read</summary>
+	public const int paramb = 12;
+	/// <summary>PID: 14 | Type: read</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public const int paramc_14 = 14;
+	/// <summary>PID: 14 | Type: read</summary>
+	public const int paramc = 14;
 	public class Write
 	{
 		/// <summary>PID: 1 | Type: write</summary>
@@ -15,6 +30,21 @@ public static class Parameter
 		public const int poll_1 = 1;
 		/// <summary>PID: 1 | Type: write</summary>
 		public const int poll = 1;
+		/// <summary>PID: 11 | Type: write</summary>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public const int parama_11 = 11;
+		/// <summary>PID: 11 | Type: write</summary>
+		public const int parama = 11;
+		/// <summary>PID: 13 | Type: write</summary>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public const int paramb_13 = 13;
+		/// <summary>PID: 13 | Type: write</summary>
+		public const int paramb = 13;
+		/// <summary>PID: 15 | Type: write</summary>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public const int paramc_15 = 15;
+		/// <summary>PID: 15 | Type: write</summary>
+		public const int paramc = 15;
 		/// <summary>PID: 1103 | Type: write</summary>
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public const int pollingmanagerperiod_1103 = 1103;
@@ -149,6 +179,12 @@ public class WriteParameters
 {
 	/// <summary>PID: 1  | Type: write | DISCREETS: Poll = 1</summary>
 	public System.Object Poll {get { return Protocol.GetParameter(1); }set { Protocol.SetParameter(1, value); }}
+	/// <summary>PID: 11  | Type: write</summary>
+	public System.Object Parama {get { return Protocol.GetParameter(11); }set { Protocol.SetParameter(11, value); }}
+	/// <summary>PID: 13  | Type: write</summary>
+	public System.Object Paramb {get { return Protocol.GetParameter(13); }set { Protocol.SetParameter(13, value); }}
+	/// <summary>PID: 15  | Type: write | DISCREETS: Off = 0, On = 1</summary>
+	public System.Object Paramc {get { return Protocol.GetParameter(15); }set { Protocol.SetParameter(15, value); }}
 	/// <summary>PID: 1103  | Type: write</summary>
 	public System.Object Pollingmanagerperiod {get { return Protocol.GetParameter(1103); }set { Protocol.SetParameter(1103, value); }}
 	/// <summary>PID: 1105  | Type: write | DISCREETS: Default Period = 1, Custom Period = 2</summary>
@@ -169,6 +205,15 @@ public interface SLProtocolExt : SLProtocol
 	PollingmanagerQActionTable pollingmanager { get; set; }
 	object Poll_1 { get; set; }
 	object Poll { get; set; }
+	object Parama_10 { get; set; }
+	object Parama { get; set; }
+	object Parama_11 { get; set; }
+	object Paramb_12 { get; set; }
+	object Paramb { get; set; }
+	object Paramb_13 { get; set; }
+	object Paramc_14 { get; set; }
+	object Paramc { get; set; }
+	object Paramc_15 { get; set; }
 	object Pollingmanagerinit_dummy { get; set; }
 	object Pollingmanagercheck_dummy { get; set; }
 	object Pollingmanagerindex_1001 { get; set; }
@@ -204,6 +249,30 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Poll_1 {get { return GetParameter(1); }set { SetParameter(1, value); }}
 	/// <summary>PID: 1  | Type: write | DISCREETS: Poll = 1</summary>
 	public System.Object Poll {get { return Write.Poll; }set { Write.Poll = value; }}
+	/// <summary>PID: 10  | Type: read</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Parama_10 {get { return GetParameter(10); }set { SetParameter(10, value); }}
+	/// <summary>PID: 10  | Type: read</summary>
+	public System.Object Parama {get { return GetParameter(10); }set { SetParameter(10, value); }}
+	/// <summary>PID: 11  | Type: write</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Parama_11 {get { return GetParameter(11); }set { SetParameter(11, value); }}
+	/// <summary>PID: 12  | Type: read</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Paramb_12 {get { return GetParameter(12); }set { SetParameter(12, value); }}
+	/// <summary>PID: 12  | Type: read</summary>
+	public System.Object Paramb {get { return GetParameter(12); }set { SetParameter(12, value); }}
+	/// <summary>PID: 13  | Type: write</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Paramb_13 {get { return GetParameter(13); }set { SetParameter(13, value); }}
+	/// <summary>PID: 14  | Type: read | DISCREETS: Off = 0, On = 1</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Paramc_14 {get { return GetParameter(14); }set { SetParameter(14, value); }}
+	/// <summary>PID: 14  | Type: read | DISCREETS: Off = 0, On = 1</summary>
+	public System.Object Paramc {get { return GetParameter(14); }set { SetParameter(14, value); }}
+	/// <summary>PID: 15  | Type: write | DISCREETS: Off = 0, On = 1</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Paramc_15 {get { return GetParameter(15); }set { SetParameter(15, value); }}
 	/// <summary>PID: 998  | Type: dummy</summary>
 	public System.Object Pollingmanagerinit_dummy {get { return GetParameter(998); }set { SetParameter(998, value); }}
 	/// <summary>PID: 999  | Type: dummy</summary>

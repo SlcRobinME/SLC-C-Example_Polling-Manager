@@ -97,7 +97,7 @@
 						throw new InvalidOperationException($"Unhandled PeriodType: {row.Value.PeriodType}");
 				}
 
-				if (readyToPoll && CheckParents(row.Value))
+				if (readyToPoll && CheckParents(row.Value) && row.Value.CheckDependencies())
 				{
 					pollSucceeded = row.Value.Poll();
 					row.Value.LastPoll = DateTime.Now;

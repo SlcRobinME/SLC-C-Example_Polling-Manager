@@ -4,7 +4,7 @@
     <Company>Skyline Communications</Company>
     <Copyright>© Skyline Communications</Copyright>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <AssemblyVersion>2023.1013.0644.03141</AssemblyVersion>
+    <AssemblyVersion>2023.1021.1626.01231</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\QAction_1\QAction_1.csproj" />

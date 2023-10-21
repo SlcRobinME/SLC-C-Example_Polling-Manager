@@ -3,7 +3,7 @@
     <TargetFramework>net462</TargetFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <RootNamespace>Skyline.PollingManager</RootNamespace>
-    <AssemblyVersion>2023.1016.1247.11655</AssemblyVersion>
+    <AssemblyVersion>2023.1021.1626.00405</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\QAction_Helper\QAction_Helper.csproj" />

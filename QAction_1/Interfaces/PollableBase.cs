@@ -52,7 +52,46 @@
 
         public List<IPollable> Children { get; set; } = new List<IPollable>();
 
+        public Dictionary<int, Dependency> Dependencies { get; set; } = new Dictionary<int, Dependency>();
+
         public abstract bool Poll();
+
+        public bool CheckDependencies()
+        {
+			foreach (var dependency in Dependencies)
+            {
+                object parameter = Protocol.GetParameter(dependency.Key);
+
+                if (dependency.Value.Type == typeof(double))
+                {
+                    if (dependency.Value.ShouldEqual)
+                    {
+                        if (!CheckDoubleParameter(parameter, dependency.Value.Value))
+                            return false;
+                    }
+                    else
+                    {
+						if (CheckDoubleParameter(parameter, dependency.Value.Value))
+							return false;
+					}
+                }
+                else if (dependency.Value.Type == typeof(string))
+                {
+					if (dependency.Value.ShouldEqual)
+					{
+						if (!CheckStringParameter(parameter, dependency.Value.Value))
+							return false;
+					}
+					else
+					{
+						if (CheckStringParameter(parameter, dependency.Value.Value))
+							return false;
+					}
+				}
+            }
+
+			return true;
+        }
 
         void IPollable.AddParent(IPollable parent)
         {
@@ -104,6 +143,16 @@
                 child.AddParent(this);
                 Children.Add(child);
             }
+		}
+
+        private bool CheckDoubleParameter(object parameter, object value)
+		{
+            return (double)parameter == (double)value;
+		}
+
+        private bool CheckStringParameter(object parameter, object value)
+		{
+            return (string)parameter == (string)value;
 		}
 	}
 }

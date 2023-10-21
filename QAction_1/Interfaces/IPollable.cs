@@ -28,7 +28,11 @@
 
         List<IPollable> Children { get; set; }
 
+        Dictionary<int, Dependency> Dependencies { get; set; }
+
         bool Poll();
+
+        bool CheckDependencies();
 
         void AddParent(IPollable parent);
 

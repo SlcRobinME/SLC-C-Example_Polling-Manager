@@ -14,7 +14,7 @@ public static class QAction
         {
             protocol.Log("QAction_2.PollingManagerInit");
 
-            var a = new SLProtocolProvider(protocol);
+            SLProtocolProvider.Protocol = protocol;
 
             var factory = new PollableFactory();
 
@@ -26,7 +26,7 @@ public static class QAction
         }
     }
 
-    public static void PollingManagerCheck(SLProtocolExt protocol)
+    public static void PollingManagerCheck(SLProtocol protocol)
 	{
 		try
 		{

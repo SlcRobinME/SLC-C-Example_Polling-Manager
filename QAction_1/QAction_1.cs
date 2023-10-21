@@ -23,18 +23,36 @@ namespace Skyline.PollingManager
 			{ "Victor", new Pollable(SLProtocolProvider.Protocol, "Victor") },
 		};
 
+		private static readonly List<Dependency> _dependencies = new List<Dependency>()
+		{
+			new Dependency(13.0, true, typeof(double)),
+			new Dependency("SDF", true, typeof(string)),
+			new Dependency(0.0, false, typeof(double)),
+		};
+
 		static PollingManagerConfiguration()
 		{
+			SetRelations();
 			SetDependencies();
 		}
 
 		public static List<PollableBase> Rows => _rows.Select(row => row.Value).ToList();
 
-		private static void SetDependencies()
+		private static void SetRelations()
 		{
 			_rows["Simon"].AddChildren(_rows["Edib"], _rows["Jelle"], _rows["Thomas"]);
 			_rows["Jelle"].AddChildren(_rows["Edib"], _rows["Ibrahim"]);
 			_rows["Ben"].AddChildren(_rows["Bert"], _rows["Simon"]);
+		}
+
+		private static void SetDependencies()
+		{
+			_rows["Simon"].Dependencies = new Dictionary<int, Dependency>()
+			{
+				{ 10,  _dependencies[0] },
+				{ 12, _dependencies[1] },
+				{ 14, _dependencies[2] },
+			};
 		}
 	}
 }
