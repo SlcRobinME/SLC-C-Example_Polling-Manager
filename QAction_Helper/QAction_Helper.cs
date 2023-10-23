@@ -45,6 +45,11 @@ public static class Parameter
 		public const int paramc_15 = 15;
 		/// <summary>PID: 15 | Type: write</summary>
 		public const int paramc = 15;
+		/// <summary>PID: 1100 | Type: write</summary>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public const int pollingmanager_contextmenu_1100 = 1100;
+		/// <summary>PID: 1100 | Type: write</summary>
+		public const int pollingmanager_contextmenu = 1100;
 		/// <summary>PID: 1103 | Type: write</summary>
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public const int pollingmanagerperiod_1103 = 1103;
@@ -185,6 +190,8 @@ public class WriteParameters
 	public System.Object Paramb {get { return Protocol.GetParameter(13); }set { Protocol.SetParameter(13, value); }}
 	/// <summary>PID: 15  | Type: write | DISCREETS: Off = 0, On = 1</summary>
 	public System.Object Paramc {get { return Protocol.GetParameter(15); }set { Protocol.SetParameter(15, value); }}
+	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 0, Separator 1 = -1, Disable All = 1, Enable All = 2, Disable Selected = 3, Enable Selected = 4</summary>
+	public System.Object Pollingmanager_contextmenu {get { return Protocol.GetParameter(1100); }set { Protocol.SetParameter(1100, value); }}
 	/// <summary>PID: 1103  | Type: write</summary>
 	public System.Object Pollingmanagerperiod {get { return Protocol.GetParameter(1103); }set { Protocol.SetParameter(1103, value); }}
 	/// <summary>PID: 1105  | Type: write | DISCREETS: Default Period = 1, Custom Period = 2</summary>
@@ -234,6 +241,8 @@ public interface SLProtocolExt : SLProtocol
 	object Pollingmanagerstate { get; set; }
 	object Pollingmanagerdisplaykey_1099 { get; set; }
 	object Pollingmanagerdisplaykey { get; set; }
+	object Pollingmanager_contextmenu_1100 { get; set; }
+	object Pollingmanager_contextmenu { get; set; }
 	object Pollingmanagerperiod_1103 { get; set; }
 	object Pollingmanagerperiodtype_1105 { get; set; }
 	object Pollingmanagerpoll_1108 { get; set; }
@@ -322,6 +331,10 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Pollingmanagerdisplaykey_1099 {get { return GetParameter(1099); }set { SetParameter(1099, value); }}
 	/// <summary>PID: 1099  | Type: read</summary>
 	public System.Object Pollingmanagerdisplaykey {get { return GetParameter(1099); }set { SetParameter(1099, value); }}
+	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 0, Separator 1 = -1, Disable All = 1, Enable All = 2, Disable Selected = 3, Enable Selected = 4</summary>
+	public System.Object Pollingmanager_contextmenu_1100 {get { return GetParameter(1100); }set { SetParameter(1100, value); }}
+	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 0, Separator 1 = -1, Disable All = 1, Enable All = 2, Disable Selected = 3, Enable Selected = 4</summary>
+	public System.Object Pollingmanager_contextmenu {get { return Write.Pollingmanager_contextmenu; }set { Write.Pollingmanager_contextmenu = value; }}
 	/// <summary>PID: 1103  | Type: write</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public System.Object Pollingmanagerperiod_1103 {get { return GetParameter(1103); }set { SetParameter(1103, value); }}

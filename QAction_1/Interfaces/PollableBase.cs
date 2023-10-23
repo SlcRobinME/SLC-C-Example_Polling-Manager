@@ -58,7 +58,7 @@
 
         public bool CheckDependencies()
         {
-			foreach (var dependency in Dependencies)
+			foreach (KeyValuePair<int, Dependency> dependency in Dependencies)
             {
                 object parameter = Protocol.GetParameter(dependency.Key);
 
@@ -106,7 +106,7 @@
 
         public void AddParents(params IPollable[] parents)
 		{
-            foreach (var parent in parents)
+            foreach (IPollable parent in parents)
             {
                 if (Children.Contains(parent))
                     throw new InvalidOperationException($"Circular dependency, {parent.Name} is already a child of {Name}!");
@@ -132,7 +132,7 @@
 
         public void AddChildren(params IPollable[] children)
 		{
-            foreach (var child in children)
+            foreach (IPollable child in children)
             {
                 if (Parents.Contains(child))
                     throw new InvalidOperationException($"Circular dependency, {child.Name} is already a parent of {Name}!");

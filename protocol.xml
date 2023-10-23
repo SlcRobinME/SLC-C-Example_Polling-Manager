@@ -554,12 +554,56 @@
 				<Type>string</Type>
 			</Measurement>
 		</Param>
+		<Param id="1100">
+			<Name>PollingManager_ContextMenu</Name>
+			<Description>Context Menu for Polling Manager</Description>
+			<Type>write</Type>
+			<Interprete>
+				<RawType>numeric text</RawType>
+				<Type>double</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type width="110">button</Type>
+				<Discreets>
+					<Discreet>
+						<Display>Poll All</Display>
+						<Value>0</Value>
+					</Discreet>
+					<Discreet options="separator">
+						<Display>Separator 1</Display>
+						<Value>-1</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Disable All</Display>
+						<Value>1</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Enable All</Display>
+						<Value>2</Value>
+					</Discreet>
+					<Discreet options="table:selection">
+						<Display>Disable Selected</Display>
+						<Value>3</Value>
+					</Discreet>
+					<Discreet options="table:selection">
+						<Display>Enable Selected</Display>
+						<Value>4</Value>
+					</Discreet>
+				</Discreets>
+			</Measurement>
+		</Param>
+		
 	</Params>
 
 	<QActions>
 		<QAction id="1" name="Precompiled Code" encoding="csharp" options="precompile" />
 		<QAction id="2" name="Polling Manager" encoding="csharp" triggers="1;998;999" entryPoint="PollingManagerCheck;PollingManagerInit;PollingManagerCheck"/>
 		<QAction id="3" name="Polling Manager Update" encoding="csharp" row="true" triggers="1103;1105;1108;1109" />
+		<QAction id="4" name="Polling Manager Context Menu" encoding="csharp" triggers="1100" />
 	</QActions>
 
 	<Groups>

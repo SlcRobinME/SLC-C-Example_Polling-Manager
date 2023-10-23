@@ -75,7 +75,7 @@
 		{
 			bool requiresUpdate = false;
 
-			foreach (var row in _rows)
+			foreach (KeyValuePair<string, PollableBase> row in _rows)
 			{
 				if (row.Value.State == State.Disabled)
 					continue;
@@ -151,6 +151,79 @@
 			FillTableNoDelete(_rows);
 		}
 
+		public void HandleContextMenu(string[] contextMenu)
+		{
+			int.TryParse(contextMenu[1], out int selectedOption);
+
+			switch ((ContextMenuOption)selectedOption)
+			{
+				case ContextMenuOption.PollAll:
+					PollAll();
+					break;
+
+				case ContextMenuOption.DisableAll:
+					DisableAll();
+					break;
+
+				case ContextMenuOption.EnableAll:
+					EnableAll();
+					break;
+
+				case ContextMenuOption.DisableSelected:
+					DisableSelected(contextMenu.Skip(2).ToArray());
+					break;
+
+				case ContextMenuOption.EnableSelected:
+					EnableSelected(contextMenu.Skip(2).ToArray());
+					break;
+
+				default:
+					break;
+			}
+
+			FillTableNoDelete(_rows);
+		}
+
+		private void PollAll()
+		{
+			foreach (KeyValuePair<string, PollableBase> row in _rows)
+			{
+				PollRow(row.Value);
+			}
+		}
+
+		private void DisableAll()
+		{
+			foreach (KeyValuePair<string, PollableBase> row in _rows)
+			{
+				row.Value.State = State.Disabled;
+			}
+		}
+
+		private void EnableAll()
+		{
+			foreach (KeyValuePair<string, PollableBase> row in _rows)
+			{
+				row.Value.State = State.Enabled;
+			}
+		}
+
+		private void DisableSelected(string[] rows)
+		{
+			foreach(string row in rows)
+			{
+				_rows[row].State = State.Disabled;
+			}
+		}
+
+		private void EnableSelected(string[] rows)
+		{
+			foreach (string row in rows)
+			{
+				_rows[row].State = State.Enabled;
+			}
+		}
+
 		private void UpdateState(IPollable row)
 		{
 			switch (row.State)
@@ -209,7 +282,7 @@
 
 		private void UpdateRelatedStates(List<IPollable> collection, State state)
 		{
-			foreach (var item in collection)
+			foreach (IPollable item in collection)
 			{
 				item.Status = Status.Disabled;
 				item.State = state;
@@ -246,7 +319,7 @@
 
 		private bool CheckParents(PollableBase row)
 		{
-			foreach (var parent in row.Parents)
+			foreach (IPollable parent in row.Parents)
 			{
 				if (parent.Status == Status.Disabled)
 					return false;
@@ -301,7 +374,7 @@
 		{
 			List<PollingmanagerQActionRow> tableRows = new List<PollingmanagerQActionRow>();
 
-			foreach(var row in rows)
+			foreach(KeyValuePair<string, PollableBase> row in rows)
 			{
 				tableRows.Add(CreateTableRow(row.Key, row.Value));
 			}
