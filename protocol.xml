@@ -290,12 +290,6 @@
 				<Type>double</Type>
 				<LengthType>next param</LengthType>
 				<Decimals>8</Decimals>
-				<Exceptions>
-					<Exception id="1" value="-1">
-						<Display state="disabled">Disabled</Display>
-						<Value>-1</Value>
-					</Exception>
-				</Exceptions>
 			</Interprete>
 			<Display>
 				<RTDisplay>true</RTDisplay>
@@ -425,9 +419,9 @@
 						<Display state="disabled">Not Initialized</Display>
 						<Value>-2</Value>
 					</Exception>
-					<Exception id="2" value="0">
+					<Exception id="2" value="-1">
 						<Display state="disabled">Disabled</Display>
-						<Value>0</Value>
+						<Value>-1</Value>
 					</Exception>
 				</Exceptions>
 			</Interprete>

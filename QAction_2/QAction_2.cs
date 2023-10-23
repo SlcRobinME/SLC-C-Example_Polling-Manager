@@ -1,24 +1,29 @@
 using System;
 
 using Skyline.DataMiner.Scripting;
+
 using Skyline.PollingManager;
 using Skyline.PollingManager.Client;
-using Skyline.PollingManager.Controllers;
 using Skyline.PollingManager.Providers;
 
 public static class QAction
 {
-    public static void PollingManagerInit(SLProtocolExt protocol)
+	/// <summary>
+	/// Runs after stratup in order to add/initialize polling manager.
+	/// </summary>
+	/// <param name="protocol">Link with SLProtocol process.</param>
+	public static void PollingManagerInit(SLProtocolExt protocol)
     {
         try
         {
-            protocol.Log("QAction_2.PollingManagerInit");
+			// Used by PollingManagerConfiguration, not related directly to PollingManager
+			SLProtocolProvider.Protocol = protocol;
 
-            SLProtocolProvider.Protocol = protocol;
+			// Instance of class that implements IPollableFactory, defined by user.
+			var factory = new PollableFactory();
 
-            var factory = new PollableFactory();
-
-            PollingManagerContainer.AddManager(protocol, protocol.pollingmanager, PollingManagerConfiguration.Rows, factory);
+			// Creates PollingManager instance and adds it to PollingManagerContainer.
+			PollingManagerContainer.AddManager(protocol, protocol.pollingmanager, PollingManagerConfiguration.Rows, factory);
         }
         catch (Exception ex)
         {
@@ -26,12 +31,17 @@ public static class QAction
         }
     }
 
-    public static void PollingManagerCheck(SLProtocol protocol)
+	/// <summary>
+	/// Gets called by timer to check for necessary polls.
+	/// </summary>
+	/// <param name="protocol">Link with SLProtocol process.</param>
+	public static void PollingManagerCheck(SLProtocol protocol)
 	{
 		try
 		{
 			protocol.Log("QAction_2.PollingManagerCheck");
 
+			// Checks PollingManager table for rows that need to be polled.
 			PollingManagerContainer.GetManager(protocol).CheckForUpdate();
 		}
 		catch (Exception ex)

@@ -1,7 +1,7 @@
 using System;
 
 using Skyline.DataMiner.Scripting;
-using Skyline.PollingManager.Controllers;
+using Skyline.PollingManager;
 using Skyline.PollingManager.Enums;
 
 public static class QAction
@@ -12,9 +12,11 @@ public static class QAction
 		{
 			protocol.Log("QAction_3.PollingManagerUpdateRow");
 
+			// Get trigger row key.
 			Trigger trigger = (Trigger)protocol.GetTriggerParameter();
 			string rowId = protocol.RowKey();
 
+			// Updates row with specific key that was triggered by specific column.
 			PollingManagerContainer.GetManager(protocol).UpdateRow(rowId, trigger.ToColumn());
 		}
 		catch (Exception ex)

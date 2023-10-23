@@ -1,20 +1,25 @@
 ﻿namespace Skyline.PollingManager.Interfaces
 {
-	using System;
-	using System.Collections.Generic;
+    using System;
+    using System.Collections.Generic;
 
-	using Skyline.DataMiner.Scripting;
-	using Skyline.PollingManager.Enums;
+    using Skyline.DataMiner.Scripting;
 
-	public interface IPollable
+    using Skyline.PollingManager.Enums;
+    using Skyline.PollingManager.Structs;
+
+	/// <summary>
+	/// Represents base for a row in the <see cref="PollingmanagerQActionTable"/>.
+	/// </summary>
+    public interface IPollable
 	{
         SLProtocol Protocol { get; }
 
         string Name { get; set; }
 
-        int Period { get; set; }
+        double Period { get; set; }
 
-        int DefaultPeriod { get; set; }
+        double DefaultPeriod { get; set; }
 
         PeriodType PeriodType { get; set; }
 
