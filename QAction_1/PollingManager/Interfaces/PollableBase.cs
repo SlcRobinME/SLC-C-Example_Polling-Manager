@@ -39,8 +39,8 @@
         {
             Protocol = protocol;
             Name = name;
-            Period = 30;
-            DefaultPeriod = 60;
+            Period = 5;
+            DefaultPeriod = 10;
             PeriodType = PeriodType.Default;
             LastPoll = default;
             Status = Status.NotPolled;

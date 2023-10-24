@@ -7,10 +7,14 @@
 	/// </summary>
     public enum ContextMenuOption
     {
-        PollAll = 0,
-        DisableAll = 1,
-        EnableAll = 2,
-        DisableSelected = 3,
-        EnableSelected = 4,
+        PollAll = 1,
+        Disable = 2,
+        Enable = 3,
+        ForceDisable = 4,
+        ForceEnable = 5,
+        DisableSelected = 6,
+        EnableSelected = 7,
+        DisableAll = 8,
+        EnableAll = 9,
     }
 }

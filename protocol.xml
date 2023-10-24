@@ -19,195 +19,6 @@
 	</Compliancies>
 
 	<Params>
-		<Param id="10" trending="false">
-			<Name>ParamA</Name>
-			<Description>Param A</Description>
-			<Type>read</Type>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-				<DefaultValue>13</DefaultValue>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-				<Positions>
-					<Position>
-						<Page>General</Page>
-						<Column>0</Column>
-						<Row>2</Row>
-					</Position>
-				</Positions>
-			</Display>
-			<Measurement>
-				<Type>number</Type>
-			</Measurement>
-		</Param>
-		<Param id="11" setter="true">
-			<Name>ParamA</Name>
-			<Description>Param A</Description>
-			<Type>write</Type>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-				<Positions>
-					<Position>
-						<Page>General</Page>
-						<Column>0</Column>
-						<Row>2</Row>
-					</Position>
-				</Positions>
-			</Display>
-			<Measurement>
-				<Type>number</Type>
-			</Measurement>
-		</Param>
-		<Param id="12" trending="false">
-			<Name>ParamB</Name>
-			<Description>Param B</Description>
-			<Type>read</Type>
-			<Interprete>
-				<RawType>other</RawType>
-				<Type>string</Type>
-				<LengthType>next param</LengthType>
-				<DefaultValue>SDF</DefaultValue>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-				<Positions>
-					<Position>
-						<Page>General</Page>
-						<Column>0</Column>
-						<Row>3</Row>
-					</Position>
-				</Positions>
-			</Display>
-			<Measurement>
-				<Type>string</Type>
-			</Measurement>
-		</Param>
-		<Param id="13" setter="true">
-			<Name>ParamB</Name>
-			<Description>Param B</Description>
-			<Type>write</Type>
-			<Interprete>
-				<RawType>other</RawType>
-				<Type>string</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-				<Positions>
-					<Position>
-						<Page>General</Page>
-						<Column>0</Column>
-						<Row>3</Row>
-					</Position>
-				</Positions>
-			</Display>
-			<Measurement>
-				<Type>string</Type>
-			</Measurement>
-		</Param>
-		<Param id="14" trending="false">
-			<Name>ParamC</Name>
-			<Description>ParamC</Description>
-			<Type>read</Type>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-				<DefaultValue>1</DefaultValue>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-				<Positions>
-					<Position>
-						<Page>General</Page>
-						<Column>0</Column>
-						<Row>4</Row>
-					</Position>
-				</Positions>
-			</Display>
-			<Measurement>
-				<Type>discreet</Type>
-				<Discreets>
-					<Discreet>
-						<Display>Off</Display>
-						<Value>0</Value>
-					</Discreet>
-					<Discreet>
-						<Display>On</Display>
-						<Value>1</Value>
-					</Discreet>
-				</Discreets>
-			</Measurement>
-		</Param>
-		<Param id="15" setter="true">
-			<Name>ParamC</Name>
-			<Description>ParamC</Description>
-			<Type>write</Type>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-				<Positions>
-					<Position>
-						<Page>General</Page>
-						<Column>0</Column>
-						<Row>4</Row>
-					</Position>
-				</Positions>
-			</Display>
-			<Measurement>
-				<Type>togglebutton</Type>
-				<Discreets>
-					<Discreet>
-						<Display>Off</Display>
-						<Value>0</Value>
-					</Discreet>
-					<Discreet>
-						<Display>On</Display>
-						<Value>1</Value>
-					</Discreet>
-				</Discreets>
-			</Measurement>
-		</Param>
-		<Param id="1">
-			<Name>Poll</Name>
-			<Type>write</Type>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-				<Positions>
-					<Position>
-						<Page>General</Page>
-						<Column>0</Column>
-						<Row>0</Row>
-					</Position>
-				</Positions>
-			</Display>
-			<Measurement>
-				<Type width="110">button</Type>
-				<Discreets>
-					<Discreet>
-						<Display>Poll</Display>
-						<Value>1</Value>
-					</Discreet>
-				</Discreets>
-			</Measurement>
-		</Param>
 		<Param id="998">
 			<Name>PollingManagerInit</Name>
 			<Description>Polling Manager Init</Description>
@@ -228,13 +39,16 @@
 				<ColumnOption idx="1" pid="1002" type="retrieved" options=";save"/>
 				<ColumnOption idx="2" pid="1003" type="retrieved" options=";save"/>
 				<ColumnOption idx="3" pid="1004" type="retrieved" options=";save"/>
-				<ColumnOption idx="4" pid="1005" type="retrieved" options=""/>
+				<ColumnOption idx="4" pid="1005" type="retrieved" options=";save"/>
 				<ColumnOption idx="5" pid="1006" type="retrieved" options=""/>
 				<ColumnOption idx="6" pid="1007" type="retrieved" options=""/>
 				<ColumnOption idx="7" pid="1108" type="retrieved" options=""/>
 				<ColumnOption idx="8" pid="1009" type="retrieved" options=";rowTextColoring"/>
 				<ColumnOption idx="9" pid="1099" type="displaykey" options=""/>
 			</ArrayOptions>
+			<Information>
+				<Subtext>Polling manager table provides customizable polling periods.</Subtext>
+			</Information>
 			<Display>
 				<RTDisplay>true</RTDisplay>
 				<Positions>
@@ -246,13 +60,16 @@
 				</Positions>
 			</Display>
 			<Measurement>
-				<Type options="tab=columns:1001|0-1099|9-1009|8-1003|2-1004|3-1005|4-1006|5-1007|6-1108|7,width:0-100-200-150-150-175-150-100-100,sort:STRING-STRING-STRING-INT-INT-INT-STRING-STRING-STRING,lines:25,filter:true">table</Type>
+				<Type options="tab=columns:1001|0-1099|9-1003|2-1004|3-1005|4-1006|5-1007|6-1108|7-1009|8,width:0-100-150-150-175-150-100-100-0,sort:STRING-STRING-INT-INT-INT-STRING-STRING-STRING-STRING,lines:25,filter:true">table</Type>
 			</Measurement>
 		</Param>
 		<Param id="1001" trending="false">
 			<Name>PollingManagerIndex</Name>
 			<Description>Index (PollingManager)</Description>
 			<Type>read</Type>
+			<Information>
+				<Subtext>Unique key used to identify rows.</Subtext>
+			</Information>
 			<Interprete>
 				<RawType>other</RawType>
 				<Type>string</Type>
@@ -269,6 +86,9 @@
 			<Name>PollingManagerName</Name>
 			<Description>Name (PollingManager)</Description>
 			<Type>read</Type>
+			<Information>
+				<Subtext>Name of the row.</Subtext>
+			</Information>
 			<Interprete>
 				<RawType>other</RawType>
 				<Type>string</Type>
@@ -285,6 +105,9 @@
 			<Name>PollingManagerPeriod</Name>
 			<Description>Period (PollingManager)</Description>
 			<Type>read</Type>
+			<Information>
+				<Subtext>Period defines how often to attempt to poll the row.</Subtext>
+			</Information>
 			<Interprete>
 				<RawType>numeric text</RawType>
 				<Type>double</Type>
@@ -318,6 +141,9 @@
 			<Name>PollingManagerDefaultPeriod</Name>
 			<Description>Default Period (PollingManager)</Description>
 			<Type>read</Type>
+			<Information>
+				<Subtext>Default polling period. Definied by the developer.</Subtext>
+			</Information>
 			<Interprete>
 				<RawType>numeric text</RawType>
 				<Type>double</Type>
@@ -334,6 +160,9 @@
 			<Name>PollingManagerPeriodType</Name>
 			<Description>Period Type (PollingManager)</Description>
 			<Type>read</Type>
+			<Information>
+				<Subtext>Defines whether to use default or custom period time for polling.</Subtext>
+			</Information>
 			<Interprete>
 				<RawType>numeric text</RawType>
 				<Type>double</Type>
@@ -386,6 +215,9 @@
 			<Name>PollingManagerLastPoll</Name>
 			<Description>Last Poll (PollingManager)</Description>
 			<Type>read</Type>
+			<Information>
+				<Subtext>Time of the last poll attempt.</Subtext>
+			</Information>
 			<Interprete>
 				<RawType>numeric text</RawType>
 				<Type>double</Type>
@@ -410,13 +242,16 @@
 			<Name>PollingManagerStatus</Name>
 			<Description>Status (PollingManager)</Description>
 			<Type>read</Type>
+			<Information>
+				<Subtext>Status of the last poll attempt.</Subtext>
+			</Information>
 			<Interprete>
 				<RawType>numeric text</RawType>
 				<Type>double</Type>
 				<LengthType>next param</LengthType>
 				<Exceptions>
 					<Exception id="1" value="-2">
-						<Display state="disabled">Not Initialized</Display>
+						<Display state="disabled">Not Polled</Display>
 						<Value>-2</Value>
 					</Exception>
 					<Exception id="2" value="-1">
@@ -468,6 +303,9 @@
 			<Name>PollingManagerState</Name>
 			<Description>State (PollingManager)</Description>
 			<Type>read</Type>
+			<Information>
+				<Subtext>Current state of the row.</Subtext>
+			</Information>
 			<Interprete>
 				<RawType>numeric text</RawType>
 				<Type>double</Type>
@@ -487,48 +325,6 @@
 						<Display>Enabled</Display>
 						<Value>2</Value>
 					</Discreet>
-					<Discreet options=";rowTextColor=#979797">
-						<Display>Force Disabled</Display>
-						<Value>3</Value>
-					</Discreet>
-					<Discreet>
-						<Display>Force Enabled</Display>
-						<Value>4</Value>
-					</Discreet>
-				</Discreets>
-			</Measurement>
-		</Param>
-		<Param id="1109" setter="true">
-			<Name>PollingManagerState</Name>
-			<Description>State (PollingManager)</Description>
-			<Type>write</Type>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type>discreet</Type>
-				<Discreets>
-					<Discreet>
-						<Display>Disable</Display>
-						<Value>1</Value>
-					</Discreet>
-					<Discreet>
-						<Display>Enable</Display>
-						<Value>2</Value>
-					</Discreet>
-					<Discreet>
-						<Display>Force Disable</Display>
-						<Value>3</Value>
-					</Discreet>
-					<Discreet>
-						<Display>Force Enable</Display>
-						<Value>4</Value>
-					</Discreet>
 				</Discreets>
 			</Measurement>
 		</Param>
@@ -536,6 +332,9 @@
 			<Name>PollingManagerDisplayKey</Name>
 			<Description>Display Key (PollingManager)</Description>
 			<Type>read</Type>
+			<Information>
+				<Subtext>User friendly identificator of the row.</Subtext>
+			</Information>
 			<Interprete>
 				<RawType>other</RawType>
 				<Type>string</Type>
@@ -565,38 +364,61 @@
 				<Discreets>
 					<Discreet>
 						<Display>Poll All</Display>
-						<Value>0</Value>
+						<Value>1</Value>
 					</Discreet>
 					<Discreet options="separator">
 						<Display>Separator 1</Display>
 						<Value>-1</Value>
 					</Discreet>
-					<Discreet>
-						<Display>Disable All</Display>
-						<Value>1</Value>
-					</Discreet>
-					<Discreet>
-						<Display>Enable All</Display>
+					<Discreet options="table:singleselection">
+						<Display>Disable</Display>
 						<Value>2</Value>
+					</Discreet>
+					<Discreet options="table:singleselection">
+						<Display>Enable</Display>
+						<Value>3</Value>
+					</Discreet>
+					<Discreet options="table:singleselection">
+						<Display>Force Disable</Display>
+						<Value>4</Value>
+					</Discreet>
+					<Discreet options="table:singleselection">
+						<Display>Force Enable</Display>
+						<Value>5</Value>
+					</Discreet>
+					<Discreet options="separator">
+						<Display>Separator 2</Display>
+						<Value>-2</Value>
 					</Discreet>
 					<Discreet options="table:selection">
 						<Display>Disable Selected</Display>
-						<Value>3</Value>
+						<Value>6</Value>
 					</Discreet>
 					<Discreet options="table:selection">
 						<Display>Enable Selected</Display>
-						<Value>4</Value>
+						<Value>7</Value>
+					</Discreet>
+					<Discreet options="separator">
+						<Display>Separator 3</Display>
+						<Value>-3</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Disable All</Display>
+						<Value>8</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Enable All</Display>
+						<Value>9</Value>
 					</Discreet>
 				</Discreets>
 			</Measurement>
 		</Param>
-		
 	</Params>
 
 	<QActions>
 		<QAction id="1" name="Precompiled Code" encoding="csharp" options="precompile" />
-		<QAction id="2" name="Polling Manager" encoding="csharp" triggers="1;998;999" entryPoint="PollingManagerCheck;PollingManagerInit;PollingManagerCheck"/>
-		<QAction id="3" name="Polling Manager Update" encoding="csharp" row="true" triggers="1103;1105;1108;1109" />
+		<QAction id="2" name="Polling Manager" encoding="csharp" triggers="998;999" entryPoint="PollingManagerInit;PollingManagerCheck"/>
+		<QAction id="3" name="Polling Manager Update" encoding="csharp" row="true" triggers="1103;1105;1108" />
 		<QAction id="4" name="Polling Manager Context Menu" encoding="csharp" triggers="1100" />
 	</QActions>
 
@@ -655,7 +477,7 @@
 			<Time initial="true">1000</Time>
 			<Interval>75</Interval>
 			<Content>
-				<Group></Group>
+				<Group>2</Group>
 			</Content>
 		</Timer>
 	</Timers>

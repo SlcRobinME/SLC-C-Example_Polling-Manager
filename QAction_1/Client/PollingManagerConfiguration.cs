@@ -47,12 +47,6 @@
 
 		private static void SetDependencies()
 		{
-			_rows["Simon"].Dependencies = new Dictionary<int, Dependency>()
-			{
-				{ 10,  _dependencies[0] },
-				{ 12, _dependencies[1] },
-				{ 14, _dependencies[2] },
-			};
 		}
 	}
 }

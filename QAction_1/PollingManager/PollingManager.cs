@@ -141,7 +141,7 @@
                         break;
 
                     default:
-                        throw new InvalidOperationException($"Unhandled PeriodType: {currentRow.PeriodType}");
+                        throw new ArgumentException($"Unhandled PeriodType: {currentRow.PeriodType}");
                 }
 
 				if (readyToPoll && currentRow.CheckDependencies())
@@ -191,10 +191,6 @@
                     PollRow(tableRow);
                     break;
 
-                case Column.State:
-                    HandleStateUpdate(tableRow);
-                    break;
-
                 default:
                     break;
             }
@@ -227,24 +223,58 @@
                     PollAll();
                     break;
 
-                case ContextMenuOption.DisableAll:
-                    DisableAll();
+                case ContextMenuOption.Disable:
+                    UpdateState(_rows[input[2]], State.Disabled);
                     break;
 
-                case ContextMenuOption.EnableAll:
-                    EnableAll();
+                case ContextMenuOption.Enable:
+                    UpdateState(_rows[input[2]], State.Enabled);
+                    break;
+
+                case ContextMenuOption.ForceDisable:
+                    UpdateState(_rows[input[2]], State.ForceDisabled);
+                    break;
+
+                case ContextMenuOption.ForceEnable:
+                    UpdateState(_rows[input[2]], State.ForceEnabled);
                     break;
 
                 case ContextMenuOption.DisableSelected:
-                    DisableSelected(input.Skip(2).ToArray());
+                    foreach (string rowId in input.Skip(2).ToArray())
+                    {
+                        UpdateState(_rows[rowId], State.ForceDisabled);
+                    }
+
                     break;
 
                 case ContextMenuOption.EnableSelected:
-                    EnableSelected(input.Skip(2).ToArray());
+                    foreach (string rowId in input.Skip(2).ToArray())
+					{
+						UpdateState(_rows[rowId], State.ForceEnabled);
+					}
+
+                    break;
+
+                case ContextMenuOption.DisableAll:
+                    foreach (KeyValuePair<string, PollableBase> row in _rows)
+                    {
+                        if (row.Value.State != State.Disabled)
+                            UpdateState(row.Value, State.ForceDisabled);
+                    }
+
+                    break;
+
+                case ContextMenuOption.EnableAll:
+                    foreach (KeyValuePair<string, PollableBase> row in _rows)
+					{
+						if (row.Value.State != State.Enabled)
+							UpdateState(row.Value, State.ForceEnabled);
+					}
+
                     break;
 
                 default:
-                    break;
+                    throw new ArgumentException($"Unhandled ContextMenuOption: {(ContextMenuOption)selectedOption}");
             }
 
             FillTableNoDelete(_rows);
@@ -261,73 +291,35 @@
             }
         }
 
-        /// <summary>
-        /// Disables all rows.
-        /// </summary>
-        private void DisableAll()
+		/// <summary>
+		/// Updates row state.
+		/// </summary>
+		/// <param name="row">Row to update.</param>
+		/// <param name="state">State to update to.</param>
+        private void UpdateState(IPollable row, State state)
         {
-            foreach (KeyValuePair<string, PollableBase> row in _rows)
-            {
-                row.Value.State = State.Disabled;
-            }
-        }
-
-        /// <summary>
-        /// Enables all rows.
-        /// </summary>
-        private void EnableAll()
-        {
-            foreach (KeyValuePair<string, PollableBase> row in _rows)
-            {
-                row.Value.State = State.Enabled;
-            }
-        }
-
-        // TODO
-        private void DisableSelected(string[] rows)
-        {
-            foreach (string row in rows)
-            {
-                _rows[row].State = State.Disabled;
-            }
-        }
-
-        // TODO
-        private void EnableSelected(string[] rows)
-        {
-            foreach (string row in rows)
-            {
-                _rows[row].State = State.Enabled;
-            }
-        }
-
-        /// <summary>
-        /// Handles state update logic.
-        /// </summary>
-        /// <param name="row">Row for which to update state.</param>
-        private void HandleStateUpdate(IPollable row)
-        {
-            switch (row.State)
+            switch (state)
             {
                 case State.Disabled:
                     if (row.Children.Any(child => child.State == State.Enabled))
                     {
                         ShowChildren(row);
-                        row.State = State.Enabled;
                         return;
                     }
 
+                    row.State = State.Disabled;
                     row.Status = Status.Disabled;
-                    UpdateRelatedStates(row.Children, State.Disabled);
                     return;
 
                 case State.Enabled:
                     if (row.Parents.Any(parent => parent.State == State.Disabled))
                     {
                         ShowParents(row);
-                        row.State = State.Disabled;
+                        return;
                     }
 
+                    row.State = State.Enabled;
+                    row.Status = Status.NotPolled;
                     return;
 
                 case State.ForceDisabled:
@@ -338,6 +330,7 @@
 
                 case State.ForceEnabled:
                     row.State = State.Enabled;
+                    row.Status = Status.NotPolled;
                     UpdateRelatedStates(row.Parents, State.ForceEnabled);
                     return;
             }
@@ -378,9 +371,7 @@
         {
             foreach (IPollable item in collection)
             {
-                item.Status = Status.Disabled;
-                item.State = state;
-                HandleStateUpdate(item);
+                UpdateState(item, state);
             }
         }
 
@@ -484,8 +475,8 @@
                 Pollingmanagerperiod_1003 = value.PeriodType == PeriodType.Custom ? value.Period : value.DefaultPeriod,
                 Pollingmanagerdefaultperiod_1004 = value.DefaultPeriod,
                 Pollingmanagerperiodtype_1005 = value.PeriodType,
-                Pollingmanagerlastpoll_1006 = value.Status == Status.NotPolled ? (double)Status.NotPolled : value.LastPoll.ToOADate(),
-                Pollingmanagerstatus_1007 = value.State == State.Disabled ? -1 : Convert.ToInt32(value.Status),
+                Pollingmanagerlastpoll_1006 = value.LastPoll == default ? Convert.ToDouble(Status.NotPolled) : value.LastPoll.ToOADate(),
+                Pollingmanagerstatus_1007 = value.State == State.Disabled ? Status.Disabled : value.Status,
                 Pollingmanagerstate_1009 = value.State,
             };
         }

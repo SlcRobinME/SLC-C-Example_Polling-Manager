@@ -43,7 +43,7 @@
                     return Column.State;
 
                 default:
-                    throw new InvalidOperationException($"Unhandled PeriodType: {trigger}!");
+                    throw new ArgumentException($"Unhandled PeriodType: {trigger}!");
             }
         }
     }
