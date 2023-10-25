@@ -25,9 +25,9 @@
 
 		private static readonly List<Dependency> _dependencies = new List<Dependency>()
 		{
-			new Dependency(13.0, true),
-			new Dependency("SDF", true),
-			new Dependency(0.0, false),
+			new Dependency(13.0, true, "Value not 13"),
+			new Dependency("SDF", true, "Value not SDF"),
+			new Dependency(0.0, false, "Value is 0"),
 		};
 
 		static PollingManagerConfiguration()
@@ -47,6 +47,12 @@
 
 		private static void SetDependencies()
 		{
+			//_rows["Simon"].Dependencies = new Dictionary<int, Dependency>()
+			//{
+			//	{ 10,  _dependencies[0] },
+			//	{ 12, _dependencies[1] },
+			//	{ 14, _dependencies[2] },
+			//};
 		}
 	}
 }

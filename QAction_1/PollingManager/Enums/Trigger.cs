@@ -9,10 +9,9 @@
 	/// </summary>
 	public enum Trigger
     {
-        Period = 1103,
-        PeriodType = 1105,
-        Poll = 1108,
-        State = 1109,
+        Period = 1053,
+        PeriodType = 1055,
+        Poll = 1059,
     }
 
 	/// <summary>
@@ -38,9 +37,6 @@
 
                 case Trigger.Poll:
                     return Column.Poll;
-
-                case Trigger.State:
-                    return Column.State;
 
                 default:
                     throw new ArgumentException($"Unhandled PeriodType: {trigger}!");

@@ -14,7 +14,8 @@
         PeriodType = 4,
         LastPoll = 5,
         Status = 6,
-        Poll = 7,
-        State = 8,
+        Reason = 7,
+        Poll = 8,
+        State = 9,
     }
 }

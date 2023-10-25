@@ -3,10 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Skyline.DataMiner.Scripting;
-
-    using Skyline.PollingManager.Enums;
+	using Skyline.DataMiner.Scripting;
+	using Skyline.PollingManager.Enums;
     using Skyline.PollingManager.Interfaces;
 
     /// <summary>
@@ -166,13 +164,17 @@
                 FillTableNoDelete(_rows);
         }
 
-        /// <summary>
-        /// Handles sets on the <see cref="PollingmanagerQActionTable"/>.
-        /// </summary>
-        /// <param name="id">Row key.</param>
-        /// <param name="column">Column on which set was performed.</param>
-        public void UpdateRow(string id, Column column)
+		/// <summary>
+		/// Handles sets on the <see cref="PollingmanagerQActionTable"/>.
+		/// </summary>
+		/// <param name="id">Row key.</param>
+		/// <param name="column">Column on which set was performed.</param>
+		/// <exception cref="ArgumentException">Throws if row key doesn't exist in the table.</exception>
+        public void HandleRowUpdate(string id, Column column)
         {
+            if (!_rows.ContainsKey(id))
+                throw new ArgumentException("Row key doesn't exist in the table!");
+
             PollableBase tableRow = CreateIPollable(_table.GetRow(id));
 
             switch (column)
@@ -342,7 +344,7 @@
         /// <param name="row">Row for which to show children.</param>
         private void ShowChildren(IPollable row)
         {
-            string children = string.Join("\n", row.Children.Select(child => child.Name));
+            string children = string.Join("\n", row.Children.Where(child => child.State == State.Enabled).Select(child => child.Name));
 
             string message = $"Unable to disable [{row.Name}] because the following rows are dependand on it:\n{children}\nPlease disable them first or use [Force Disable].";
 
@@ -355,11 +357,11 @@
 		/// <param name="row">Row for which to show parents.</param>
         private void ShowParents(IPollable row)
         {
-            string parents = string.Join("\n", row.Parents.Select(parent => parent.Name));
+			string parents = string.Join("\n", row.Parents.Where(parent => parent.State == State.Enabled).Select(parent => parent.Name));
 
-            string message = $"Unable to enable [{row.Name}] because it depends on the following rows:\n{parents}\nPlease enable them first or use [Force Enable].";
+			string message = $"Unable to enable [{row.Name}] because it depends on the following rows:\n{parents}\nPlease enable them first or use [Force Enable].";
 
-            Protocol.ShowInformationMessage(message);
+			Protocol.ShowInformationMessage(message);
         }
 
         /// <summary>
@@ -409,6 +411,7 @@
             _rows[id].PeriodType = newValue.PeriodType;
             _rows[id].LastPoll = newValue.LastPoll;
             _rows[id].Status = newValue.Status;
+            _rows[id].Reason = newValue.Reason;
             _rows[id].State = newValue.State;
             _rows[id].Parents = newValue.Parents;
             _rows[id].Children = newValue.Children;
@@ -477,7 +480,8 @@
                 Pollingmanagerperiodtype_1005 = value.PeriodType,
                 Pollingmanagerlastpoll_1006 = value.LastPoll == default ? Convert.ToDouble(Status.NotPolled) : value.LastPoll.ToOADate(),
                 Pollingmanagerstatus_1007 = value.State == State.Disabled ? Status.Disabled : value.Status,
-                Pollingmanagerstate_1009 = value.State,
+                Pollingmanagerreason_1008 = value.Reason,
+                Pollingmanagerstate_1010 = value.State,
             };
         }
 
@@ -504,7 +508,7 @@
 		/// <param name="tableRow">Table row returned by <see cref="QActionTable.GetRow(string)"/></param>
 		/// <returns>Instance of the object that implements <see cref="PollableBase"/>.</returns>
 		/// <exception cref="ArgumentException">Throws if first element in <paramref name="tableRow"/> is null or empty.</exception>
-		/// <exception cref="InvalidOperationException">Throws if row key doesn't exist in the table.</exception>
+		/// <exception cref="ArgumentException">Throws if row key doesn't exist in the table.</exception>
         private PollableBase CreateIPollable(object[] tableRow)
         {
             string id = Convert.ToString(tableRow[0]);
@@ -513,12 +517,13 @@
                 throw new ArgumentException("Row key can't be null or empty!");
 
             if (!_rows.ContainsKey(id))
-                throw new InvalidOperationException("Row key doesn't exist in the table!");
+                throw new ArgumentException("Row key doesn't exist in the table!");
 
             PollableBase row = _pollableFactory.CreatePollableBase(Protocol, tableRow);
 
             row.Parents = _rows[id].Parents;
             row.Children = _rows[id].Children;
+            row.Dependencies = _rows[id].Dependencies;
 
             return row;
         }

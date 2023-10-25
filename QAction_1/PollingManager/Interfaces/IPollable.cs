@@ -13,7 +13,7 @@
 	/// </summary>
     public interface IPollable
 	{
-        SLProtocol Protocol { get; }
+        SLProtocol Protocol { get; set; }
 
         string Name { get; set; }
 
@@ -26,6 +26,8 @@
         DateTime LastPoll { get; set; }
 
         Status Status { get; set; }
+
+        string Reason { get; set; }
 
         State State { get; set; }
 

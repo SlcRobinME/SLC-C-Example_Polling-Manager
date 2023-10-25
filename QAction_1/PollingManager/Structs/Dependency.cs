@@ -12,8 +12,9 @@
 		/// </summary>
 		/// <param name="value">Value to check against.</param>
 		/// <param name="shouldEqual">Whether <paramref name="value"/> should be equal or different from the value of parameter.</param>
+		/// <param name="message">Message to show when condition is not met.</param>
 		/// <exception cref="ArgumentException">Throws if <paramref name="value"/> is not of type double or string.</exception>
-		public Dependency(object value, bool shouldEqual)
+		public Dependency(object value, bool shouldEqual, string message)
         {
             if (value is double || value is string)
                 Value = value;
@@ -21,10 +22,13 @@
                 throw new ArgumentException("Values underlying type is not double or string!");
 
             ShouldEqual = shouldEqual;
+            Message = message;
         }
 
 		public object Value { get; set; }
 
 		public bool ShouldEqual { get; set; }
+
+		public string Message { get; set; }
     }
 }

@@ -42,9 +42,10 @@
 				<ColumnOption idx="4" pid="1005" type="retrieved" options=";save"/>
 				<ColumnOption idx="5" pid="1006" type="retrieved" options=""/>
 				<ColumnOption idx="6" pid="1007" type="retrieved" options=""/>
-				<ColumnOption idx="7" pid="1108" type="retrieved" options=""/>
-				<ColumnOption idx="8" pid="1009" type="retrieved" options=";rowTextColoring"/>
-				<ColumnOption idx="9" pid="1099" type="displaykey" options=""/>
+				<ColumnOption idx="7" pid="1008" type="retrieved" options=""/>
+				<ColumnOption idx="8" pid="1059" type="retrieved" options=""/>
+				<ColumnOption idx="9" pid="1010" type="retrieved" options=";rowTextColoring"/>
+				<ColumnOption idx="10" pid="1099" type="displaykey" options=""/>
 			</ArrayOptions>
 			<Information>
 				<Subtext>Polling manager table provides customizable polling periods.</Subtext>
@@ -60,12 +61,14 @@
 				</Positions>
 			</Display>
 			<Measurement>
-				<Type options="tab=columns:1001|0-1099|9-1003|2-1004|3-1005|4-1006|5-1007|6-1108|7-1009|8,width:0-100-150-150-175-150-100-100-0,sort:STRING-STRING-INT-INT-INT-STRING-STRING-STRING-STRING,lines:25,filter:true">table</Type>
+				<!-- SuppressValidator 2.31.9 Sorting table by date doesn't make sense. -->
+				<Type options="tab=columns:1001|0-1002|1-1099|10-1003|2-1004|3-1005|4-1006|5-1007|6-1008|7-1059|8-1010|9,width:0-0-100-138-128-150-144-80-100-100-0,sort:STRING-STRING-STRING|ASC|0-INT-INT-INT-STRING-STRING-STRING-STRING-STRING,lines:25,filter:true">table</Type>
+				<!-- /SuppressValidator 2.31.9 -->
 			</Measurement>
 		</Param>
 		<Param id="1001" trending="false">
 			<Name>PollingManagerIndex</Name>
-			<Description>Index (PollingManager)</Description>
+			<Description>Index (Pollingmanager)</Description>
 			<Type>read</Type>
 			<Information>
 				<Subtext>Unique key used to identify rows.</Subtext>
@@ -84,7 +87,7 @@
 		</Param>
 		<Param id="1002" trending="false">
 			<Name>PollingManagerName</Name>
-			<Description>Name (PollingManager)</Description>
+			<Description>Name (Pollingmanager)</Description>
 			<Type>read</Type>
 			<Information>
 				<Subtext>Name of the row.</Subtext>
@@ -103,7 +106,7 @@
 		</Param>
 		<Param id="1003" trending="false">
 			<Name>PollingManagerPeriod</Name>
-			<Description>Period (PollingManager)</Description>
+			<Description>Period (Pollingmanager)</Description>
 			<Type>read</Type>
 			<Information>
 				<Subtext>Period defines how often to attempt to poll the row.</Subtext>
@@ -121,9 +124,9 @@
 				<Type options="time">number</Type>
 			</Measurement>
 		</Param>
-		<Param id="1103" trending="false" setter="true">
+		<Param id="1053" trending="false" setter="true">
 			<Name>PollingManagerPeriod</Name>
-			<Description>Period (PollingManager)</Description>
+			<Description>Period (Pollingmanager)</Description>
 			<Type>write</Type>
 			<Interprete>
 				<RawType>numeric text</RawType>
@@ -139,7 +142,7 @@
 		</Param>
 		<Param id="1004" trending="false">
 			<Name>PollingManagerDefaultPeriod</Name>
-			<Description>Default Period (PollingManager)</Description>
+			<Description>Default Period (Pollingmanager)</Description>
 			<Type>read</Type>
 			<Information>
 				<Subtext>Default polling period. Definied by the developer.</Subtext>
@@ -158,7 +161,7 @@
 		</Param>
 		<Param id="1005" trending="false">
 			<Name>PollingManagerPeriodType</Name>
-			<Description>Period Type (PollingManager)</Description>
+			<Description>Period Type (Pollingmanager)</Description>
 			<Type>read</Type>
 			<Information>
 				<Subtext>Defines whether to use default or custom period time for polling.</Subtext>
@@ -172,7 +175,7 @@
 				<RTDisplay>true</RTDisplay>
 			</Display>
 			<Measurement>
-				<Type>togglebutton</Type>
+				<Type>discreet</Type>
 				<Discreets>
 					<Discreet>
 						<Display>Default Period</Display>
@@ -185,9 +188,9 @@
 				</Discreets>
 			</Measurement>
 		</Param>
-		<Param id="1105" setter="true">
+		<Param id="1055" setter="true">
 			<Name>PollingManagerPeriodType</Name>
-			<Description>Period Type (PollingManager)</Description>
+			<Description>Period Type (Pollingmanager)</Description>
 			<Type>write</Type>
 			<Interprete>
 				<RawType>numeric text</RawType>
@@ -213,7 +216,7 @@
 		</Param>
 		<Param id="1006" trending="false">
 			<Name>PollingManagerLastPoll</Name>
-			<Description>Last Poll (PollingManager)</Description>
+			<Description>Last Poll (Pollingmanager)</Description>
 			<Type>read</Type>
 			<Information>
 				<Subtext>Time of the last poll attempt.</Subtext>
@@ -240,7 +243,7 @@
 		</Param>
 		<Param id="1007" trending="false">
 			<Name>PollingManagerStatus</Name>
-			<Description>Status (PollingManager)</Description>
+			<Description>Status (Pollingmanager)</Description>
 			<Type>read</Type>
 			<Information>
 				<Subtext>Status of the last poll attempt.</Subtext>
@@ -277,10 +280,32 @@
 				</Discreets>
 			</Measurement>
 		</Param>
-		<Param id="1108" trending="false">
+		<Param id="1008" trending="false">
+			<Name>PollingManagerReason</Name>
+			<Description>Reason (Pollingmanager)</Description>
+			<Type>read</Type>
+			<Information>
+				<Subtext>Additional information regarding polling status.</Subtext>
+			</Information>
+			<Interprete>
+				<RawType>other</RawType>
+				<Type>string</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type>string</Type>
+			</Measurement>
+		</Param>
+		<Param id="1059" trending="false">
 			<Name>PollingManagerPoll</Name>
-			<Description>Poll (PollingManager)</Description>
+			<Description>Poll (Pollingmanager)</Description>
 			<Type>write</Type>
+			<Information>
+				<Subtext>Polls the row regardless whether period time has elapsed.</Subtext>
+			</Information>
 			<Interprete>
 				<RawType>numeric text</RawType>
 				<Type>double</Type>
@@ -299,9 +324,9 @@
 				</Discreets>
 			</Measurement>
 		</Param>
-		<Param id="1009" trending="false">
+		<Param id="1010" trending="false">
 			<Name>PollingManagerState</Name>
-			<Description>State (PollingManager)</Description>
+			<Description>State (Pollingmanager)</Description>
 			<Type>read</Type>
 			<Information>
 				<Subtext>Current state of the row.</Subtext>
@@ -330,7 +355,7 @@
 		</Param>
 		<Param id="1099" trending="false">
 			<Name>PollingManagerDisplayKey</Name>
-			<Description>Display Key (PollingManager)</Description>
+			<Description>Display Key (Pollingmanager)</Description>
 			<Type>read</Type>
 			<Information>
 				<Subtext>User friendly identificator of the row.</Subtext>
@@ -418,7 +443,7 @@
 	<QActions>
 		<QAction id="1" name="Precompiled Code" encoding="csharp" options="precompile" />
 		<QAction id="2" name="Polling Manager" encoding="csharp" triggers="998;999" entryPoint="PollingManagerInit;PollingManagerCheck"/>
-		<QAction id="3" name="Polling Manager Update" encoding="csharp" row="true" triggers="1103;1105;1108" />
+		<QAction id="3" name="Polling Manager Update" encoding="csharp" row="true" triggers="1053;1055;1059" />
 		<QAction id="4" name="Polling Manager Context Menu" encoding="csharp" triggers="1100" />
 	</QActions>
 

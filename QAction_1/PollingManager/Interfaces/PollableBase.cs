@@ -21,13 +21,14 @@
 		public PollableBase(SLProtocol protocol, object[] row)
 		{
 			Protocol = protocol;
-			Name = Convert.ToString(row[1]) ?? string.Empty;
-			Period = Convert.ToDouble(row[2]);
-			DefaultPeriod = Convert.ToDouble(row[3]);
-			PeriodType = (PeriodType)Convert.ToDouble(row[4]);
-			LastPoll = DateTime.FromOADate(Convert.ToDouble(row[5]));
-			Status = (Status)Convert.ToDouble(row[6]);
-			State = (State)Convert.ToDouble(row[8]);
+			Name = Convert.ToString(row[(int)Column.Name]) ?? string.Empty;
+			Period = Convert.ToDouble(row[(int)Column.Period]);
+			DefaultPeriod = Convert.ToDouble(row[(int)Column.DefaultPeriod]);
+			PeriodType = (PeriodType)Convert.ToDouble(row[(int)Column.PeriodType]);
+			LastPoll = DateTime.FromOADate(Convert.ToDouble(row[(int)Column.LastPoll]));
+			Status = (Status)Convert.ToDouble(row[(int)Column.Status]);
+			Reason = Convert.ToString(row[(int)Column.Reason]) ?? string.Empty;
+			State = (State)Convert.ToDouble(row[(int)Column.State]);
 		}
 
 		/// <summary>
@@ -44,6 +45,7 @@
             PeriodType = PeriodType.Default;
             LastPoll = default;
             Status = Status.NotPolled;
+            Reason = string.Empty;
             State = State.Enabled;
         }
 
@@ -61,6 +63,8 @@
 
 		public Status Status { get; set; }
 
+		public string Reason { get; set; }
+
 		public State State { get; set; }
 
 		public List<IPollable> Parents { get; set; } = new List<IPollable>();
@@ -76,9 +80,9 @@
 		public abstract bool Poll();
 
 		/// <summary>
-		/// Gets dependant parameters and compares their values with dependencies.
+		/// Gets dependant parameters and compares their values with dependencies. Sets <see cref="Reason"/> to first condition not satisfied.
 		/// </summary>
-		/// <returns>False if any dependency is not satisfied, otherwise true.</returns>
+		/// <returns>False if any condition is not satisfied, otherwise true.</returns>
 		public bool CheckDependencies()
         {
 			foreach (KeyValuePair<int, Dependency> dependency in Dependencies)
@@ -87,15 +91,21 @@
 
                 if (dependency.Value.Value is double)
                 {
-                    if (dependency.Value.ShouldEqual)
-                    {
-                        if (!CheckDoubleParameter(parameter, dependency.Value.Value))
-                            return false;
-                    }
-                    else
-                    {
-						if (CheckDoubleParameter(parameter, dependency.Value.Value))
+					if (dependency.Value.ShouldEqual)
+					{
+						if (!CheckDoubleParameter(parameter, dependency.Value.Value))
+						{
+							Reason = dependency.Value.Message;
 							return false;
+						}
+					}
+					else
+					{
+						if (CheckDoubleParameter(parameter, dependency.Value.Value))
+						{
+							Reason = dependency.Value.Message;
+							return false;
+						}
 					}
                 }
                 else if (dependency.Value.Value is string)
@@ -103,16 +113,23 @@
 					if (dependency.Value.ShouldEqual)
 					{
 						if (!CheckStringParameter(parameter, dependency.Value.Value))
+						{
+							Reason = dependency.Value.Message;
 							return false;
+						}
 					}
 					else
 					{
 						if (CheckStringParameter(parameter, dependency.Value.Value))
+						{
+							Reason = dependency.Value.Message;
 							return false;
+						}
 					}
 				}
             }
 
+			Reason = string.Empty;
 			return true;
         }
 

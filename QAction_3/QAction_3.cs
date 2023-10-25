@@ -17,7 +17,7 @@ public static class QAction
 			string rowId = protocol.RowKey();
 
 			// Updates row with specific key that was triggered by specific column.
-			PollingManagerContainer.GetManager(protocol).UpdateRow(rowId, trigger.ToColumn());
+			PollingManagerContainer.GetManager(protocol).HandleRowUpdate(rowId, trigger.ToColumn());
 		}
 		catch (Exception ex)
 		{

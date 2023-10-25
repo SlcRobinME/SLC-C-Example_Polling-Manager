@@ -10,21 +10,21 @@ public static class Parameter
 {
 	public class Write
 	{
+		/// <summary>PID: 1053 | Type: write</summary>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public const int pollingmanagerperiod_1053 = 1053;
+		/// <summary>PID: 1053 | Type: write</summary>
+		public const int pollingmanagerperiod = 1053;
+		/// <summary>PID: 1055 | Type: write</summary>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public const int pollingmanagerperiodtype_1055 = 1055;
+		/// <summary>PID: 1055 | Type: write</summary>
+		public const int pollingmanagerperiodtype = 1055;
 		/// <summary>PID: 1100 | Type: write</summary>
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public const int pollingmanager_contextmenu_1100 = 1100;
 		/// <summary>PID: 1100 | Type: write</summary>
 		public const int pollingmanager_contextmenu = 1100;
-		/// <summary>PID: 1103 | Type: write</summary>
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public const int pollingmanagerperiod_1103 = 1103;
-		/// <summary>PID: 1103 | Type: write</summary>
-		public const int pollingmanagerperiod = 1103;
-		/// <summary>PID: 1105 | Type: write</summary>
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public const int pollingmanagerperiodtype_1105 = 1105;
-		/// <summary>PID: 1105 | Type: write</summary>
-		public const int pollingmanagerperiodtype = 1105;
 	}
 	public class Pollingmanager
 	{
@@ -71,11 +71,16 @@ public static class Parameter
 			public const int pollingmanagerstatus_1007 = 1007;
 			/// <summary>PID: 1007 | Type: read</summary>
 			public const int pollingmanagerstatus = 1007;
-			/// <summary>PID: 1009 | Type: read</summary>
+			/// <summary>PID: 1008 | Type: read</summary>
 			[EditorBrowsable(EditorBrowsableState.Never)]
-			public const int pollingmanagerstate_1009 = 1009;
-			/// <summary>PID: 1009 | Type: read</summary>
-			public const int pollingmanagerstate = 1009;
+			public const int pollingmanagerreason_1008 = 1008;
+			/// <summary>PID: 1008 | Type: read</summary>
+			public const int pollingmanagerreason = 1008;
+			/// <summary>PID: 1010 | Type: read</summary>
+			[EditorBrowsable(EditorBrowsableState.Never)]
+			public const int pollingmanagerstate_1010 = 1010;
+			/// <summary>PID: 1010 | Type: read</summary>
+			public const int pollingmanagerstate = 1010;
 			/// <summary>PID: 1099 | Type: read</summary>
 			[EditorBrowsable(EditorBrowsableState.Never)]
 			public const int pollingmanagerdisplaykey_1099 = 1099;
@@ -83,11 +88,11 @@ public static class Parameter
 			public const int pollingmanagerdisplaykey = 1099;
 			public class Write
 			{
-				/// <summary>PID: 1108 | Type: write</summary>
+				/// <summary>PID: 1059 | Type: write</summary>
 				[EditorBrowsable(EditorBrowsableState.Never)]
-				public const int pollingmanagerpoll_1108 = 1108;
-				/// <summary>PID: 1108 | Type: write</summary>
-				public const int pollingmanagerpoll = 1108;
+				public const int pollingmanagerpoll_1059 = 1059;
+				/// <summary>PID: 1059 | Type: write</summary>
+				public const int pollingmanagerpoll = 1059;
 			}
 		}
 		public class Idx
@@ -127,29 +132,34 @@ public static class Parameter
 			public const int pollingmanagerstatus_1007 = 6;
 			/// <summary>IDX: 6 | Type: read</summary>
 			public const int pollingmanagerstatus = 6;
-			/// <summary>IDX: 8 | Type: read</summary>
+			/// <summary>IDX: 7 | Type: read</summary>
 			[EditorBrowsable(EditorBrowsableState.Never)]
-			public const int pollingmanagerstate_1009 = 8;
-			/// <summary>IDX: 8 | Type: read</summary>
-			public const int pollingmanagerstate = 8;
+			public const int pollingmanagerreason_1008 = 7;
+			/// <summary>IDX: 7 | Type: read</summary>
+			public const int pollingmanagerreason = 7;
 			/// <summary>IDX: 9 | Type: read</summary>
 			[EditorBrowsable(EditorBrowsableState.Never)]
-			public const int pollingmanagerdisplaykey_1099 = 9;
+			public const int pollingmanagerstate_1010 = 9;
 			/// <summary>IDX: 9 | Type: read</summary>
-			public const int pollingmanagerdisplaykey = 9;
+			public const int pollingmanagerstate = 9;
+			/// <summary>IDX: 10 | Type: read</summary>
+			[EditorBrowsable(EditorBrowsableState.Never)]
+			public const int pollingmanagerdisplaykey_1099 = 10;
+			/// <summary>IDX: 10 | Type: read</summary>
+			public const int pollingmanagerdisplaykey = 10;
 		}
 	}
 }
 public class WriteParameters
 {
+	/// <summary>PID: 1053  | Type: write</summary>
+	public System.Object Pollingmanagerperiod {get { return Protocol.GetParameter(1053); }set { Protocol.SetParameter(1053, value); }}
+	/// <summary>PID: 1055  | Type: write | DISCREETS: Default Period = 1, Custom Period = 2</summary>
+	public System.Object Pollingmanagerperiodtype {get { return Protocol.GetParameter(1055); }set { Protocol.SetParameter(1055, value); }}
+	/// <summary>PID: 1059  | Type: write | DISCREETS: Poll = 1</summary>
+	public System.Object Pollingmanagerpoll {get { return Protocol.GetParameter(1059); }set { Protocol.SetParameter(1059, value); }}
 	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable Selected = 6, Enable Selected = 7, Separator 3 = -3, Disable All = 8, Enable All = 9</summary>
 	public System.Object Pollingmanager_contextmenu {get { return Protocol.GetParameter(1100); }set { Protocol.SetParameter(1100, value); }}
-	/// <summary>PID: 1103  | Type: write</summary>
-	public System.Object Pollingmanagerperiod {get { return Protocol.GetParameter(1103); }set { Protocol.SetParameter(1103, value); }}
-	/// <summary>PID: 1105  | Type: write | DISCREETS: Default Period = 1, Custom Period = 2</summary>
-	public System.Object Pollingmanagerperiodtype {get { return Protocol.GetParameter(1105); }set { Protocol.SetParameter(1105, value); }}
-	/// <summary>PID: 1108  | Type: write | DISCREETS: Poll = 1</summary>
-	public System.Object Pollingmanagerpoll {get { return Protocol.GetParameter(1108); }set { Protocol.SetParameter(1108, value); }}
 	public SLProtocolExt Protocol;
 	public WriteParameters(SLProtocolExt protocol)
 	{
@@ -176,16 +186,18 @@ public interface SLProtocolExt : SLProtocol
 	object Pollingmanagerlastpoll { get; set; }
 	object Pollingmanagerstatus_1007 { get; set; }
 	object Pollingmanagerstatus { get; set; }
-	object Pollingmanagerstate_1009 { get; set; }
+	object Pollingmanagerreason_1008 { get; set; }
+	object Pollingmanagerreason { get; set; }
+	object Pollingmanagerstate_1010 { get; set; }
 	object Pollingmanagerstate { get; set; }
+	object Pollingmanagerperiod_1053 { get; set; }
+	object Pollingmanagerperiodtype_1055 { get; set; }
+	object Pollingmanagerpoll_1059 { get; set; }
+	object Pollingmanagerpoll { get; set; }
 	object Pollingmanagerdisplaykey_1099 { get; set; }
 	object Pollingmanagerdisplaykey { get; set; }
 	object Pollingmanager_contextmenu_1100 { get; set; }
 	object Pollingmanager_contextmenu { get; set; }
-	object Pollingmanagerperiod_1103 { get; set; }
-	object Pollingmanagerperiodtype_1105 { get; set; }
-	object Pollingmanagerpoll_1108 { get; set; }
-	object Pollingmanagerpoll { get; set; }
 	WriteParameters Write { get; set; }
 }
 public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
@@ -231,11 +243,26 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Pollingmanagerstatus_1007 {get { return GetParameter(1007); }set { SetParameter(1007, value); }}
 	/// <summary>PID: 1007  | Type: read | DISCREETS: Failed = -1, Succeeded = 1 | EXCEPTIONS: Not Polled = -2, Disabled = -1</summary>
 	public System.Object Pollingmanagerstatus {get { return GetParameter(1007); }set { SetParameter(1007, value); }}
-	/// <summary>PID: 1009  | Type: read | DISCREETS: Disabled = 1, Enabled = 2</summary>
+	/// <summary>PID: 1008  | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanagerstate_1009 {get { return GetParameter(1009); }set { SetParameter(1009, value); }}
-	/// <summary>PID: 1009  | Type: read | DISCREETS: Disabled = 1, Enabled = 2</summary>
-	public System.Object Pollingmanagerstate {get { return GetParameter(1009); }set { SetParameter(1009, value); }}
+	public System.Object Pollingmanagerreason_1008 {get { return GetParameter(1008); }set { SetParameter(1008, value); }}
+	/// <summary>PID: 1008  | Type: read</summary>
+	public System.Object Pollingmanagerreason {get { return GetParameter(1008); }set { SetParameter(1008, value); }}
+	/// <summary>PID: 1010  | Type: read | DISCREETS: Disabled = 1, Enabled = 2</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Pollingmanagerstate_1010 {get { return GetParameter(1010); }set { SetParameter(1010, value); }}
+	/// <summary>PID: 1010  | Type: read | DISCREETS: Disabled = 1, Enabled = 2</summary>
+	public System.Object Pollingmanagerstate {get { return GetParameter(1010); }set { SetParameter(1010, value); }}
+	/// <summary>PID: 1053  | Type: write</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Pollingmanagerperiod_1053 {get { return GetParameter(1053); }set { SetParameter(1053, value); }}
+	/// <summary>PID: 1055  | Type: write | DISCREETS: Default Period = 1, Custom Period = 2</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Pollingmanagerperiodtype_1055 {get { return GetParameter(1055); }set { SetParameter(1055, value); }}
+	/// <summary>PID: 1059  | Type: write | DISCREETS: Poll = 1</summary>
+	public System.Object Pollingmanagerpoll_1059 {get { return GetParameter(1059); }set { SetParameter(1059, value); }}
+	/// <summary>PID: 1059  | Type: write | DISCREETS: Poll = 1</summary>
+	public System.Object Pollingmanagerpoll {get { return Write.Pollingmanagerpoll; }set { Write.Pollingmanagerpoll = value; }}
 	/// <summary>PID: 1099  | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public System.Object Pollingmanagerdisplaykey_1099 {get { return GetParameter(1099); }set { SetParameter(1099, value); }}
@@ -245,16 +272,6 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Pollingmanager_contextmenu_1100 {get { return GetParameter(1100); }set { SetParameter(1100, value); }}
 	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable Selected = 6, Enable Selected = 7, Separator 3 = -3, Disable All = 8, Enable All = 9</summary>
 	public System.Object Pollingmanager_contextmenu {get { return Write.Pollingmanager_contextmenu; }set { Write.Pollingmanager_contextmenu = value; }}
-	/// <summary>PID: 1103  | Type: write</summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanagerperiod_1103 {get { return GetParameter(1103); }set { SetParameter(1103, value); }}
-	/// <summary>PID: 1105  | Type: write | DISCREETS: Default Period = 1, Custom Period = 2</summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanagerperiodtype_1105 {get { return GetParameter(1105); }set { SetParameter(1105, value); }}
-	/// <summary>PID: 1108  | Type: write | DISCREETS: Poll = 1</summary>
-	public System.Object Pollingmanagerpoll_1108 {get { return GetParameter(1108); }set { SetParameter(1108, value); }}
-	/// <summary>PID: 1108  | Type: write | DISCREETS: Poll = 1</summary>
-	public System.Object Pollingmanagerpoll {get { return Write.Pollingmanagerpoll; }set { Write.Pollingmanagerpoll = value; }}
 	public WriteParameters Write { get; set; }
 	public ConcreteSLProtocolExt()
 	{
@@ -307,22 +324,27 @@ public class PollingmanagerQActionRow : QActionTableRow
 	public System.Object Pollingmanagerstatus_1007 { get { if (base.Columns.ContainsKey(6)) { return base.Columns[6]; } else { return null; } } set { if (base.Columns.ContainsKey(6)) { base.Columns[6] = value; } else { base.Columns.Add(6, value); } } }
 	/// <summary>PID: 1007 | Type: read</summary>
 	public System.Object Pollingmanagerstatus { get { if (base.Columns.ContainsKey(6)) { return base.Columns[6]; } else { return null; } } set { if (base.Columns.ContainsKey(6)) { base.Columns[6] = value; } else { base.Columns.Add(6, value); } } }
-	/// <summary>PID: 1108 | Type: write</summary>
-	public System.Object Pollingmanagerpoll_1108 { get { if (base.Columns.ContainsKey(7)) { return base.Columns[7]; } else { return null; } } set { if (base.Columns.ContainsKey(7)) { base.Columns[7] = value; } else { base.Columns.Add(7, value); } } }
-	/// <summary>PID: 1108 | Type: write</summary>
-	public System.Object Pollingmanagerpoll { get { if (base.Columns.ContainsKey(7)) { return base.Columns[7]; } else { return null; } } set { if (base.Columns.ContainsKey(7)) { base.Columns[7] = value; } else { base.Columns.Add(7, value); } } }
-	/// <summary>PID: 1009 | Type: read</summary>
+	/// <summary>PID: 1008 | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanagerstate_1009 { get { if (base.Columns.ContainsKey(8)) { return base.Columns[8]; } else { return null; } } set { if (base.Columns.ContainsKey(8)) { base.Columns[8] = value; } else { base.Columns.Add(8, value); } } }
-	/// <summary>PID: 1009 | Type: read</summary>
-	public System.Object Pollingmanagerstate { get { if (base.Columns.ContainsKey(8)) { return base.Columns[8]; } else { return null; } } set { if (base.Columns.ContainsKey(8)) { base.Columns[8] = value; } else { base.Columns.Add(8, value); } } }
+	public System.Object Pollingmanagerreason_1008 { get { if (base.Columns.ContainsKey(7)) { return base.Columns[7]; } else { return null; } } set { if (base.Columns.ContainsKey(7)) { base.Columns[7] = value; } else { base.Columns.Add(7, value); } } }
+	/// <summary>PID: 1008 | Type: read</summary>
+	public System.Object Pollingmanagerreason { get { if (base.Columns.ContainsKey(7)) { return base.Columns[7]; } else { return null; } } set { if (base.Columns.ContainsKey(7)) { base.Columns[7] = value; } else { base.Columns.Add(7, value); } } }
+	/// <summary>PID: 1059 | Type: write</summary>
+	public System.Object Pollingmanagerpoll_1059 { get { if (base.Columns.ContainsKey(8)) { return base.Columns[8]; } else { return null; } } set { if (base.Columns.ContainsKey(8)) { base.Columns[8] = value; } else { base.Columns.Add(8, value); } } }
+	/// <summary>PID: 1059 | Type: write</summary>
+	public System.Object Pollingmanagerpoll { get { if (base.Columns.ContainsKey(8)) { return base.Columns[8]; } else { return null; } } set { if (base.Columns.ContainsKey(8)) { base.Columns[8] = value; } else { base.Columns.Add(8, value); } } }
+	/// <summary>PID: 1010 | Type: read</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Pollingmanagerstate_1010 { get { if (base.Columns.ContainsKey(9)) { return base.Columns[9]; } else { return null; } } set { if (base.Columns.ContainsKey(9)) { base.Columns[9] = value; } else { base.Columns.Add(9, value); } } }
+	/// <summary>PID: 1010 | Type: read</summary>
+	public System.Object Pollingmanagerstate { get { if (base.Columns.ContainsKey(9)) { return base.Columns[9]; } else { return null; } } set { if (base.Columns.ContainsKey(9)) { base.Columns[9] = value; } else { base.Columns.Add(9, value); } } }
 	/// <summary>PID: 1099 | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanagerdisplaykey_1099 { get { if (base.Columns.ContainsKey(9)) { return base.Columns[9]; } else { return null; } } set { if (base.Columns.ContainsKey(9)) { base.Columns[9] = value; } else { base.Columns.Add(9, value); } } }
+	public System.Object Pollingmanagerdisplaykey_1099 { get { if (base.Columns.ContainsKey(10)) { return base.Columns[10]; } else { return null; } } set { if (base.Columns.ContainsKey(10)) { base.Columns[10] = value; } else { base.Columns.Add(10, value); } } }
 	/// <summary>PID: 1099 | Type: read</summary>
-	public System.Object Pollingmanagerdisplaykey { get { if (base.Columns.ContainsKey(9)) { return base.Columns[9]; } else { return null; } } set { if (base.Columns.ContainsKey(9)) { base.Columns[9] = value; } else { base.Columns.Add(9, value); } } }
-	public PollingmanagerQActionRow() : base(0, 10) { }
-	public PollingmanagerQActionRow(System.Object[] oRow) : base(0, 10, oRow) { }
+	public System.Object Pollingmanagerdisplaykey { get { if (base.Columns.ContainsKey(10)) { return base.Columns[10]; } else { return null; } } set { if (base.Columns.ContainsKey(10)) { base.Columns[10] = value; } else { base.Columns.Add(10, value); } } }
+	public PollingmanagerQActionRow() : base(0, 11) { }
+	public PollingmanagerQActionRow(System.Object[] oRow) : base(0, 11, oRow) { }
 	public static implicit operator PollingmanagerQActionRow(System.Object[] source) { return new PollingmanagerQActionRow(source); }
 	public static implicit operator System.Object[](PollingmanagerQActionRow source) { return source.ToObjectArray(); }
 }
