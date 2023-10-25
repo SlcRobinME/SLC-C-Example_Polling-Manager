@@ -74,9 +74,10 @@
 		public Dictionary<int, Dependency> Dependencies { get; set; } = new Dictionary<int, Dependency>();
 
 		/// <summary>
-		/// Method to be implemented by extending class. This method gets called by PollingManager.
+		/// Method to be implemented by extending class. This method gets called by <see cref="PollingManager"/>.
 		/// </summary>
 		/// <returns>Returns true for success and false for failed poll.</returns>
+		/// <remarks>Implementation of <see cref="Poll"/> should never throw.</remarks>
 		public abstract bool Poll();
 
 		/// <summary>
@@ -85,53 +86,66 @@
 		/// <returns>False if any condition is not satisfied, otherwise true.</returns>
 		public bool CheckDependencies()
         {
-			foreach (KeyValuePair<int, Dependency> dependency in Dependencies)
-            {
-                object parameter = Protocol.GetParameter(dependency.Key);
+			try
+			{
+				foreach (KeyValuePair<int, Dependency> dependency in Dependencies)
+				{
+					object parameter = Protocol.GetParameter(dependency.Key);
 
-                if (dependency.Value.Value is double)
-                {
-					if (dependency.Value.ShouldEqual)
+					if (parameter == null)
+						throw new Exception($"Parameter with ID [{dependency.Key}] doesn't exist!");
+
+					if (dependency.Value.Value is double)
 					{
-						if (!CheckDoubleParameter(parameter, dependency.Value.Value))
+						if (dependency.Value.ShouldEqual)
 						{
-							Reason = dependency.Value.Message;
-							return false;
+							if (!CheckDoubleParameter(parameter, dependency.Value.Value))
+							{
+								Reason = dependency.Value.Message;
+								return false;
+							}
+						}
+						else
+						{
+							if (CheckDoubleParameter(parameter, dependency.Value.Value))
+							{
+								Reason = dependency.Value.Message;
+								return false;
+							}
 						}
 					}
-					else
+					else if (dependency.Value.Value is string)
 					{
-						if (CheckDoubleParameter(parameter, dependency.Value.Value))
+						if (dependency.Value.ShouldEqual)
 						{
-							Reason = dependency.Value.Message;
-							return false;
+							if (!CheckStringParameter(parameter, dependency.Value.Value))
+							{
+								Reason = dependency.Value.Message;
+								return false;
+							}
 						}
-					}
-                }
-                else if (dependency.Value.Value is string)
-                {
-					if (dependency.Value.ShouldEqual)
-					{
-						if (!CheckStringParameter(parameter, dependency.Value.Value))
+						else
 						{
-							Reason = dependency.Value.Message;
-							return false;
-						}
-					}
-					else
-					{
-						if (CheckStringParameter(parameter, dependency.Value.Value))
-						{
-							Reason = dependency.Value.Message;
-							return false;
+							if (CheckStringParameter(parameter, dependency.Value.Value))
+							{
+								Reason = dependency.Value.Message;
+								return false;
+							}
 						}
 					}
 				}
-            }
+			}
+			catch (Exception ex)
+			{
+				Protocol.Log($"QA{Protocol.QActionID}|{Protocol.GetTriggerParameter()}|PollableBase.CheckDependencies|Exception thrown:{Environment.NewLine}{ex}!", LogType.Error, LogLevel.NoLogging);
+
+				Reason = "Something went wrong. Please check logs.";
+				return false;
+			}
 
 			Reason = string.Empty;
 			return true;
-        }
+		}
 
 		/// <summary>
 		/// Adds parent without creating two way relation between elements. This shouldn't be used directly. Use <see cref="AddParents"/> instead.
@@ -141,7 +155,7 @@
 		void IPollable.AddParent(IPollable parent)
         {
 			if (Children.Contains(parent))
-				throw new InvalidOperationException($"Circular dependency, {parent.Name} is already a child of {Name}!");
+				throw new InvalidOperationException($"Circular dependency, [{parent.Name}] is already a child of [{Name}]!");
 
 			if (Parents.Contains(parent))
                 return;
@@ -159,7 +173,7 @@
             foreach (IPollable parent in parents)
             {
                 if (Children.Contains(parent))
-                    throw new InvalidOperationException($"Circular dependency, {parent.Name} is already a child of {Name}!");
+                    throw new InvalidOperationException($"Circular dependency, [{parent.Name}] is already a child of [{Name}]!");
 
                 if (Parents.Contains(parent))
                     return;
@@ -177,7 +191,7 @@
 		void IPollable.AddChild(IPollable child)
         {
 			if (Parents.Contains(child))
-				throw new InvalidOperationException($"Circular dependency, {child.Name} is already a parent of {Name}!");
+				throw new InvalidOperationException($"Circular dependency, [{child.Name}] is already a parent of [{Name}]!");
 
 			if (Children.Contains(child))
 				return;
@@ -195,7 +209,7 @@
             foreach (IPollable child in children)
             {
                 if (Parents.Contains(child))
-                    throw new InvalidOperationException($"Circular dependency, {child.Name} is already a parent of {Name}!");
+                    throw new InvalidOperationException($"Circular dependency, [{child.Name}] is already a parent of [{Name}]!");
 
                 if (Children.Contains(child))
                     return;
