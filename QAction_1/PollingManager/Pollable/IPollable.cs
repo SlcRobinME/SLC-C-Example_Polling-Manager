@@ -1,4 +1,4 @@
-﻿namespace Skyline.PollingManager.Interfaces
+﻿namespace Skyline.PollingManager.Pollable
 {
     using System;
     using System.Collections.Generic;

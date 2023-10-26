@@ -1,4 +1,4 @@
-﻿namespace Skyline.PollingManager.Interfaces
+﻿namespace Skyline.PollingManager.Pollable
 {
     using System;
     using System.Collections.Generic;
@@ -18,6 +18,9 @@
 		/// </summary>
 		/// <param name="protocol">Link with SLProtocol process.</param>
 		/// <param name="row">Row loaded from the table via GetRow.</param>
+		/// <remarks>
+		/// This constructor must be implemented by inhereting class as is. It provides mechanism of deserializing table rows in to <see cref="PollableBase"/>.
+		/// </remarks>
 		public PollableBase(SLProtocol protocol, object[] row)
 		{
 			Protocol = protocol;

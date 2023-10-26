@@ -5,7 +5,7 @@
     <Copyright>© Skyline Communications</Copyright>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <LangVersion>7.3</LangVersion>
-    <AssemblyVersion>2023.1016.1247.12417</AssemblyVersion>
+    <AssemblyVersion>2023.1026.2007.32674</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\QAction_1\QAction_1.csproj" />

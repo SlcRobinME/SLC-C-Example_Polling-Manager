@@ -19,11 +19,8 @@ public static class QAction
 			// Used by PollingManagerConfiguration, not related directly to PollingManager
 			SLProtocolProvider.Protocol = protocol;
 
-			// Instance of class that implements IPollableFactory, defined by user.
-			var factory = new PollableFactory();
-
 			// Creates PollingManager instance and adds it to PollingManagerContainer.
-			PollingManagerContainer.AddManager(protocol, protocol.pollingmanager, PollingManagerConfiguration.Rows, factory);
+			PollingManagerContainer.AddManager(protocol, protocol.pollingmanager, PollingManagerConfiguration.Rows);
         }
         catch (Exception ex)
         {
@@ -39,8 +36,6 @@ public static class QAction
 	{
 		try
 		{
-			protocol.Log("QAction_2.PollingManagerCheck");
-
 			// Checks PollingManager table for rows that need to be polled.
 			PollingManagerContainer.GetManager(protocol).CheckForUpdate();
 		}

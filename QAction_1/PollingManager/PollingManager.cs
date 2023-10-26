@@ -8,7 +8,7 @@
     using Skyline.DataMiner.Scripting;
 
     using Skyline.PollingManager.Enums;
-    using Skyline.PollingManager.Interfaces;
+    using Skyline.PollingManager.Pollable;
 
     /// <summary>
     /// <see cref="PollingManager"/> container class used to provide singleton on the element level.
@@ -23,12 +23,11 @@
 		/// <param name="protocol">Link with SLProtocol process.</param>
 		/// <param name="table">Polling manager table instance.</param>
 		/// <param name="rows">Rows to add to the <paramref name="table"/>.</param>
-		/// <param name="pollableFactory">Factory for concrete implementation of <see cref="PollableBase"/>.</param>
 		/// <returns>
 		/// Newly created instance of <see cref="PollingManager"/>, if it doesn't exist, or existing instance of <see cref="PollingManager"/> with updated <see cref="PollableBase.Protocol"/>.
 		/// </returns>
         /// <exception cref="ArgumentException">Throws if creation of <see cref="PollingManager"/> fails.</exception>
-        public static PollingManager AddManager(SLProtocol protocol, PollingmanagerQActionTable table, List<PollableBase> rows, IPollableBaseFactory pollableFactory)
+        public static PollingManager AddManager(SLProtocol protocol, PollingmanagerQActionTable table, List<PollableBase> rows)
         {
             string key = GetKey(protocol);
 
@@ -37,7 +36,7 @@
                 PollingManager manager;
                 try
                 {
-                    manager = new PollingManager(protocol, table, rows, pollableFactory);
+                    manager = new PollingManager(protocol, table, rows);
                 }
                 catch (ArgumentException ex)
                 {
@@ -90,7 +89,7 @@
     {
         private readonly PollingmanagerQActionTable _table;
         private readonly Dictionary<string, PollableBase> _rows = new Dictionary<string, PollableBase>();
-        private readonly IPollableBaseFactory _pollableFactory;
+        private readonly PollableFactory _pollableFactory;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PollingManager"/> class.
@@ -98,14 +97,13 @@
 		/// <param name="protocol">Link with SLProtocol process.</param>
 		/// <param name="table">Polling manager table instance.</param>
 		/// <param name="rows">Rows to add to the <paramref name="table"/>.</param>
-		/// <param name="pollableFactory">Factory for concrete implementation of <see cref="PollableBase"/>.</param>
 		/// <exception cref="ArgumentException">Throws if <paramref name="rows"/> contains duplicate names.</exception>
 		/// <exception cref="ArgumentException">Throws if <paramref name="rows"/> contains null values.</exception>
-        public PollingManager(SLProtocol protocol, PollingmanagerQActionTable table, List<PollableBase> rows, IPollableBaseFactory pollableFactory)
+        public PollingManager(SLProtocol protocol, PollingmanagerQActionTable table, List<PollableBase> rows)
         {
             Protocol = protocol;
             _table = table;
-            _pollableFactory = pollableFactory;
+            _pollableFactory = new PollableFactory();
 
             HashSet<string> names = new HashSet<string>();
 
@@ -572,7 +570,7 @@
 
 			object[] tableRow = _table.GetRow(rowId);
 
-			PollableBase row = _pollableFactory.CreatePollableBase(Protocol, tableRow);
+			PollableBase row = _pollableFactory.CreatePollableBase(Protocol, tableRow, _rows[rowId].GetType());
 
 			row.Parents = _rows[rowId].Parents;
 			row.Children = _rows[rowId].Children;
