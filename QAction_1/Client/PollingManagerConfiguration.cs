@@ -3,7 +3,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
-	using Skyline.PollingManager.Interfaces;
+	using Skyline.PollingManager.Pollable;
 	using Skyline.PollingManager.Providers;
 	using Skyline.PollingManager.Structs;
 
