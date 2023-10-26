@@ -410,7 +410,7 @@
 		/// <param name="row">Row for which to show parents.</param>
         private void ShowParents(IPollable row)
         {
-			string parents = string.Join("\n", row.Parents.Where(parent => parent.State == State.Enabled).Select(parent => parent.Name));
+			string parents = string.Join("\n", row.Parents.Where(parent => parent.State == State.Disabled).Select(parent => parent.Name));
 
 			string message = $"Unable to enable [{row.Name}] because it depends on the following rows:\n{parents}\nPlease enable them first or use [Force Enable].";
 
