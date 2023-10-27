@@ -238,10 +238,10 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Pollingmanagerlastpoll_1006 {get { return GetParameter(1006); }set { SetParameter(1006, value); }}
 	/// <summary>PID: 1006  | Type: read | EXCEPTIONS: Not Polled = -2</summary>
 	public System.Object Pollingmanagerlastpoll {get { return GetParameter(1006); }set { SetParameter(1006, value); }}
-	/// <summary>PID: 1007  | Type: read | DISCREETS: Failed = -1, Succeeded = 1 | EXCEPTIONS: Not Polled = -2, Disabled = -1</summary>
+	/// <summary>PID: 1007  | Type: read | DISCREETS: Failed = 0, Succeeded = 1 | EXCEPTIONS: Not Polled = -2, Disabled = -1</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public System.Object Pollingmanagerstatus_1007 {get { return GetParameter(1007); }set { SetParameter(1007, value); }}
-	/// <summary>PID: 1007  | Type: read | DISCREETS: Failed = -1, Succeeded = 1 | EXCEPTIONS: Not Polled = -2, Disabled = -1</summary>
+	/// <summary>PID: 1007  | Type: read | DISCREETS: Failed = 0, Succeeded = 1 | EXCEPTIONS: Not Polled = -2, Disabled = -1</summary>
 	public System.Object Pollingmanagerstatus {get { return GetParameter(1007); }set { SetParameter(1007, value); }}
 	/// <summary>PID: 1008  | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
