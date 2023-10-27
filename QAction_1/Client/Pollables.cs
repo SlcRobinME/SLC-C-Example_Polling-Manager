@@ -1,12 +1,16 @@
 ﻿namespace Skyline.PollingManager.Client
 {
-    using Skyline.DataMiner.Scripting;
+	using System;
 
-    using Skyline.PollingManager.Enums;
-    using Skyline.PollingManager.Pollable;
+	using Skyline.DataMiner.Scripting;
 
-    public class PollableA : PollableBase
+	using Skyline.PollingManager.Enums;
+	using Skyline.PollingManager.Pollable;
+
+	public class PollableA : PollableBase
 	{
+		private static int _seed = 0;
+
 		public PollableA(SLProtocol protocol, string name) : base(protocol, name)
 		{
 			PeriodType = PeriodType.Custom;
@@ -18,14 +22,31 @@
 
 		public override bool Poll()
 		{
-			Protocol.Log($"$$$$$ Logging from [{nameof(PollableA)}] the group [{Name}] $$$$$");
+			var random = new Random(_seed++);
+			int randomNumber = random.Next(1, 101);
 
-			return true;
+			bool poll = false;
+
+			if (randomNumber < 80)
+				poll = true;
+
+			if (poll)
+			{
+				Protocol.Log($"$$$$$ Logging from [{nameof(PollableA)}] the group [{Name}] $$$$$");
+				return poll;
+			}
+			else
+			{
+				Reason = $"Poll failed!";
+				return poll;
+			}
 		}
 	}
 
-    public class PollableB : PollableBase
+	public class PollableB : PollableBase
 	{
+		private static int _seed = 999999999;
+
 		public PollableB(SLProtocol protocol, string name, double? period = null) : base(protocol, name)
 		{
 			if (period != null)
@@ -41,14 +62,31 @@
 
 		public override bool Poll()
 		{
-			Protocol.Log($"##### Logging from [{nameof(PollableB)}] the group [{Name}] #####");
+			var random = new Random(_seed++);
+			int randomNumber = random.Next(1, 101);
 
-			return true;
+			bool poll = false;
+
+			if (randomNumber < 80)
+				poll = true;
+
+			if (poll)
+			{
+				Protocol.Log($"##### Logging from [{nameof(PollableB)}] the group [{Name}] #####");
+				return poll;
+			}
+			else
+			{
+				Reason = $"Poll failed!";
+				return poll;
+			}
 		}
 	}
 
-    public class PollableC : PollableBase
+	public class PollableC : PollableBase
 	{
+		private static int _seed = 123123123;
+
 		public PollableC(SLProtocol protocol, string name) : base(protocol, name)
 		{
 		}
@@ -66,9 +104,24 @@
 
 		public override bool Poll()
 		{
-			Protocol.Log($"@@@@@ Logging from [{nameof(PollableC)}] the group [{Name}] @@@@@");
+			var random = new Random(_seed++);
+			int randomNumber = random.Next(1, 101);
 
-			return true;
+			bool poll = false;
+
+			if (randomNumber < 80)
+				poll = true;
+
+			if (poll)
+			{
+				Protocol.Log($"@@@@@ Logging from [{nameof(PollableC)}] the group [{Name}] @@@@@");
+				return poll;
+			}
+			else
+			{
+				Reason = $"Poll failed!";
+				return poll;
+			}
 		}
 	}
 }

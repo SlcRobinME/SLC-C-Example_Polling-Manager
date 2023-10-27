@@ -55,11 +55,15 @@
 
 		private static readonly List<Dependency> _dependencies = new List<Dependency>()
 		{
+			new Dependency(1, true, "Must Be On is not on!"),
+			new Dependency(3, false, "Must Not Be Vacation is on vacation!"),
+			new Dependency("Working", true, "Must Equal Working is not working!"),
 		};
 
 		static PollingManagerConfiguration()
 		{
 			SetRelations();
+			SetDependencies();
 		}
 
 		public static List<PollableBase> Rows => _rows.Select(row => row.Value).ToList();
@@ -83,6 +87,9 @@
 
 		private static void SetDependencies()
 		{
+			_rows["Owner"].AddDependency(10, _dependencies[0]);
+			_rows["Owner"].AddDependency(20, _dependencies[1]);
+			_rows["Owner"].AddDependency(30, _dependencies[2]);
 		}
 	}
 }
