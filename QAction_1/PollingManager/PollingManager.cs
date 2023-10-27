@@ -138,7 +138,6 @@
                     continue;
 
 				bool readyToPoll;
-				bool pollSucceeded;
 
 				switch (currentRow.PeriodType)
                 {
@@ -154,22 +153,8 @@
                         throw new ArgumentException($"Unhandled PeriodType: {currentRow.PeriodType}!");
                 }
 
-				if (readyToPoll && currentRow.CheckDependencies())
-                {
-                    pollSucceeded = currentRow.Poll();
-                    currentRow.LastPoll = DateTime.Now;
-                }
-                else
-                {
-                    continue;
-                }
-
-				if (pollSucceeded)
-					currentRow.Status = Status.Succeeded;
-                else
-					currentRow.Status = Status.Failed;
-
-				requiresUpdate = true;
+				if (readyToPoll)
+                    requiresUpdate = PollRow(currentRow);
             }
 
             if (requiresUpdate)
@@ -432,13 +417,14 @@
         /// Polls a row.
         /// </summary>
         /// <param name="row">Row to poll.</param>
-        private void PollRow(PollableBase row)
+        /// <returns>True if poll did occur, false otherwise.</returns>
+        private bool PollRow(PollableBase row)
         {
             if (row.State == State.Disabled)
-                return;
+                return false;
 
             if (!row.CheckDependencies())
-                return;
+                return false;
 
             bool pollSucceeded = row.Poll();
             row.LastPoll = DateTime.Now;
@@ -447,6 +433,8 @@
                 row.Status = Status.Succeeded;
             else
                 row.Status = Status.Failed;
+
+            return true;
         }
 
 		/// <summary>
