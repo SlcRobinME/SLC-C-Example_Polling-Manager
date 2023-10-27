@@ -88,7 +88,7 @@
 		</Param>
 		<Param id="20" trending="false">
 			<Name>MustNotBeVacation</Name>
-			<Description>MustNotBeVacation</Description>
+			<Description>Must Not Be Vacation</Description>
 			<Type>read</Type>
 			<Interprete>
 				<RawType>numeric text</RawType>
@@ -126,7 +126,7 @@
 		</Param>
 		<Param id="120" setter="true">
 			<Name>MustNotBeVacation</Name>
-			<Description>MustNotBeVacation</Description>
+			<Description>Must Not Be Vacation</Description>
 			<Type>write</Type>
 			<Interprete>
 				<RawType>numeric text</RawType>
