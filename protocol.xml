@@ -271,7 +271,7 @@
 				<Discreets>
 					<Discreet>
 						<Display>Failed</Display>
-						<Value>-1</Value>
+						<Value>0</Value>
 					</Discreet>
 					<Discreet>
 						<Display>Succeeded</Display>

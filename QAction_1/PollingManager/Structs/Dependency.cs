@@ -18,8 +18,10 @@
         {
             if (value is double || value is string)
                 Value = value;
+            else if (value is int)
+                Value = Convert.ToDouble(value);
             else
-                throw new ArgumentException("Value is not of type double or string!");
+                throw new ArgumentException("Value is not of type int, double or string!");
 
             ShouldEqual = shouldEqual;
             Message = message;

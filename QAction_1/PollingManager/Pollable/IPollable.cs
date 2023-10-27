@@ -41,6 +41,8 @@
 
         bool CheckDependencies();
 
+        void AddDependency(int paramId, Dependency dependency);
+
         void AddParent(IPollable parent);
 
         void AddParents(params IPollable[] parents);

@@ -151,6 +151,16 @@
 		}
 
 		/// <summary>
+		/// Adds a dependency.
+		/// </summary>
+		/// <param name="paramId">Id of parameter on which this row is depending.</param>
+		/// <param name="dependency">Dependency object.</param>
+		public void AddDependency(int paramId, Dependency dependency)
+		{
+			Dependencies.Add(paramId, dependency);
+		}
+
+		/// <summary>
 		/// Adds parent without creating two way relation between elements. This shouldn't be used directly. Use <see cref="AddParents"/> instead.
 		/// </summary>
 		/// <param name="parent">Parent element.</param>

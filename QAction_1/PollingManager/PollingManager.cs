@@ -424,7 +424,10 @@
                 return false;
 
             if (!row.CheckDependencies())
+            {
+                row.Status = Status.Failed;
                 return false;
+            }
 
             bool pollSucceeded = row.Poll();
             row.LastPoll = DateTime.Now;
