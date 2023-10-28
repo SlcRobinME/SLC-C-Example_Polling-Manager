@@ -7,9 +7,9 @@
 	using Skyline.PollingManager.Providers;
 	using Skyline.PollingManager.Structs;
 
-	public static class PollingManagerConfiguration
+	public class PollingManagerConfiguration
 	{
-		private static readonly Dictionary<string, PollableBase> _rows = new Dictionary<string, PollableBase>()
+		private readonly Dictionary<string, PollableBase> _rows = new Dictionary<string, PollableBase>()
 		{
 			// Parent of CEO, CFO, CTO
 			// Child of -
@@ -52,18 +52,19 @@
 			{ "Senior 3", new Pollable(SLProtocolProvider.Protocol, "Senior 3") },
 		};
 
-		private static readonly List<Dependency> _dependencies = new List<Dependency>()
+		private readonly List<Dependency> _dependencies = new List<Dependency>()
 		{
 		};
 
-		static PollingManagerConfiguration()
+		public PollingManagerConfiguration()
 		{
 			SetRelations();
+			SetDependencies();
 		}
 
-		public static List<PollableBase> Rows => _rows.Select(row => row.Value).ToList();
+		public List<PollableBase> Rows => _rows.Select(row => row.Value).ToList();
 
-		private static void SetRelations()
+		private void SetRelations()
 		{
 			_rows["Owner"].AddChildren(_rows["CEO"], _rows["CFO"], _rows["CTO"]);
 
@@ -80,7 +81,7 @@
 			_rows["Senior 1"].AddParents(_rows["Expert Hub Lead"]);
 		}
 
-		private static void SetDependencies()
+		private void SetDependencies()
 		{
 		}
 	}

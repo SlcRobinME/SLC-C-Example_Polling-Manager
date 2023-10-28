@@ -54,7 +54,7 @@
         }
 
 		/// <summary>
-		/// Gets <see cref="PollingManager"/> instance for the element.
+		/// Gets the <see cref="PollingManager"/> instance for the element.
 		/// </summary>
 		/// <param name="protocol">Link with SLProtocol process.</param>
 		/// <returns><see cref="PollingManager"/> instance with updated <see cref="PollableBase.Protocol"/>.</returns>
@@ -70,6 +70,18 @@
 
             return _managers[key];
         }
+
+		/// <summary>
+		/// Removes the <see cref="PollingManager"/> instance for the element.
+		/// </summary>
+		/// <param name="protocol">Link with SLProtocol process.</param>
+		/// <returns>True if the element is successfully found and removed, false otherwise.</returns>
+        public static bool RemoveInstance(SLProtocol protocol)
+		{
+			string key = GetKey(protocol);
+
+			return _managers.Remove(key);
+		}
 
 		/// <summary>
 		/// Creates unique key based on DataMinerID and ElementID.

@@ -19,8 +19,10 @@ public static class QAction
 			// Used by PollingManagerConfiguration, not related directly to PollingManager
 			SLProtocolProvider.Protocol = protocol;
 
+			var configuration = new PollingManagerConfiguration();
+
 			// Creates PollingManager instance and adds it to PollingManagerContainer.
-			PollingManagerContainer.AddManager(protocol, protocol.pollingmanager, PollingManagerConfiguration.Rows);
+			PollingManagerContainer.AddManager(protocol, protocol.pollingmanager, configuration.Rows);
         }
         catch (Exception ex)
         {
