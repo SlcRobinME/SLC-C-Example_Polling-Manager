@@ -16,10 +16,6 @@
 			PeriodType = PeriodType.Custom;
 		}
 
-		public PollableA(SLProtocol protocol, object[] row) : base(protocol, row)
-		{
-		}
-
 		public override bool Poll()
 		{
 			var random = new Random(_seed++);
@@ -54,10 +50,6 @@
 				Period = period.Value;
 				PeriodType = PeriodType.Custom;
 			}
-		}
-
-		public PollableB(SLProtocol protocol, object[] row) : base(protocol, row)
-		{
 		}
 
 		public override bool Poll()
@@ -96,10 +88,6 @@
 			Period = period;
 			DefaultPeriod = defaultPeriod;
 			PeriodType = periodType;
-		}
-
-		public PollableC(SLProtocol protocol, object[] row) : base(protocol, row)
-		{
 		}
 
 		public override bool Poll()
