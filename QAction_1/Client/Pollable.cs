@@ -5,10 +5,6 @@
 
 	public class Pollable : PollableBase
 	{
-		public Pollable(SLProtocol protocol, object[] row) : base(protocol, row) 
-		{
-		}
-
 		public Pollable(SLProtocol protocol, string name) : base(protocol, name)
 		{
 		}

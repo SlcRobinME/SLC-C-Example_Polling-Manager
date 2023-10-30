@@ -14,27 +14,6 @@
     public abstract class PollableBase : IPollable
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PollableBase"/> class from table row.
-		/// </summary>
-		/// <param name="protocol">Link with SLProtocol process.</param>
-		/// <param name="row">Row loaded from the table via GetRow.</param>
-		/// <remarks>
-		/// This constructor must be implemented by inhereting class as is. It provides mechanism of deserializing table rows in to <see cref="PollableBase"/>.
-		/// </remarks>
-		public PollableBase(SLProtocol protocol, object[] row)
-		{
-			Protocol = protocol;
-			Name = Convert.ToString(row[(int)Column.Name]) ?? string.Empty;
-			Period = Convert.ToDouble(row[(int)Column.Period]);
-			DefaultPeriod = Convert.ToDouble(row[(int)Column.DefaultPeriod]);
-			PeriodType = (PeriodType)Convert.ToDouble(row[(int)Column.PeriodType]);
-			LastPoll = DateTime.FromOADate(Convert.ToDouble(row[(int)Column.LastPoll]));
-			Status = (Status)Convert.ToDouble(row[(int)Column.Status]);
-			Reason = Convert.ToString(row[(int)Column.Reason]) ?? string.Empty;
-			State = (State)Convert.ToDouble(row[(int)Column.State]);
-		}
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="PollableBase"/> class.
 		/// </summary>
 		/// <param name="protocol">Link with SLProtocol process.</param>
@@ -82,6 +61,26 @@
 		/// <returns>Returns true for success and false for failed poll.</returns>
 		/// <remarks>Implementation of <see cref="Poll"/> should never throw.</remarks>
 		public abstract bool Poll();
+
+		/// <summary>
+		/// Updates current state of <see cref="PollableBase"/>.
+		/// </summary>
+		/// <param name="row">Row on which to base the update.</param>
+		/// <exception cref="ArgumentException">Throws if <paramref name="row"/> has length less then 9.</exception>
+		public void Update(object[] row)
+		{
+			if (row.Length < 9)
+				throw new ArgumentException($"Parameter must have at least 9 elements, but has [{row.Length}]!");
+
+			Name = Convert.ToString(row[(int)Column.Name]) ?? string.Empty;
+			Period = Convert.ToDouble(row[(int)Column.Period]);
+			DefaultPeriod = Convert.ToDouble(row[(int)Column.DefaultPeriod]);
+			PeriodType = (PeriodType)Convert.ToDouble(row[(int)Column.PeriodType]);
+			LastPoll = DateTime.FromOADate(Convert.ToDouble(row[(int)Column.LastPoll]));
+			Status = (Status)Convert.ToDouble(row[(int)Column.Status]);
+			Reason = Convert.ToString(row[(int)Column.Reason]) ?? string.Empty;
+			State = (State)Convert.ToDouble(row[(int)Column.State]);
+		}
 
 		/// <summary>
 		/// Gets dependant parameters and compares their values with dependencies. Sets <see cref="Reason"/> to first condition not satisfied.
