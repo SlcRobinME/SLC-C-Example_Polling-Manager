@@ -187,29 +187,30 @@
 			if (!_rows.ContainsKey(rowId))
 				throw new ArgumentException($"Row key [{rowId}] doesn't exist in the Polling Manager table!");
 
-			PollableBase tableRow = CreateIPollable(rowId);
+			PollableBase tableRow;
 
 			switch (column)
             {
                 case Column.Period:
-                    tableRow.PeriodType = PeriodType.Custom;
-                    break;
+					tableRow = LoadRow(rowId);
+					tableRow.PeriodType = PeriodType.Custom;
+					break;
 
                 case Column.PeriodType:
-                    if (tableRow.PeriodType == PeriodType.Custom)
+					tableRow = LoadRow(rowId);
+					if (tableRow.PeriodType == PeriodType.Custom)
                         tableRow.Period = _rows[rowId].Period;
 
-                    break;
+					break;
 
                 case Column.Poll:
-                    PollRow(tableRow);
-                    break;
+					PollRow(_rows[rowId]);
+					break;
 
                 default:
-                    throw new ArgumentException($"Unhandled Column: {column}!");
+					throw new ArgumentException($"Unhandled Column: {column}!");
 			}
 
-			UpdateInternalRow(rowId, tableRow);
 			FillTableNoDelete(_rows);
         }
 
@@ -453,34 +454,32 @@
         }
 
 		/// <summary>
-		/// Updates internal representation of the row.
+		/// Loads <see cref="PollingmanagerQActionRow"/> and updates internal row based on it.
 		/// </summary>
-		/// <param name="rowId">Row key.</param>
-		/// <param name="newValue">Values to update the row to.</param>
+		/// <param name="rowId">Row to load and update.</param>
+		/// <returns>Updated internal row.</returns>
 		/// <exception cref="ArgumentException">Throws if <paramref name="rowId"/> doesn't exist in the table.</exception>
-        private void UpdateInternalRow(string rowId, PollableBase newValue)
-        {
+        private PollableBase LoadRow(string rowId)
+		{
 			if (!_rows.ContainsKey(rowId))
 				throw new ArgumentException($"Row key [{rowId}] doesn't exist in the Polling Manager table!");
 
-			_rows[rowId].Name = newValue.Name;
-			_rows[rowId].Period = newValue.Period;
-			_rows[rowId].DefaultPeriod = newValue.DefaultPeriod;
-			_rows[rowId].PeriodType = newValue.PeriodType;
-			_rows[rowId].LastPoll = newValue.LastPoll;
-			_rows[rowId].Status = newValue.Status;
-			_rows[rowId].Reason = newValue.Reason;
-			_rows[rowId].State = newValue.State;
-			_rows[rowId].Parents = newValue.Parents;
-			_rows[rowId].Children = newValue.Children;
-        }
+			object[] tableRow = _table.GetRow(rowId);
 
-        /// <summary>
-        /// Checks whether poll period has elapsed.
-        /// </summary>
-        /// <param name="period">Poll period.</param>
-        /// <param name="lastPoll">Last poll timestamp.</param>
-        /// <returns>True if poll period has elapsed, false otherwise.</returns>
+			if ((PeriodType)Convert.ToDouble(tableRow[(int)Column.PeriodType]) == PeriodType.Custom)
+                tableRow[(int)Column.Period] = _rows[rowId].Period;
+
+			_rows[rowId].Update(tableRow);
+
+			return _rows[rowId];
+		}
+
+		/// <summary>
+		/// Checks whether poll period has elapsed.
+		/// </summary>
+		/// <param name="period">Poll period.</param>
+		/// <param name="lastPoll">Last poll timestamp.</param>
+		/// <returns>True if poll period has elapsed, false otherwise.</returns>
         private bool CheckLastPollTime(double period, DateTime lastPoll)
         {
             if ((DateTime.Now - lastPoll).TotalSeconds > period)
