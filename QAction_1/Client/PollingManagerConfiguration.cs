@@ -3,8 +3,8 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
+	using Skyline.DataMiner.Scripting;
 	using Skyline.PollingManager.Pollable;
-	using Skyline.PollingManager.Providers;
 	using Skyline.PollingManager.Structs;
 
 	public class PollingManagerConfiguration
@@ -13,54 +13,57 @@
 		{
 			// Parent of CEO, CFO, CTO
 			// Child of -
-			{ "Owner", new Pollable(SLProtocolProvider.Protocol, "Owner") },
+			{ "Owner", new Pollable(Protocol, "Owner") },
 
 			// Parent of CFO, CTO, Expert Hub Lead
 			// Child of Owner
-			{ "CEO", new Pollable(SLProtocolProvider.Protocol, "CEO") },
+			{ "CEO", new Pollable(Protocol, "CEO") },
 
 			// Parent of -
 			// Child of Owner, CEO
-			{ "CFO", new Pollable(SLProtocolProvider.Protocol, "CFO") },
+			{ "CFO", new Pollable(Protocol, "CFO") },
 
 			// Parent of Expert Hub Lead
 			// Child of Owner, CEO
-			{ "CTO", new Pollable(SLProtocolProvider.Protocol, "CTO") },
+			{ "CTO", new Pollable(Protocol, "CTO") },
 
 			// Parent of Principal 1, Principal 2, Senior 1
 			// Child of CEO, CTO
-			{ "Expert Hub Lead", new Pollable(SLProtocolProvider.Protocol, "Expert Hub Lead") },
+			{ "Expert Hub Lead", new Pollable(Protocol, "Expert Hub Lead") },
 
 			// Parent of Senior 2, Senior 3
 			// Child of CTO, Expert Hub Lead
-			{ "Principal 1", new Pollable(SLProtocolProvider.Protocol, "Principal 1") },
+			{ "Principal 1", new Pollable(Protocol, "Principal 1") },
 
 			// Parent of Senior 1
 			// Child of CTO, Expert Hub Lead
-			{ "Principal 2", new Pollable(SLProtocolProvider.Protocol, "Principal 2") },
+			{ "Principal 2", new Pollable(Protocol, "Principal 2") },
 
 			// Parent of -
 			// Child of Expert Hub Lead, Principal 2
-			{ "Senior 1", new Pollable(SLProtocolProvider.Protocol, "Senior 1") },
+			{ "Senior 1", new Pollable(Protocol, "Senior 1") },
 
 			// Parent of -
 			// Child of Principal 1
-			{ "Senior 2", new Pollable(SLProtocolProvider.Protocol, "Senior 2") },
+			{ "Senior 2", new Pollable(Protocol, "Senior 2") },
 
 			// Parent of -
 			// Child of Principal 1
-			{ "Senior 3", new Pollable(SLProtocolProvider.Protocol, "Senior 3") },
+			{ "Senior 3", new Pollable(Protocol, "Senior 3") },
 		};
 
 		private readonly List<Dependency> _dependencies = new List<Dependency>()
 		{
 		};
 
-		public PollingManagerConfiguration()
+		public PollingManagerConfiguration(SLProtocol protocol)
 		{
+			Protocol = protocol;
 			SetRelations();
 			SetDependencies();
 		}
+
+		public static SLProtocol Protocol { get; set; }
 
 		public List<PollableBase> Rows => _rows.Select(row => row.Value).ToList();
 

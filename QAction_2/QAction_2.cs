@@ -4,7 +4,6 @@ using Skyline.DataMiner.Scripting;
 
 using Skyline.PollingManager;
 using Skyline.PollingManager.Client;
-using Skyline.PollingManager.Providers;
 
 public static class QAction
 {
@@ -16,10 +15,7 @@ public static class QAction
     {
         try
         {
-			// Used by PollingManagerConfiguration, not related directly to PollingManager
-			SLProtocolProvider.Protocol = protocol;
-
-			var configuration = new PollingManagerConfiguration();
+			var configuration = new PollingManagerConfiguration(protocol);
 
 			// Creates PollingManager instance and adds it to PollingManagerContainer.
 			PollingManagerContainer.AddManager(protocol, protocol.pollingmanager, configuration.Rows);
