@@ -194,7 +194,7 @@ public class WriteParameters
 	public System.Object Pollingmanagerperiodtype {get { return Protocol.GetParameter(1055); }set { Protocol.SetParameter(1055, value); }}
 	/// <summary>PID: 1059  | Type: write | DISCREETS: Poll = 1</summary>
 	public System.Object Pollingmanagerpoll {get { return Protocol.GetParameter(1059); }set { Protocol.SetParameter(1059, value); }}
-	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable Selected = 6, Enable Selected = 7, Separator 3 = -3, Disable All = 8, Enable All = 9</summary>
+	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable All = 6, Enable All = 7</summary>
 	public System.Object Pollingmanager_contextmenu {get { return Protocol.GetParameter(1100); }set { Protocol.SetParameter(1100, value); }}
 	public SLProtocolExt Protocol;
 	public WriteParameters(SLProtocolExt protocol)
@@ -337,9 +337,9 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Pollingmanagerdisplaykey_1099 {get { return GetParameter(1099); }set { SetParameter(1099, value); }}
 	/// <summary>PID: 1099  | Type: read</summary>
 	public System.Object Pollingmanagerdisplaykey {get { return GetParameter(1099); }set { SetParameter(1099, value); }}
-	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable Selected = 6, Enable Selected = 7, Separator 3 = -3, Disable All = 8, Enable All = 9</summary>
+	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable All = 6, Enable All = 7</summary>
 	public System.Object Pollingmanager_contextmenu_1100 {get { return GetParameter(1100); }set { SetParameter(1100, value); }}
-	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable Selected = 6, Enable Selected = 7, Separator 3 = -3, Disable All = 8, Enable All = 9</summary>
+	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable All = 6, Enable All = 7</summary>
 	public System.Object Pollingmanager_contextmenu {get { return Write.Pollingmanager_contextmenu; }set { Write.Pollingmanager_contextmenu = value; }}
 	public WriteParameters Write { get; set; }
 	public ConcreteSLProtocolExt()

@@ -584,19 +584,19 @@
 						<Display>Separator 1</Display>
 						<Value>-1</Value>
 					</Discreet>
-					<Discreet options="table:singleselection">
+					<Discreet options="table:selection">
 						<Display>Disable</Display>
 						<Value>2</Value>
 					</Discreet>
-					<Discreet options="table:singleselection">
+					<Discreet options="table:selection">
 						<Display>Enable</Display>
 						<Value>3</Value>
 					</Discreet>
-					<Discreet options="table:singleselection">
+					<Discreet options="table:selection">
 						<Display>Force Disable</Display>
 						<Value>4</Value>
 					</Discreet>
-					<Discreet options="table:singleselection">
+					<Discreet options="table:selection">
 						<Display>Force Enable</Display>
 						<Value>5</Value>
 					</Discreet>
@@ -604,25 +604,13 @@
 						<Display>Separator 2</Display>
 						<Value>-2</Value>
 					</Discreet>
-					<Discreet options="table:selection">
-						<Display>Disable Selected</Display>
-						<Value>6</Value>
-					</Discreet>
-					<Discreet options="table:selection">
-						<Display>Enable Selected</Display>
-						<Value>7</Value>
-					</Discreet>
-					<Discreet options="separator">
-						<Display>Separator 3</Display>
-						<Value>-3</Value>
-					</Discreet>
 					<Discreet>
 						<Display>Disable All</Display>
-						<Value>8</Value>
+						<Value>6</Value>
 					</Discreet>
 					<Discreet>
 						<Display>Enable All</Display>
-						<Value>9</Value>
+						<Value>7</Value>
 					</Discreet>
 				</Discreets>
 			</Measurement>

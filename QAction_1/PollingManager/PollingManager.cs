@@ -1,10 +1,10 @@
 ﻿namespace Skyline.PollingManager
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
 
-    using Skyline.DataMiner.Net;
     using Skyline.DataMiner.Scripting;
 
     using Skyline.PollingManager.Enums;
@@ -15,7 +15,7 @@
     /// </summary>
     public static class PollingManagerContainer
     {
-        private static Dictionary<string, PollingManager> _managers = new Dictionary<string, PollingManager>();
+        private static ConcurrentDictionary<string, PollingManager> _managers = new ConcurrentDictionary<string, PollingManager>();
 
 		/// <summary>
 		/// Creates instance of <see cref="PollingManager"/> and adds it to <see cref="PollingManagerContainer"/>.
@@ -45,7 +45,7 @@
 					throw new ArgumentException("Failed to create PollingManager!");
                 }
 
-                _managers.Add(key, manager);
+                _managers.TryAdd(key, manager);
             }
 
             _managers[key].Protocol = protocol;
@@ -80,7 +80,7 @@
 		{
 			string key = GetKey(protocol);
 
-			return _managers.Remove(key);
+			return _managers.TryRemove(key, out _);
 		}
 
 		/// <summary>
@@ -246,40 +246,38 @@
                     break;
 
                 case ContextMenuOption.Disable:
-                    UpdateState(_rows[input[2]], State.Disabled);
+                    if (input.Length == 3)
+                    {
+                        UpdateState(_rows[input[2]], State.Disabled);
+                        break;
+                    }
+
+                    foreach (string rowId in input.Skip(2).ToArray())
+						UpdateState(_rows[rowId], State.ForceDisabled);
+
                     break;
 
                 case ContextMenuOption.Enable:
-                    UpdateState(_rows[input[2]], State.Enabled);
+                    if (input.Length == 3)
+					{
+						UpdateState(_rows[input[2]], State.Enabled);
+						break;
+					}
+
+                    foreach (string rowId in input.Skip(2).ToArray())
+						UpdateState(_rows[rowId], State.ForceEnabled);
+
                     break;
 
                 case ContextMenuOption.ForceDisable:
-                    UpdateState(_rows[input[2]], State.ForceDisabled);
+                    foreach (string rowId in input.Skip(2).ToArray())
+						UpdateState(_rows[rowId], State.ForceDisabled);
+
                     break;
 
                 case ContextMenuOption.ForceEnable:
-                    UpdateState(_rows[input[2]], State.ForceEnabled);
-                    break;
-
-                case ContextMenuOption.DisableSelected:
                     foreach (string rowId in input.Skip(2).ToArray())
-                    {
-                        if (!_rows.ContainsKey(rowId))
-                            throw new ArgumentException($"Row key [{rowId}] doesn't exist in the Polling Manager table!");
-
-                        UpdateState(_rows[rowId], State.ForceDisabled);
-                    }
-
-                    break;
-
-                case ContextMenuOption.EnableSelected:
-                    foreach (string rowId in input.Skip(2).ToArray())
-					{
-						if (!_rows.ContainsKey(rowId))
-							throw new ArgumentException($"Row key [{rowId}] doesn't exist in the Polling Manager table!");
-
 						UpdateState(_rows[rowId], State.ForceEnabled);
-					}
 
                     break;
 
