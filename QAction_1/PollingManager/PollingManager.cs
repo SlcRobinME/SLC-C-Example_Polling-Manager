@@ -58,6 +58,18 @@
         }
 
 		/// <summary>
+		/// Removes the <see cref="PollingManager"/> instance for the element.
+		/// </summary>
+		/// <param name="protocol">Link with SLProtocol process.</param>
+		/// <returns>True if the element is successfully found and removed, false otherwise.</returns>
+        public static bool RemoveInstance(SLProtocol protocol)
+		{
+			string key = GetKey(protocol);
+
+			return _managers.TryRemove(key, out _);
+		}
+
+		/// <summary>
 		/// Gets the <see cref="PollingManager"/> instance for the element.
 		/// </summary>
 		/// <param name="protocol">Link with SLProtocol process.</param>
@@ -82,18 +94,6 @@
 
             return _managers[key];
         }
-
-		/// <summary>
-		/// Removes the <see cref="PollingManager"/> instance for the element.
-		/// </summary>
-		/// <param name="protocol">Link with SLProtocol process.</param>
-		/// <returns>True if the element is successfully found and removed, false otherwise.</returns>
-        public static bool RemoveInstance(SLProtocol protocol)
-		{
-			string key = GetKey(protocol);
-
-			return _managers.TryRemove(key, out _);
-		}
 
 		/// <summary>
 		/// Creates unique key based on DataMinerID and ElementID.
@@ -255,7 +255,7 @@
             switch (option)
             {
                 case ContextMenuOption.PollAll:
-                    PollAll();
+                    PollRows();
                     break;
 
                 case ContextMenuOption.Disable:
@@ -319,15 +319,6 @@
             FillTableNoDelete(_rows);
         }
 
-		/// <summary>
-		/// Loads all <see cref="PollingmanagerQActionRow"/> and updates internal rows respectively.
-		/// </summary>
-        private void LoadRows()
-        {
-            foreach (KeyValuePair<string, PollableBase> row in _rows)
-                LoadRow(row.Key);
-		}
-
         /// <summary>
         /// Checks whether option with row keys was selected in context menu.
         /// </summary>
@@ -350,17 +341,6 @@
                     return true;
             }
 		}
-
-		/// <summary>
-		/// Polls all rows by calling <see cref="PollRow"/> for every row.
-		/// </summary>
-        private void PollAll()
-        {
-            foreach (KeyValuePair<string, PollableBase> row in _rows)
-            {
-                PollRow(row.Value);
-            }
-        }
 
 		/// <summary>
 		/// Updates row state.
@@ -396,21 +376,47 @@
                 case State.ForceDisabled:
                     row.State = State.Disabled;
                     row.Status = Status.Disabled;
-                    UpdateRelatedStates(row.Children, State.ForceDisabled);
+                    UpdateStates(row.Children, State.ForceDisabled);
                     return;
 
                 case State.ForceEnabled:
                     row.State = State.Enabled;
                     row.Status = Status.NotPolled;
-                    UpdateRelatedStates(row.Parents, State.ForceEnabled);
+                    UpdateStates(row.Parents, State.ForceEnabled);
                     return;
             }
         }
 
-        /// <summary>
-        /// Shows information message with child rows of the row passed as parameter.
-        /// </summary>
-        /// <param name="row">Row for which to show children.</param>
+		/// <summary>
+		/// Updates states of the related rows.
+		/// </summary>
+		/// <param name="collection">List of rows to update.</param>
+		/// <param name="state">State to update rows to.</param>
+        private void UpdateStates(List<IPollable> collection, State state)
+		{
+			foreach (IPollable item in collection)
+			{
+				UpdateState(item, state);
+			}
+		}
+
+		/// <summary>
+		/// Shows information message with parent rows of the row passed as parameter.
+		/// </summary>
+		/// <param name="row">Row for which to show parents.</param>
+        private void ShowParents(IPollable row)
+		{
+			string parents = string.Join("\n", row.Parents.Where(parent => parent.State == State.Disabled).Select(parent => parent.Name));
+
+			string message = $"Unable to enable [{row.Name}] because it depends on the following rows:\n{parents}\nPlease enable them first or use [Force Enable].";
+
+			Protocol.ShowInformationMessage(message);
+		}
+
+		/// <summary>
+		/// Shows information message with child rows of the row passed as parameter.
+		/// </summary>
+		/// <param name="row">Row for which to show children.</param>
         private void ShowChildren(IPollable row)
         {
             string children = string.Join("\n", row.Children.Where(child => child.State == State.Enabled).Select(child => child.Name));
@@ -421,36 +427,21 @@
         }
 
 		/// <summary>
-		/// Shows information message with parent rows of the row passed as parameter.
+		/// Checks whether poll period has elapsed.
 		/// </summary>
-		/// <param name="row">Row for which to show parents.</param>
-        private void ShowParents(IPollable row)
-        {
-			string parents = string.Join("\n", row.Parents.Where(parent => parent.State == State.Disabled).Select(parent => parent.Name));
+		/// <param name="period">Poll period.</param>
+		/// <param name="lastPoll">Last poll timestamp.</param>
+		/// <returns>True if poll period has elapsed, false otherwise.</returns>
+        private bool CheckLastPollTime(double period, DateTime lastPoll)
+		{
+			return (DateTime.Now - lastPoll).TotalSeconds > period;
+		}
 
-			string message = $"Unable to enable [{row.Name}] because it depends on the following rows:\n{parents}\nPlease enable them first or use [Force Enable].";
-
-			Protocol.ShowInformationMessage(message);
-        }
-
-        /// <summary>
-        /// Updates states of the related rows.
-        /// </summary>
-        /// <param name="collection">List of rows to update.</param>
-        /// <param name="state">State to update rows to.</param>
-        private void UpdateRelatedStates(List<IPollable> collection, State state)
-        {
-            foreach (IPollable item in collection)
-            {
-                UpdateState(item, state);
-            }
-        }
-
-        /// <summary>
-        /// Polls a row.
-        /// </summary>
-        /// <param name="row">Row to poll.</param>
-        /// <returns>True if poll did occur, false otherwise.</returns>
+		/// <summary>
+		/// Polls a row.
+		/// </summary>
+		/// <param name="row">Row to poll.</param>
+		/// <returns>True if poll did occur, false otherwise.</returns>
         private bool PollRow(PollableBase row)
         {
             if (row.State == State.Disabled)
@@ -474,6 +465,17 @@
         }
 
 		/// <summary>
+		/// Polls all rows by calling <see cref="PollRow"/> for every row.
+		/// </summary>
+        private void PollRows()
+		{
+			foreach (KeyValuePair<string, PollableBase> row in _rows)
+			{
+				PollRow(row.Value);
+			}
+		}
+
+		/// <summary>
 		/// Loads <see cref="PollingmanagerQActionRow"/> and updates internal row with the same <paramref name="rowId"/>.
 		/// </summary>
 		/// <param name="rowId">Row to load and update.</param>
@@ -492,15 +494,52 @@
 		}
 
 		/// <summary>
-		/// Checks whether poll period has elapsed.
+		/// Loads all <see cref="PollingmanagerQActionRow"/> and updates internal rows respectively.
 		/// </summary>
-		/// <param name="period">Poll period.</param>
-		/// <param name="lastPoll">Last poll timestamp.</param>
-		/// <returns>True if poll period has elapsed, false otherwise.</returns>
-        private bool CheckLastPollTime(double period, DateTime lastPoll)
-        {
-            return (DateTime.Now - lastPoll).TotalSeconds > period;
-        }
+        private void LoadRows()
+		{
+			foreach (KeyValuePair<string, PollableBase> row in _rows)
+				LoadRow(row.Key);
+		}
+
+		/// <summary>
+		/// Creates the <see cref="PollingmanagerQActionRow"/>.
+		/// </summary>
+		/// <param name="key">Row key.</param>
+		/// <param name="value">Row to create.</param>
+		/// <returns>Instance of <see cref="PollingmanagerQActionRow"/>.</returns>
+        private PollingmanagerQActionRow CreateTableRow(string key, PollableBase value)
+		{
+			return new PollingmanagerQActionRow
+			{
+				Pollingmanagerindex_1001 = key,
+				Pollingmanagername_1002 = value.Name,
+				Pollingmanagerperiod_1003 = value.PeriodType == PeriodType.Custom ? value.Period : value.DefaultPeriod,
+				Pollingmanagerdefaultperiod_1004 = value.DefaultPeriod,
+				Pollingmanagerperiodtype_1005 = value.PeriodType,
+				Pollingmanagerlastpoll_1006 = value.LastPoll == default ? Convert.ToDouble(Status.NotPolled) : value.LastPoll.ToOADate(),
+				Pollingmanagerstatus_1007 = value.State == State.Disabled ? Status.Disabled : value.Status,
+				Pollingmanagerreason_1008 = value.Reason,
+				Pollingmanagerstate_1010 = value.State,
+			};
+		}
+
+		/// <summary>
+		/// Creates the array of the <see cref="PollingmanagerQActionRow"/>.
+		/// </summary>
+		/// <param name="rows">Rows to create.</param>
+		/// <returns>Array of the <see cref="PollingmanagerQActionRow"/>.</returns>
+        private PollingmanagerQActionRow[] CreateTableRows(Dictionary<string, PollableBase> rows)
+		{
+			List<PollingmanagerQActionRow> tableRows = new List<PollingmanagerQActionRow>();
+
+			foreach (KeyValuePair<string, PollableBase> row in rows)
+			{
+				tableRows.Add(CreateTableRow(row.Key, row.Value));
+			}
+
+			return tableRows.ToArray();
+		}
 
 		/// <summary>
 		/// Sets the content of the table to the provided content.
@@ -513,16 +552,6 @@
             _table.FillArray(tableRows);
         }
 
-		/// <summary>
-		/// Adds the provided row to the table.
-		/// </summary>
-		/// <param name="key">Row key.</param>
-		/// <param name="value">Row to add.</param>
-        private void FillTableNoDelete(string key, PollableBase value)
-        {
-            FillTableNoDelete(new Dictionary<string, PollableBase> { { key, value } });
-        }
-
         /// <summary>
         /// Add the provided rows to the table.
         /// </summary>
@@ -532,45 +561,6 @@
             PollingmanagerQActionRow[] tableRows = CreateTableRows(rows);
 
             _table.FillArrayNoDelete(tableRows);
-        }
-
-        /// <summary>
-        /// Creates the <see cref="PollingmanagerQActionRow"/>.
-        /// </summary>
-        /// <param name="key">Row key.</param>
-        /// <param name="value">Row to create.</param>
-        /// <returns>Instance of <see cref="PollingmanagerQActionRow"/>.</returns>
-        private PollingmanagerQActionRow CreateTableRow(string key, PollableBase value)
-        {
-            return new PollingmanagerQActionRow
-            {
-                Pollingmanagerindex_1001 = key,
-                Pollingmanagername_1002 = value.Name,
-                Pollingmanagerperiod_1003 = value.PeriodType == PeriodType.Custom ? value.Period : value.DefaultPeriod,
-                Pollingmanagerdefaultperiod_1004 = value.DefaultPeriod,
-                Pollingmanagerperiodtype_1005 = value.PeriodType,
-                Pollingmanagerlastpoll_1006 = value.LastPoll == default ? Convert.ToDouble(Status.NotPolled) : value.LastPoll.ToOADate(),
-                Pollingmanagerstatus_1007 = value.State == State.Disabled ? Status.Disabled : value.Status,
-                Pollingmanagerreason_1008 = value.Reason,
-                Pollingmanagerstate_1010 = value.State,
-            };
-        }
-
-        /// <summary>
-        /// Creates the array of the <see cref="PollingmanagerQActionRow"/>.
-        /// </summary>
-        /// <param name="rows">Rows to create.</param>
-        /// <returns>Array of the <see cref="PollingmanagerQActionRow"/>.</returns>
-        private PollingmanagerQActionRow[] CreateTableRows(Dictionary<string, PollableBase> rows)
-        {
-            List<PollingmanagerQActionRow> tableRows = new List<PollingmanagerQActionRow>();
-
-            foreach (KeyValuePair<string, PollableBase> row in rows)
-            {
-                tableRows.Add(CreateTableRow(row.Key, row.Value));
-            }
-
-            return tableRows.ToArray();
         }
     }
 }
