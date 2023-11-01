@@ -35,7 +35,7 @@ public static class QAction
 		try
 		{
 			// Checks PollingManager table for rows that need to be polled.
-			PollingManagerContainer.GetManager(protocol, (int)Trigger.Init).CheckForUpdate();
+			PollingManagerContainer.GetManager(protocol, 1).CheckForUpdate();
 		}
 		catch (Exception ex)
 		{
