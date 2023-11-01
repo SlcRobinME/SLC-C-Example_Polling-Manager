@@ -12,9 +12,7 @@
         Enable = 3,
         ForceDisable = 4,
         ForceEnable = 5,
-        DisableSelected = 6,
-        EnableSelected = 7,
-        DisableAll = 8,
-        EnableAll = 9,
+        DisableAll = 6,
+        EnableAll = 7,
     }
 }

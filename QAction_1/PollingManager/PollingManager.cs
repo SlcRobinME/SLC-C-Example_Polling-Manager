@@ -1,6 +1,7 @@
 ﻿namespace Skyline.PollingManager
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -15,19 +16,18 @@
     /// </summary>
     public static class PollingManagerContainer
     {
-        private static Dictionary<string, PollingManager> _managers = new Dictionary<string, PollingManager>();
+        private static ConcurrentDictionary<string, PollingManager> _managers = new ConcurrentDictionary<string, PollingManager>();
 
 		/// <summary>
 		/// Creates instance of <see cref="PollingManager"/> and adds it to <see cref="PollingManagerContainer"/>.
 		/// </summary>
 		/// <param name="protocol">Link with SLProtocol process.</param>
-		/// <param name="table">Polling manager table instance.</param>
-		/// <param name="rows">Rows to add to the <paramref name="table"/>.</param>
+		/// <param name="configuration">Configuration object.</param>
 		/// <returns>
 		/// Newly created instance of <see cref="PollingManager"/>, if it doesn't exist, or existing instance of <see cref="PollingManager"/> with updated <see cref="PollableBase.Protocol"/>.
 		/// </returns>
-        /// <exception cref="ArgumentException">Throws if creation of <see cref="PollingManager"/> fails.</exception>
-        public static PollingManager AddManager(SLProtocol protocol, PollingmanagerQActionTable table, List<PollableBase> rows)
+		/// <exception cref="ArgumentException">Throws if creation of <see cref="PollingManager"/> fails.</exception>
+        public static PollingManager AddManager(SLProtocol protocol, PollingManagerConfigurationBase configuration)
         {
             string key = GetKey(protocol);
 
@@ -36,7 +36,11 @@
                 PollingManager manager;
                 try
                 {
-                    manager = new PollingManager(protocol, table, rows);
+					var table = new PollingmanagerQActionTable(protocol, Parameter.Pollingmanager.tablePid, "Polling Manager");
+
+					configuration.Create();
+
+					manager = new PollingManager(protocol, table, configuration.ListRows);
                 }
                 catch (ArgumentException ex)
                 {
@@ -45,7 +49,7 @@
 					throw new ArgumentException("Failed to create PollingManager!");
                 }
 
-                _managers.Add(key, manager);
+                _managers.TryAdd(key, manager);
             }
 
             _managers[key].Protocol = protocol;
@@ -57,14 +61,22 @@
 		/// Gets the <see cref="PollingManager"/> instance for the element.
 		/// </summary>
 		/// <param name="protocol">Link with SLProtocol process.</param>
+		/// <param name="initTrigger">Id of the trigger that initializes <see cref="PollingManager"/>.</param>
 		/// <returns><see cref="PollingManager"/> instance with updated <see cref="PollableBase.Protocol"/>.</returns>
 		/// <exception cref="InvalidOperationException">Throws if <see cref="PollingManager"/> for this element is not initialized.</exception>
-        public static PollingManager GetManager(SLProtocol protocol)
+        public static PollingManager GetManager(SLProtocol protocol, int initTrigger)
         {
             string key = GetKey(protocol);
 
             if (!_managers.ContainsKey(key))
-                throw new InvalidOperationException($"Polling manager for element [{key}] is not initialized, please call AddManager first!");
+            {
+                var table = new PollingmanagerQActionTable(protocol, Parameter.Pollingmanager.tablePid, "Polling Manager");
+
+                if (table.RowCount == 0)
+                    throw new InvalidOperationException($"Polling manager for element [{key}] is not initialized, please call AddManager first!");
+
+                protocol.CheckTrigger(initTrigger);
+            }
 
             _managers[key].Protocol = protocol;
 
@@ -80,7 +92,7 @@
 		{
 			string key = GetKey(protocol);
 
-			return _managers.Remove(key);
+			return _managers.TryRemove(key, out _);
 		}
 
 		/// <summary>
@@ -101,7 +113,6 @@
     {
         private readonly PollingmanagerQActionTable _table;
         private readonly Dictionary<string, PollableBase> _rows = new Dictionary<string, PollableBase>();
-        private readonly PollableFactory _pollableFactory;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PollingManager"/> class.
@@ -115,7 +126,6 @@
         {
             Protocol = protocol;
             _table = table;
-            _pollableFactory = new PollableFactory();
 
             HashSet<string> names = new HashSet<string>();
 
@@ -126,6 +136,9 @@
 
                 _rows.Add((i + 1).ToString(), rows[i] ?? throw new ArgumentException("Rows parameter can't contain null values!"));
             }
+
+            if (table.RowCount != 0)
+				LoadRows();
 
             FillTable(_rows);
         }
@@ -192,23 +205,23 @@
 			switch (column)
             {
                 case Column.Period:
-					tableRow = LoadRow(rowId);
-					tableRow.PeriodType = PeriodType.Custom;
-					break;
+                    tableRow = LoadRow(rowId);
+                    tableRow.PeriodType = PeriodType.Custom;
+                    break;
 
                 case Column.PeriodType:
-					tableRow = LoadRow(rowId);
-					if (tableRow.PeriodType == PeriodType.Custom)
-                        tableRow.Period = _rows[rowId].Period;
-
-					break;
+                    double period = _rows[rowId].Period;
+                    tableRow = LoadRow(rowId);
+                    if (tableRow.PeriodType == PeriodType.Custom)
+                        tableRow.Period = period;
+                    break;
 
                 case Column.Poll:
-					PollRow(_rows[rowId]);
-					break;
+                    PollRow(_rows[rowId]);
+                    break;
 
                 default:
-					throw new ArgumentException($"Unhandled Column: {column}!");
+                    throw new ArgumentException($"Unhandled Column: {column}!");
 			}
 
 			FillTableNoDelete(_rows);
@@ -246,40 +259,38 @@
                     break;
 
                 case ContextMenuOption.Disable:
-                    UpdateState(_rows[input[2]], State.Disabled);
+                    if (input.Length == 3)
+                    {
+                        UpdateState(_rows[input[2]], State.Disabled);
+                        break;
+                    }
+
+                    foreach (string rowId in input.Skip(2).ToArray())
+						UpdateState(_rows[rowId], State.ForceDisabled);
+
                     break;
 
                 case ContextMenuOption.Enable:
-                    UpdateState(_rows[input[2]], State.Enabled);
+                    if (input.Length == 3)
+					{
+						UpdateState(_rows[input[2]], State.Enabled);
+						break;
+					}
+
+                    foreach (string rowId in input.Skip(2).ToArray())
+						UpdateState(_rows[rowId], State.ForceEnabled);
+
                     break;
 
                 case ContextMenuOption.ForceDisable:
-                    UpdateState(_rows[input[2]], State.ForceDisabled);
+                    foreach (string rowId in input.Skip(2).ToArray())
+						UpdateState(_rows[rowId], State.ForceDisabled);
+
                     break;
 
                 case ContextMenuOption.ForceEnable:
-                    UpdateState(_rows[input[2]], State.ForceEnabled);
-                    break;
-
-                case ContextMenuOption.DisableSelected:
                     foreach (string rowId in input.Skip(2).ToArray())
-                    {
-                        if (!_rows.ContainsKey(rowId))
-                            throw new ArgumentException($"Row key [{rowId}] doesn't exist in the Polling Manager table!");
-
-                        UpdateState(_rows[rowId], State.ForceDisabled);
-                    }
-
-                    break;
-
-                case ContextMenuOption.EnableSelected:
-                    foreach (string rowId in input.Skip(2).ToArray())
-					{
-						if (!_rows.ContainsKey(rowId))
-							throw new ArgumentException($"Row key [{rowId}] doesn't exist in the Polling Manager table!");
-
 						UpdateState(_rows[rowId], State.ForceEnabled);
-					}
 
                     break;
 
@@ -307,6 +318,15 @@
 
             FillTableNoDelete(_rows);
         }
+
+		/// <summary>
+		/// Loads all <see cref="PollingmanagerQActionRow"/> and updates internal rows respectively.
+		/// </summary>
+        private void LoadRows()
+        {
+            foreach (KeyValuePair<string, PollableBase> row in _rows)
+                LoadRow(row.Key);
+		}
 
         /// <summary>
         /// Checks whether option with row keys was selected in context menu.
@@ -454,7 +474,7 @@
         }
 
 		/// <summary>
-		/// Loads <see cref="PollingmanagerQActionRow"/> and updates internal row based on it.
+		/// Loads <see cref="PollingmanagerQActionRow"/> and updates internal row with the same <paramref name="rowId"/>.
 		/// </summary>
 		/// <param name="rowId">Row to load and update.</param>
 		/// <returns>Updated internal row.</returns>
@@ -465,9 +485,6 @@
 				throw new ArgumentException($"Row key [{rowId}] doesn't exist in the Polling Manager table!");
 
 			object[] tableRow = _table.GetRow(rowId);
-
-			if ((PeriodType)Convert.ToDouble(tableRow[(int)Column.PeriodType]) == PeriodType.Custom)
-                tableRow[(int)Column.Period] = _rows[rowId].Period;
 
 			_rows[rowId].Update(tableRow);
 
@@ -482,10 +499,7 @@
 		/// <returns>True if poll period has elapsed, false otherwise.</returns>
         private bool CheckLastPollTime(double period, DateTime lastPoll)
         {
-            if ((DateTime.Now - lastPoll).TotalSeconds > period)
-                return true;
-
-            return false;
+            return (DateTime.Now - lastPoll).TotalSeconds > period;
         }
 
 		/// <summary>
@@ -557,28 +571,6 @@
             }
 
             return tableRows.ToArray();
-        }
-
-		/// <summary>
-		/// Creates an object that implements <see cref="PollableBase"/> by using <see cref="IPollableBaseFactory"/> while preserving existing relations.
-		/// </summary>
-		/// <param name="rowId">Row key of the row to serialize.</param>
-		/// <returns>Instance of the object that implements <see cref="PollableBase"/>.</returns>
-		/// <exception cref="ArgumentException">Throws if <paramref name="rowId"/> doesn't exist in the table.</exception>
-        private PollableBase CreateIPollable(string rowId)
-        {
-			if (!_rows.ContainsKey(rowId))
-				throw new ArgumentException($"Row key [{rowId}] doesn't exist in the Polling Manager table!");
-
-			object[] tableRow = _table.GetRow(rowId);
-
-			PollableBase row = _pollableFactory.CreatePollableBase(Protocol, tableRow, _rows[rowId].GetType());
-
-			row.Parents = _rows[rowId].Parents;
-			row.Children = _rows[rowId].Children;
-			row.Dependencies = _rows[rowId].Dependencies;
-
-			return row;
         }
     }
 }

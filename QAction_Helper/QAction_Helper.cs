@@ -8,8 +8,38 @@ namespace Skyline.DataMiner.Scripting
 {
 public static class Parameter
 {
+	/// <summary>PID: 10 | Type: read</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public const int mustbeon_10 = 10;
+	/// <summary>PID: 10 | Type: read</summary>
+	public const int mustbeon = 10;
+	/// <summary>PID: 20 | Type: read</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public const int mustnotbevacation_20 = 20;
+	/// <summary>PID: 20 | Type: read</summary>
+	public const int mustnotbevacation = 20;
+	/// <summary>PID: 30 | Type: read</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public const int mustequalworking_30 = 30;
+	/// <summary>PID: 30 | Type: read</summary>
+	public const int mustequalworking = 30;
 	public class Write
 	{
+		/// <summary>PID: 110 | Type: write</summary>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public const int mustbeon_110 = 110;
+		/// <summary>PID: 110 | Type: write</summary>
+		public const int mustbeon = 110;
+		/// <summary>PID: 120 | Type: write</summary>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public const int mustnotbevacation_120 = 120;
+		/// <summary>PID: 120 | Type: write</summary>
+		public const int mustnotbevacation = 120;
+		/// <summary>PID: 130 | Type: write</summary>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public const int mustequalworking_130 = 130;
+		/// <summary>PID: 130 | Type: write</summary>
+		public const int mustequalworking = 130;
 		/// <summary>PID: 1053 | Type: write</summary>
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public const int pollingmanagerperiod_1053 = 1053;
@@ -152,13 +182,19 @@ public static class Parameter
 }
 public class WriteParameters
 {
+	/// <summary>PID: 110  | Type: write | DISCREETS: Off = 0, On = 1</summary>
+	public System.Object Mustbeon {get { return Protocol.GetParameter(110); }set { Protocol.SetParameter(110, value); }}
+	/// <summary>PID: 120  | Type: write | DISCREETS: Home = 1, Office = 2, Vacation = 3</summary>
+	public System.Object Mustnotbevacation {get { return Protocol.GetParameter(120); }set { Protocol.SetParameter(120, value); }}
+	/// <summary>PID: 130  | Type: write</summary>
+	public System.Object Mustequalworking {get { return Protocol.GetParameter(130); }set { Protocol.SetParameter(130, value); }}
 	/// <summary>PID: 1053  | Type: write</summary>
 	public System.Object Pollingmanagerperiod {get { return Protocol.GetParameter(1053); }set { Protocol.SetParameter(1053, value); }}
 	/// <summary>PID: 1055  | Type: write | DISCREETS: Default Period = 1, Custom Period = 2</summary>
 	public System.Object Pollingmanagerperiodtype {get { return Protocol.GetParameter(1055); }set { Protocol.SetParameter(1055, value); }}
 	/// <summary>PID: 1059  | Type: write | DISCREETS: Poll = 1</summary>
 	public System.Object Pollingmanagerpoll {get { return Protocol.GetParameter(1059); }set { Protocol.SetParameter(1059, value); }}
-	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable Selected = 6, Enable Selected = 7, Separator 3 = -3, Disable All = 8, Enable All = 9</summary>
+	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable All = 6, Enable All = 7</summary>
 	public System.Object Pollingmanager_contextmenu {get { return Protocol.GetParameter(1100); }set { Protocol.SetParameter(1100, value); }}
 	public SLProtocolExt Protocol;
 	public WriteParameters(SLProtocolExt protocol)
@@ -170,6 +206,15 @@ public interface SLProtocolExt : SLProtocol
 {
 	/// <summary>PID: 1000</summary>
 	PollingmanagerQActionTable pollingmanager { get; set; }
+	object Mustbeon_10 { get; set; }
+	object Mustbeon { get; set; }
+	object Mustnotbevacation_20 { get; set; }
+	object Mustnotbevacation { get; set; }
+	object Mustequalworking_30 { get; set; }
+	object Mustequalworking { get; set; }
+	object Mustbeon_110 { get; set; }
+	object Mustnotbevacation_120 { get; set; }
+	object Mustequalworking_130 { get; set; }
 	object Pollingmanagerinit_dummy { get; set; }
 	object Pollingmanagercheck_dummy { get; set; }
 	object Pollingmanagerindex_1001 { get; set; }
@@ -204,6 +249,30 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 {
 	/// <summary>PID: 1000</summary>
 	public PollingmanagerQActionTable pollingmanager { get; set; }
+	/// <summary>PID: 10  | Type: read | DISCREETS: Off = 0, On = 1</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Mustbeon_10 {get { return GetParameter(10); }set { SetParameter(10, value); }}
+	/// <summary>PID: 10  | Type: read | DISCREETS: Off = 0, On = 1</summary>
+	public System.Object Mustbeon {get { return GetParameter(10); }set { SetParameter(10, value); }}
+	/// <summary>PID: 20  | Type: read | DISCREETS: Home = 1, Office = 2, Vacation = 3</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Mustnotbevacation_20 {get { return GetParameter(20); }set { SetParameter(20, value); }}
+	/// <summary>PID: 20  | Type: read | DISCREETS: Home = 1, Office = 2, Vacation = 3</summary>
+	public System.Object Mustnotbevacation {get { return GetParameter(20); }set { SetParameter(20, value); }}
+	/// <summary>PID: 30  | Type: read</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Mustequalworking_30 {get { return GetParameter(30); }set { SetParameter(30, value); }}
+	/// <summary>PID: 30  | Type: read</summary>
+	public System.Object Mustequalworking {get { return GetParameter(30); }set { SetParameter(30, value); }}
+	/// <summary>PID: 110  | Type: write | DISCREETS: Off = 0, On = 1</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Mustbeon_110 {get { return GetParameter(110); }set { SetParameter(110, value); }}
+	/// <summary>PID: 120  | Type: write | DISCREETS: Home = 1, Office = 2, Vacation = 3</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Mustnotbevacation_120 {get { return GetParameter(120); }set { SetParameter(120, value); }}
+	/// <summary>PID: 130  | Type: write</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Mustequalworking_130 {get { return GetParameter(130); }set { SetParameter(130, value); }}
 	/// <summary>PID: 998  | Type: dummy</summary>
 	public System.Object Pollingmanagerinit_dummy {get { return GetParameter(998); }set { SetParameter(998, value); }}
 	/// <summary>PID: 999  | Type: dummy</summary>
@@ -268,9 +337,9 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Pollingmanagerdisplaykey_1099 {get { return GetParameter(1099); }set { SetParameter(1099, value); }}
 	/// <summary>PID: 1099  | Type: read</summary>
 	public System.Object Pollingmanagerdisplaykey {get { return GetParameter(1099); }set { SetParameter(1099, value); }}
-	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable Selected = 6, Enable Selected = 7, Separator 3 = -3, Disable All = 8, Enable All = 9</summary>
+	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable All = 6, Enable All = 7</summary>
 	public System.Object Pollingmanager_contextmenu_1100 {get { return GetParameter(1100); }set { SetParameter(1100, value); }}
-	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable Selected = 6, Enable Selected = 7, Separator 3 = -3, Disable All = 8, Enable All = 9</summary>
+	/// <summary>PID: 1100  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable All = 6, Enable All = 7</summary>
 	public System.Object Pollingmanager_contextmenu {get { return Write.Pollingmanager_contextmenu; }set { Write.Pollingmanager_contextmenu = value; }}
 	public WriteParameters Write { get; set; }
 	public ConcreteSLProtocolExt()
