@@ -11,14 +11,14 @@ public static class QAction
 	/// Runs after stratup in order to add/initialize polling manager.
 	/// </summary>
 	/// <param name="protocol">Link with SLProtocol process.</param>
-	public static void PollingManagerInit(SLProtocolExt protocol)
+	public static void PollingManagerInit(SLProtocol protocol)
     {
         try
         {
 			var configuration = new PollingManagerConfiguration(protocol);
 
 			// Creates PollingManager instance and adds it to PollingManagerContainer.
-			PollingManagerContainer.AddManager(protocol, protocol.pollingmanager, configuration.Rows);
+			PollingManagerContainer.AddManager(protocol, configuration);
         }
         catch (Exception ex)
         {
@@ -35,7 +35,7 @@ public static class QAction
 		try
 		{
 			// Checks PollingManager table for rows that need to be polled.
-			PollingManagerContainer.GetManager(protocol).CheckForUpdate();
+			PollingManagerContainer.GetManager(protocol, (int)Trigger.Init).CheckForUpdate();
 		}
 		catch (Exception ex)
 		{

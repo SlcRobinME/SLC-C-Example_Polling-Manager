@@ -3,6 +3,7 @@ using System;
 using Skyline.DataMiner.Scripting;
 
 using Skyline.PollingManager;
+using Skyline.PollingManager.Client;
 
 /// <summary>
 /// DataMiner QAction Class.
@@ -18,7 +19,7 @@ public static class QAction
         try
         {
             // Handles ContextMenu.
-            PollingManagerContainer.GetManager(protocol).HandleContextMenu(contextMenu);
+            PollingManagerContainer.GetManager(protocol, (int)Trigger.Init).HandleContextMenu(contextMenu);
 		}
         catch (Exception ex)
         {
