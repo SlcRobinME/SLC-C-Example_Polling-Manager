@@ -421,7 +421,7 @@
         {
             string children = string.Join("\n", row.Children.Where(child => child.State == State.Enabled).Select(child => child.Name));
 
-            string message = $"Unable to disable [{row.Name}] because the following rows are dependand on it:\n{children}\nPlease disable them first or use [Force Disable].";
+            string message = $"Unable to disable [{row.Name}] because the following rows are dependent on it:\n{children}\nPlease disable them first or use [Force Disable].";
 
             Protocol.ShowInformationMessage(message);
         }

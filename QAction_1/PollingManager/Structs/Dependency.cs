@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Represents parameter dependancy.
+    /// Represents parameter dependency.
     /// </summary>
     public struct Dependency
     {

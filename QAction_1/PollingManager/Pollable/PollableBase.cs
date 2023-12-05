@@ -83,7 +83,7 @@
 		}
 
 		/// <summary>
-		/// Gets dependant parameters and compares their values with dependencies. Sets <see cref="Reason"/> to first condition not satisfied.
+		/// Gets dependent parameters and compares their values with dependencies. Sets <see cref="Reason"/> to first condition not satisfied.
 		/// </summary>
 		/// <returns>False if any condition is not satisfied, otherwise true.</returns>
 		public bool CheckDependencies()
