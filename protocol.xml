@@ -514,6 +514,9 @@
 										<Changes>
 											<NewFeature>Initial version</NewFeature>
 										</Changes>
+										<References>
+											<TaskId>222440</TaskId>
+										</References>
 									</MinorVersion>
 								</MinorVersions>
 							</MajorVersion>
