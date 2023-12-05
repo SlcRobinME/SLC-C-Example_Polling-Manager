@@ -9,16 +9,19 @@ using Skyline.PollingManager;
 /// </summary>
 public static class QAction
 {
-    /// <summary>
-    /// The QAction entry point.
-    /// </summary>
-    /// <param name="protocol">Link with SLProtocol process.</param>
-    public static void Run(SLProtocol protocol, object contextMenu)
+	/// <summary>
+	/// The QAction entry point.
+	/// </summary>
+	/// <param name="protocol">Link with SLProtocol process.</param>
+	/// <param name="contextMenu">The contextMenu data.</param>
+	public static void Run(SLProtocol protocol, object contextMenu)
     {
         try
         {
             // Handles ContextMenu.
-            PollingManagerContainer.GetManager(protocol, 1).HandleContextMenu(contextMenu);
+            PollingManagerContainer
+				.GetManager(protocol, 1)
+				.HandleContextMenu(contextMenu);
 		}
         catch (Exception ex)
         {

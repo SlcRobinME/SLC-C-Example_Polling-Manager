@@ -1,17 +1,17 @@
 ﻿namespace Skyline.PollingManager.Pollable
 {
-    using System;
-    using System.Collections.Generic;
+	using System;
+	using System.Collections.Generic;
 
-    using Skyline.DataMiner.Scripting;
+	using Skyline.DataMiner.Scripting;
 
-    using Skyline.PollingManager.Enums;
-    using Skyline.PollingManager.Structs;
+	using Skyline.PollingManager.Enums;
+	using Skyline.PollingManager.Structs;
 
 	/// <summary>
 	/// Base class that implements <see cref="IPollable"/>.
 	/// </summary>
-    public abstract class PollableBase : IPollable
+	public abstract class PollableBase : IPollable
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PollableBase"/> class.
@@ -19,17 +19,17 @@
 		/// <param name="protocol">Link with SLProtocol process.</param>
 		/// <param name="name">Name of the PollingManager table row.</param>
 		public PollableBase(SLProtocol protocol, string name)
-        {
-            Protocol = protocol;
-            Name = name;
-            Period = 5;
-            DefaultPeriod = 10;
-            PeriodType = PeriodType.Default;
-            LastPoll = default;
-            Status = Status.NotPolled;
-            Reason = string.Empty;
-            State = State.Enabled;
-        }
+		{
+			Protocol = protocol;
+			Name = name;
+			Period = 5;
+			DefaultPeriod = 10;
+			PeriodType = PeriodType.Default;
+			LastPoll = default;
+			Status = Status.NotPolled;
+			Reason = string.Empty;
+			State = State.Enabled;
+		}
 
 		public SLProtocol Protocol { get; set; }
 
@@ -70,7 +70,9 @@
 		public void Update(object[] row)
 		{
 			if (row.Length < 9)
+			{
 				throw new ArgumentException($"Parameter must have at least 9 elements, but has [{row.Length}]!");
+			}
 
 			Name = Convert.ToString(row[(int)Column.Name]) ?? string.Empty;
 			Period = Convert.ToDouble(row[(int)Column.Period]);
@@ -87,15 +89,13 @@
 		/// </summary>
 		/// <returns>False if any condition is not satisfied, otherwise true.</returns>
 		public bool CheckDependencies()
-        {
+		{
 			try
 			{
 				foreach (KeyValuePair<int, Dependency> dependency in Dependencies)
 				{
-					object parameter = Protocol.GetParameter(dependency.Key);
-
-					if (parameter == null)
-						throw new Exception($"Parameter with ID [{dependency.Key}] doesn't exist!");
+					object parameter = Protocol.GetParameter(dependency.Key)
+						?? throw new Exception($"Parameter with ID [{dependency.Key}] doesn't exist!");
 
 					if (dependency.Value.Value is double)
 					{
@@ -165,12 +165,16 @@
 		/// <param name="parent">Parent element.</param>
 		/// <exception cref="InvalidOperationException">Throws if <paramref name="parent"/> is already this elements child.</exception>
 		void IPollable.AddParent(IPollable parent)
-        {
+		{
 			if (Children.Contains(parent))
+			{
 				throw new InvalidOperationException($"Circular dependency, [{parent.Name}] is already a child of [{Name}]!");
+			}
 
 			if (Parents.Contains(parent))
-                return;
+			{
+				return;
+			}
 
 			Parents.Add(parent);
 		}
@@ -182,17 +186,21 @@
 		/// <exception cref="InvalidOperationException">Throws if any <paramref name="parents"/> element is already this elements child.</exception>
 		public void AddParents(params IPollable[] parents)
 		{
-            foreach (IPollable parent in parents)
-            {
-                if (Children.Contains(parent))
-                    throw new InvalidOperationException($"Circular dependency, [{parent.Name}] is already a child of [{Name}]!");
+			foreach (IPollable parent in parents)
+			{
+				if (Children.Contains(parent))
+				{
+					throw new InvalidOperationException($"Circular dependency, [{parent.Name}] is already a child of [{Name}]!");
+				}
 
-                if (Parents.Contains(parent))
-                    return;
+				if (Parents.Contains(parent))
+				{
+					return;
+				}
 
-                parent.AddChild(this);
-                Parents.Add(parent);
-            }
+				parent.AddChild(this);
+				Parents.Add(parent);
+			}
 		}
 
 		/// <summary>
@@ -201,12 +209,16 @@
 		/// <param name="child">Child element.</param>
 		/// <exception cref="InvalidOperationException">Throws if <paramref name="child"/> is already this elements parent.</exception>
 		void IPollable.AddChild(IPollable child)
-        {
+		{
 			if (Parents.Contains(child))
+			{
 				throw new InvalidOperationException($"Circular dependency, [{child.Name}] is already a parent of [{Name}]!");
+			}
 
 			if (Children.Contains(child))
+			{
 				return;
+			}
 
 			Children.Add(child);
 		}
@@ -218,17 +230,21 @@
 		/// <exception cref="InvalidOperationException">Throws if any <paramref name="children"/> element is already this elements parent.</exception>
 		public void AddChildren(params IPollable[] children)
 		{
-            foreach (IPollable child in children)
-            {
-                if (Parents.Contains(child))
-                    throw new InvalidOperationException($"Circular dependency, [{child.Name}] is already a parent of [{Name}]!");
+			foreach (IPollable child in children)
+			{
+				if (Parents.Contains(child))
+				{
+					throw new InvalidOperationException($"Circular dependency, [{child.Name}] is already a parent of [{Name}]!");
+				}
 
-                if (Children.Contains(child))
-                    return;
+				if (Children.Contains(child))
+				{
+					return;
+				}
 
-                child.AddParent(this);
-                Children.Add(child);
-            }
+				child.AddParent(this);
+				Children.Add(child);
+			}
 		}
 
 		/// <summary>
@@ -240,7 +256,9 @@
 		/// <exception cref="ArgumentException">Throws if boxed <paramref name="parameter"/> type is not double.</exception>
 		private bool CheckDoubleParameter(object parameter, object value)
 		{
-			return parameter is double ? (double)parameter == (double)value : throw new ArgumentException("Parameter is not of type double!");
+			return parameter is double
+				? (double)parameter == (double)value
+				: throw new ArgumentException("Parameter is not of type double!");
 		}
 
 		/// <summary>
@@ -252,7 +270,9 @@
 		/// <exception cref="ArgumentException">Throws if boxed <paramref name="parameter"/> type is not string.</exception>
 		private bool CheckStringParameter(object parameter, object value)
 		{
-			return parameter is string ? (string)parameter == (string)value : throw new ArgumentException("Parameter is not of type string!");
+			return parameter is string
+				? (string)parameter == (string)value
+				: throw new ArgumentException("Parameter is not of type string!");
 		}
 	}
 }

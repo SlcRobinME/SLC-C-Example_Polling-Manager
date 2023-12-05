@@ -8,7 +8,7 @@ using Skyline.PollingManager.Client;
 public static class QAction
 {
 	/// <summary>
-	/// Runs after stratup in order to add/initialize polling manager.
+	/// Runs after startup in order to add/initialize polling manager.
 	/// </summary>
 	/// <param name="protocol">Link with SLProtocol process.</param>
 	public static void PollingManagerInit(SLProtocol protocol)
