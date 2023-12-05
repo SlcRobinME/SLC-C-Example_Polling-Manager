@@ -1,12 +1,11 @@
-﻿namespace Skyline.PollingManager.Pollable
+﻿namespace Skyline.DataMiner.Protocol.PollingManager.Pollable
 {
 	using System;
 	using System.Collections.Generic;
 
+	using Skyline.DataMiner.Protocol.PollingManager.Enums;
+	using Skyline.DataMiner.Protocol.PollingManager.Structs;
 	using Skyline.DataMiner.Scripting;
-
-	using Skyline.PollingManager.Enums;
-	using Skyline.PollingManager.Structs;
 
 	/// <summary>
 	/// Base class that implements <see cref="IPollable"/>.

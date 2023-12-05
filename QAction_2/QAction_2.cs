@@ -1,9 +1,8 @@
 using System;
 
+using Skyline.DataMiner.Protocol.PollingManager;
+using Skyline.DataMiner.Protocol.PollingManager.Client;
 using Skyline.DataMiner.Scripting;
-
-using Skyline.PollingManager;
-using Skyline.PollingManager.Client;
 
 public static class QAction
 {

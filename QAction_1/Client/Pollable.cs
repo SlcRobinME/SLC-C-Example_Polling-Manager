@@ -1,7 +1,7 @@
-﻿namespace Skyline.PollingManager.Client
+﻿namespace Skyline.DataMiner.Protocol.PollingManager.Client
 {
+	using Skyline.DataMiner.Protocol.PollingManager.Pollable;
 	using Skyline.DataMiner.Scripting;
-	using Skyline.PollingManager.Pollable;
 
 	public class Pollable : PollableBase
 	{

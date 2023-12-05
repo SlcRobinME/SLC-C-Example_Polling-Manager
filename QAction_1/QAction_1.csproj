@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <RootNamespace>Skyline.PollingManager</RootNamespace>
+    <RootNamespace>Skyline.DataMiner.Protocol</RootNamespace>
     <AssemblyVersion>2023.1101.0733.48471</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>

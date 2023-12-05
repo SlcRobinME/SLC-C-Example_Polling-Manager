@@ -1,4 +1,4 @@
-﻿namespace Skyline.PollingManager
+﻿namespace Skyline.DataMiner.Protocol.PollingManager
 {
 	using System;
 	using System.Collections.Concurrent;
@@ -6,10 +6,9 @@
 	using System.Linq;
 
 	using Skyline.DataMiner.Net;
+	using Skyline.DataMiner.Protocol.PollingManager.Enums;
+	using Skyline.DataMiner.Protocol.PollingManager.Pollable;
 	using Skyline.DataMiner.Scripting;
-
-	using Skyline.PollingManager.Enums;
-	using Skyline.PollingManager.Pollable;
 
 	/// <summary>
 	/// <see cref="PollingManager"/> container class used to provide singleton on the element level.
@@ -99,7 +98,7 @@
 		/// Creates unique key based on DataMinerID and ElementID.
 		/// </summary>
 		/// <param name="protocol">Link with SLProtocol process.</param>
-		/// <returns>Key in format DataMinerID/ElementID</returns>
+		/// <returns>Key in format DataMinerID/ElementID.</returns>
 		private static string GetKey(SLProtocol protocol)
 		{
 			return string.Join("/", protocol.DataMinerID, protocol.ElementID);

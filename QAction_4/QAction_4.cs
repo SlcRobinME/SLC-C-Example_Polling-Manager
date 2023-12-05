@@ -1,8 +1,7 @@
 using System;
 
+using Skyline.DataMiner.Protocol.PollingManager;
 using Skyline.DataMiner.Scripting;
-
-using Skyline.PollingManager;
 
 /// <summary>
 /// DataMiner QAction Class.

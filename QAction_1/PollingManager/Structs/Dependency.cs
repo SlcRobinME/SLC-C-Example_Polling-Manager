@@ -1,4 +1,4 @@
-﻿namespace Skyline.PollingManager.Structs
+﻿namespace Skyline.DataMiner.Protocol.PollingManager.Structs
 {
 	using System;
 

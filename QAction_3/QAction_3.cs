@@ -1,9 +1,8 @@
 using System;
 
+using Skyline.DataMiner.Protocol.PollingManager;
+using Skyline.DataMiner.Protocol.PollingManager.Enums;
 using Skyline.DataMiner.Scripting;
-
-using Skyline.PollingManager;
-using Skyline.PollingManager.Enums;
 
 public static class QAction
 {

@@ -1,17 +1,16 @@
-﻿namespace Skyline.PollingManager.Pollable
+﻿namespace Skyline.DataMiner.Protocol.PollingManager.Pollable
 {
-    using System;
-    using System.Collections.Generic;
+	using System;
+	using System.Collections.Generic;
 
-    using Skyline.DataMiner.Scripting;
-
-    using Skyline.PollingManager.Enums;
-    using Skyline.PollingManager.Structs;
+	using Skyline.DataMiner.Protocol.PollingManager.Enums;
+	using Skyline.DataMiner.Protocol.PollingManager.Structs;
+	using Skyline.DataMiner.Scripting;
 
 	/// <summary>
 	/// Represents base for a row in the <see cref="PollingmanagerQActionTable"/>.
 	/// </summary>
-    public interface IPollable
+	public interface IPollable
 	{
         SLProtocol Protocol { get; set; }
 
