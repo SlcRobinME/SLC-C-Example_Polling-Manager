@@ -70,7 +70,7 @@
 		{
 			if (row.Length < 9)
 			{
-				throw new ArgumentException($"Parameter must have at least 9 elements, but has [{row.Length}]!");
+				throw new ArgumentException($"Parameter '{nameof(row)}' must have at least 9 elements, but has '{row.Length}'.");
 			}
 
 			Name = Convert.ToString(row[(int)Column.Name]) ?? string.Empty;
@@ -94,7 +94,7 @@
 				foreach (KeyValuePair<int, Dependency> dependency in Dependencies)
 				{
 					object parameter = Protocol.GetParameter(dependency.Key)
-						?? throw new Exception($"Parameter with ID [{dependency.Key}] doesn't exist!");
+						?? throw new Exception($"Parameter with ID '{dependency.Key}' doesn't exist.");
 
 					if (dependency.Value.Value is double)
 					{
@@ -138,7 +138,7 @@
 			}
 			catch (Exception ex)
 			{
-				Protocol.Log($"QA{Protocol.QActionID}|{Protocol.GetTriggerParameter()}|PollableBase.CheckDependencies|Exception thrown:{Environment.NewLine}{ex}!", LogType.Error, LogLevel.NoLogging);
+				Protocol.Log($"QA{Protocol.QActionID}|{Protocol.GetTriggerParameter()}|PollableBase.CheckDependencies|Exception thrown:{Environment.NewLine}{ex}", LogType.Error, LogLevel.NoLogging);
 
 				Reason = "Something went wrong. Please check logs.";
 				return false;
@@ -167,7 +167,7 @@
 		{
 			if (Children.Contains(parent))
 			{
-				throw new InvalidOperationException($"Circular dependency, [{parent.Name}] is already a child of [{Name}]!");
+				throw new InvalidOperationException($"Circular dependency, '{parent.Name}' is already a child of '{Name}'.");
 			}
 
 			if (Parents.Contains(parent))
@@ -189,7 +189,7 @@
 			{
 				if (Children.Contains(parent))
 				{
-					throw new InvalidOperationException($"Circular dependency, [{parent.Name}] is already a child of [{Name}]!");
+					throw new InvalidOperationException($"Circular dependency, '{parent.Name}' is already a child of '{Name}'.");
 				}
 
 				if (Parents.Contains(parent))
@@ -211,7 +211,7 @@
 		{
 			if (Parents.Contains(child))
 			{
-				throw new InvalidOperationException($"Circular dependency, [{child.Name}] is already a parent of [{Name}]!");
+				throw new InvalidOperationException($"Circular dependency, '{child.Name}' is already a parent of '{Name}'.");
 			}
 
 			if (Children.Contains(child))
@@ -233,7 +233,7 @@
 			{
 				if (Parents.Contains(child))
 				{
-					throw new InvalidOperationException($"Circular dependency, [{child.Name}] is already a parent of [{Name}]!");
+					throw new InvalidOperationException($"Circular dependency, '{child.Name}' is already a parent of '{Name}'.");
 				}
 
 				if (Children.Contains(child))
@@ -257,7 +257,7 @@
 		{
 			return parameter is double
 				? (double)parameter == (double)value
-				: throw new ArgumentException("Parameter is not of type double!");
+				: throw new ArgumentException($"{nameof(parameter)} is not of type double.");
 		}
 
 		/// <summary>
@@ -271,7 +271,7 @@
 		{
 			return parameter is string
 				? (string)parameter == (string)value
-				: throw new ArgumentException("Parameter is not of type string!");
+				: throw new ArgumentException($"{nameof(parameter)} is not of type string.");
 		}
 	}
 }

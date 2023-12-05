@@ -39,7 +39,7 @@
                     return Column.Poll;
 
                 default:
-                    throw new ArgumentException($"Unsupported PeriodType: {trigger}!");
+                    throw new ArgumentException($"Unsupported PeriodType '{trigger}'.");
             }
         }
     }

@@ -43,9 +43,9 @@
 				}
 				catch (ArgumentException ex)
 				{
-					protocol.Log($"QA{protocol.QActionID}|{protocol.GetTriggerParameter()}|PollingManagerContainer.AddManager|Exception thrown:{Environment.NewLine}{ex}!", LogType.Error, LogLevel.NoLogging);
+					protocol.Log($"QA{protocol.QActionID}|{protocol.GetTriggerParameter()}|PollingManagerContainer.AddManager|Exception thrown:{Environment.NewLine}{ex}", LogType.Error, LogLevel.NoLogging);
 
-					throw new ArgumentException("Failed to create PollingManager!");
+					throw new ArgumentException("Failed to create PollingManager.");
 				}
 
 				_managers.TryAdd(key, manager);
@@ -84,7 +84,9 @@
 				var table = new PollingmanagerQActionTable(protocol, Parameter.Pollingmanager.tablePid, "Polling Manager");
 
 				if (table.RowCount == 0)
-					throw new InvalidOperationException($"Polling manager for element [{key}] is not initialized, please call AddManager first!");
+				{
+					throw new InvalidOperationException($"Polling manager for element [{key}] is not initialized, please call AddManager first.");
+				}
 
 				protocol.CheckTrigger(initTrigger);
 			}
@@ -101,7 +103,7 @@
 		/// <returns>Key in format DataMinerID/ElementID.</returns>
 		private static string GetKey(SLProtocol protocol)
 		{
-			return string.Join("/", protocol.DataMinerID, protocol.ElementID);
+			return String.Join("/", protocol.DataMinerID, protocol.ElementID);
 		}
 	}
 
@@ -131,13 +133,17 @@
 			for (int i = 0; i < rows.Count; i++)
 			{
 				if (!names.Add(rows[i].Name))
+				{
 					throw new ArgumentException($"Duplicate name: {rows[i].Name}!");
+				}
 
-				_rows.Add((i + 1).ToString(), rows[i] ?? throw new ArgumentException("Rows parameter can't contain null values!"));
+				_rows.Add((i + 1).ToString(), rows[i] ?? throw new ArgumentException("Rows parameter can't contain null values."));
 			}
 
 			if (table.RowCount != 0)
+			{
 				LoadRows();
+			}
 
 			FillTable(_rows);
 		}
@@ -159,7 +165,9 @@
 				PollableBase currentRow = row.Value;
 
 				if (currentRow.State == State.Disabled)
+				{
 					continue;
+				}
 
 				bool readyToPoll;
 
@@ -174,15 +182,19 @@
 						break;
 
 					default:
-						throw new ArgumentException($"Unsupported PeriodType: {currentRow.PeriodType}!");
+						throw new ArgumentException($"Unsupported PeriodType '{currentRow.PeriodType}'.");
 				}
 
 				if (readyToPoll)
+				{
 					requiresUpdate = PollRow(currentRow);
+				}
 			}
 
 			if (requiresUpdate)
+			{
 				FillTableNoDelete(_rows);
+			}
 		}
 
 		/// <summary>
@@ -197,7 +209,9 @@
 		public void HandleRowUpdate(string rowId, Column column)
 		{
 			if (!_rows.ContainsKey(rowId))
-				throw new ArgumentException($"Row key [{rowId}] doesn't exist in the Polling Manager table!");
+			{
+				throw new ArgumentException($"Row key '{rowId}' doesn't exist in the Polling Manager table.");
+			}
 
 			PollableBase tableRow;
 
@@ -220,7 +234,7 @@
 					break;
 
 				default:
-					throw new ArgumentException($"Unsupported Column: {column}!");
+					throw new ArgumentException($"Unsupported Column '{column}'.");
 			}
 
 			FillTableNoDelete(_rows);
@@ -239,18 +253,18 @@
 		public void HandleContextMenu(object contextMenu)
 		{
 			var input = contextMenu as string[]
-				?? throw new ArgumentException("Parameter can't be converted to string[]!");
+				?? throw new ArgumentException($"Parameter '{nameof(contextMenu)}' can't be converted to string[].");
 
 			if (!int.TryParse(input[1], out int value))
 			{
-				throw new ArgumentException("Unable to parse selected option from parameter!");
+				throw new ArgumentException($"Unable to parse selected option '{input[1]}' from '{nameof(contextMenu)}'.");
 			}
 
 			var option = (ContextMenuOption)value;
 
 			if (HasRowKeys(option) && input.Length <= 2)
 			{
-				throw new ArgumentException("Parameter is missing row keys!");
+				throw new ArgumentException("Parameter is missing row keys.");
 			}
 
 			switch (option)
@@ -326,7 +340,7 @@
 					break;
 
 				default:
-					throw new ArgumentException($"Unsupported ContextMenuOption: {option}!");
+					throw new ArgumentException($"Unsupported ContextMenuOption '{option}'.");
 			}
 
 			FillTableNoDelete(_rows);
@@ -419,9 +433,11 @@
 		/// <param name="row">Row for which to show parents.</param>
 		private void ShowParents(IPollable row)
 		{
-			string parents = string.Join("\n", row.Parents.Where(parent => parent.State == State.Disabled).Select(parent => parent.Name));
+			string parents = String.Join("\n", row.Parents.Where(parent => parent.State == State.Disabled).Select(parent => parent.Name));
 
-			string message = $"Unable to enable [{row.Name}] because it depends on the following rows:\n{parents}\nPlease enable them first or use [Force Enable].";
+			string message = $"Unable to enable '{row.Name}' because it depends on the following rows:{Environment.NewLine}" +
+				$"{parents}{Environment.NewLine}" +
+				$"Please enable them first or use [Force Enable].";
 
 			Protocol.ShowInformationMessage(message);
 		}
@@ -432,9 +448,11 @@
 		/// <param name="row">Row for which to show children.</param>
 		private void ShowChildren(IPollable row)
 		{
-			string children = string.Join("\n", row.Children.Where(child => child.State == State.Enabled).Select(child => child.Name));
+			string children = String.Join(Environment.NewLine, row.Children.Where(child => child.State == State.Enabled).Select(child => child.Name));
 
-			string message = $"Unable to disable [{row.Name}] because the following rows are dependent on it:\n{children}\nPlease disable them first or use [Force Disable].";
+			string message = $"Unable to disable '{row.Name}' because the following rows are dependent on it:{Environment.NewLine}" +
+				$"{children}{Environment.NewLine}" +
+				$"Please disable them first or use [Force Disable].";
 
 			Protocol.ShowInformationMessage(message);
 		}
@@ -504,7 +522,7 @@
 		{
 			if (!_rows.ContainsKey(rowId))
 			{
-				throw new ArgumentException($"Row key [{rowId}] doesn't exist in the Polling Manager table!");
+				throw new ArgumentException($"Row key '{rowId}' doesn't exist in the Polling Manager table.");
 			}
 
 			object[] tableRow = _table.GetRow(rowId);

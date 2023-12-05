@@ -11,7 +11,7 @@
 
 		public override bool Poll()
 		{
-			Protocol.Log($"Polling [{Name}]");
+			Protocol.Log($"Polling '{Name}'.");
 
 			return true;
 		}

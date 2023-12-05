@@ -26,7 +26,7 @@
 			}
 			else
 			{
-				throw new ArgumentException("Value is not of type int, double or string!");
+				throw new ArgumentException("Value is not of type int, double nor string.");
 			}
 
 			ShouldEqual = shouldEqual;
