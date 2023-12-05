@@ -175,7 +175,7 @@
                         break;
 
                     default:
-                        throw new ArgumentException($"Unhandled PeriodType: {currentRow.PeriodType}!");
+                        throw new ArgumentException($"Unsupported PeriodType: {currentRow.PeriodType}!");
                 }
 
 				if (readyToPoll)
@@ -221,7 +221,7 @@
                     break;
 
                 default:
-                    throw new ArgumentException($"Unhandled Column: {column}!");
+                    throw new ArgumentException($"Unsupported Column: {column}!");
 			}
 
 			FillTableNoDelete(_rows);
@@ -313,7 +313,7 @@
                     break;
 
                 default:
-                    throw new ArgumentException($"Unhandled ContextMenuOption: {option}!");
+                    throw new ArgumentException($"Unsupported ContextMenuOption: {option}!");
             }
 
             FillTableNoDelete(_rows);
