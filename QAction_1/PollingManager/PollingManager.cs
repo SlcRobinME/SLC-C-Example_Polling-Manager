@@ -134,7 +134,7 @@
 			{
 				if (!names.Add(rows[i].Name))
 				{
-					throw new ArgumentException($"Duplicate name: {rows[i].Name}!");
+					throw new ArgumentException($"Duplicate name: {rows[i].Name}.");
 				}
 
 				_rows.Add((i + 1).ToString(), rows[i] ?? throw new ArgumentException("Rows parameter can't contain null values."));
@@ -433,7 +433,7 @@
 		/// <param name="row">Row for which to show parents.</param>
 		private void ShowParents(IPollable row)
 		{
-			string parents = String.Join("\n", row.Parents.Where(parent => parent.State == State.Disabled).Select(parent => parent.Name));
+			string parents = String.Join(Environment.NewLine, row.Parents.Where(parent => parent.State == State.Disabled).Select(parent => parent.Name));
 
 			string message = $"Unable to enable '{row.Name}' because it depends on the following rows:{Environment.NewLine}" +
 				$"{parents}{Environment.NewLine}" +
