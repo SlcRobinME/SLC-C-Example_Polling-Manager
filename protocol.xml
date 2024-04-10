@@ -530,7 +530,7 @@ TODO
 		<Group id="990">
 			<Name>PollingManager_Process</Name>
 			<Description>Polling Manager - Process</Description>
-			<Type>poll action</Type>
+			<Type>action</Type>
 			<Content>
 				<Action>990</Action>
 			</Content>
