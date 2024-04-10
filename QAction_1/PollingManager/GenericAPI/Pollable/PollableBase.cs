@@ -1,10 +1,8 @@
-﻿namespace Skyline.DataMiner.Protocol.PollingManager.Pollable
+﻿namespace Skyline.DataMiner.PollingManager
 {
 	using System;
 	using System.Collections.Generic;
 
-	using Skyline.DataMiner.Protocol.PollingManager.Enums;
-	using Skyline.DataMiner.Protocol.PollingManager.Structs;
 	using Skyline.DataMiner.Scripting;
 
 	/// <summary>

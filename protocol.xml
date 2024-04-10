@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <!--
 
 ****************************************************************************
@@ -43,9 +43,10 @@ Any inquiries can be addressed to:
 	Contact	: Ben Vandenberghe
 
 -->
+
 <Protocol xmlns="http://www.skyline.be/protocol">
 	<Name>Skyline Example Polling Manager</Name>
-	<Description>Skyline Example Polling Manager</Description>
+	<Description>Skyline Example Polling Manager DataMiner connector</Description>
 	<Version>1.0.0.1</Version>
 	<IntegrationID>DMS-DRV-9033</IntegrationID>
 	<Provider>Skyline Communications</Provider>
@@ -54,46 +55,38 @@ Any inquiries can be addressed to:
 	<DeviceOID>10</DeviceOID>
 	<ElementType>Example</ElementType>
 	<Type relativeTimers="true">virtual</Type>
-	<Display defaultPage="General" pageOrder="General" wideColumnPages="General"/>
+	<Display defaultPage="General" pageOrder="General;----------;Polling Settings" wideColumnPages=""/>
 	<SNMP includepages="true">auto</SNMP>
 
 	<Compliancies>
 		<CassandraReady>true</CassandraReady>
-		<MinimumRequiredVersion>10.1.0.0 - 9966</MinimumRequiredVersion>
+		<MinimumRequiredVersion>10.2.0.0 - 12603</MinimumRequiredVersion>
 	</Compliancies>
 
 	<Params>
-		<Param id="998">
-			<Name>PollingManagerInit</Name>
-			<Description>Polling Manager Init</Description>
+		<Param id="2">
+			<Name>AfterStartup</Name>
+			<Description>After Startup</Description>
 			<Type>dummy</Type>
 		</Param>
-		<Param id="999">
-			<Name>PollingManagerCheck</Name>
-			<Description>Polling Manager Check</Description>
-			<Type>dummy</Type>
-		</Param>
-		<Param id="1000">
-			<Name>PollingManager</Name>
-			<Description>Polling Manager</Description>
-			<Type>array</Type>
-			<ArrayOptions index="0">
-				<NamingFormat>,1001, : ,1002</NamingFormat>
-				<ColumnOption idx="0" pid="1001" type="retrieved" options=""/>
-				<ColumnOption idx="1" pid="1002" type="retrieved" options=";save"/>
-				<ColumnOption idx="2" pid="1003" type="retrieved" options=";save"/>
-				<ColumnOption idx="3" pid="1004" type="retrieved" options=";save"/>
-				<ColumnOption idx="4" pid="1005" type="retrieved" options=";save"/>
-				<ColumnOption idx="5" pid="1006" type="retrieved" options=""/>
-				<ColumnOption idx="6" pid="1007" type="retrieved" options=""/>
-				<ColumnOption idx="7" pid="1008" type="retrieved" options=""/>
-				<ColumnOption idx="8" pid="1059" type="retrieved" options=""/>
-				<ColumnOption idx="9" pid="1010" type="retrieved" options=";rowTextColoring"/>
-				<ColumnOption idx="10" pid="1099" type="displaykey" options=""/>
-			</ArrayOptions>
+		
+		<Param id="9" trending="false">
+			<Name>ReadMe</Name>
+			<Description>Read Me</Description>
+			<Type>read</Type>
 			<Information>
-				<Subtext>Polling manager table provides customizable polling periods.</Subtext>
+				<Subtext>Description of this example protocol.</Subtext>
 			</Information>
+			<Interprete>
+				<RawType>other</RawType>
+				<Type>string</Type>
+				<LengthType>next param</LengthType>
+				<DefaultValue>
+					<![CDATA[
+TODO
+					]]>
+				</DefaultValue>
+			</Interprete>
 			<Display>
 				<RTDisplay>true</RTDisplay>
 				<Positions>
@@ -105,318 +98,16 @@ Any inquiries can be addressed to:
 				</Positions>
 			</Display>
 			<Measurement>
-				<!-- SuppressValidator 2.31.9 Sorting table by date doesn't make sense. -->
-				<Type options="tab=columns:1001|0-1002|1-1099|10-1003|2-1004|3-1005|4-1006|5-1007|6-1008|7-1059|8-1010|9,width:0-0-100-138-128-150-144-80-100-100-0,sort:STRING-STRING-STRING|ASC|0-INT-INT-INT-STRING-STRING-STRING-STRING-STRING,lines:25,filter:true">table</Type>
-				<!-- /SuppressValidator 2.31.9 -->
+				<Type lines="10">string</Type>
 			</Measurement>
 		</Param>
-		<Param id="1001" trending="false">
-			<Name>PollingManagerIndex</Name>
-			<Description>Index (Polling Manager)</Description>
-			<Type>read</Type>
-			<Information>
-				<Subtext>Unique key used to identify rows.</Subtext>
-			</Information>
-			<Interprete>
-				<RawType>other</RawType>
-				<Type>string</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type>string</Type>
-			</Measurement>
+		
+		<Param id="990">
+			<Name>PollingManager_RunQAction</Name>
+			<Description>Polling Manager - Run QAction</Description>
+			<Type>dummy</Type>
 		</Param>
-		<Param id="1002" trending="false">
-			<Name>PollingManagerName</Name>
-			<Description>Name (Polling Manager)</Description>
-			<Type>read</Type>
-			<Information>
-				<Subtext>Name of the row.</Subtext>
-			</Information>
-			<Interprete>
-				<RawType>other</RawType>
-				<Type>string</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type>string</Type>
-			</Measurement>
-		</Param>
-		<Param id="1003" trending="false">
-			<Name>PollingManagerPeriod</Name>
-			<Description>Period (Polling Manager)</Description>
-			<Type>read</Type>
-			<Information>
-				<Subtext>Period defines how often to attempt to poll the row.</Subtext>
-			</Information>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-				<Decimals>8</Decimals>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type options="time">number</Type>
-			</Measurement>
-		</Param>
-		<Param id="1053" setter="true">
-			<Name>PollingManagerPeriod</Name>
-			<Description>Period (Polling Manager)</Description>
-			<Type>write</Type>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type options="time">number</Type>
-			</Measurement>
-		</Param>
-		<Param id="1004" trending="false">
-			<Name>PollingManagerDefaultPeriod</Name>
-			<Description>Default Period (Polling Manager)</Description>
-			<Type>read</Type>
-			<Information>
-				<Subtext>Default polling period. Definied by the developer.</Subtext>
-			</Information>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type options="time">number</Type>
-			</Measurement>
-		</Param>
-		<Param id="1005" trending="false">
-			<Name>PollingManagerPeriodType</Name>
-			<Description>Period Type (Polling Manager)</Description>
-			<Type>read</Type>
-			<Information>
-				<Subtext>Defines whether to use default or custom period time for polling.</Subtext>
-			</Information>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type>discreet</Type>
-				<Discreets>
-					<Discreet>
-						<Display>Default Period</Display>
-						<Value>1</Value>
-					</Discreet>
-					<Discreet>
-						<Display>Custom Period</Display>
-						<Value>2</Value>
-					</Discreet>
-				</Discreets>
-			</Measurement>
-		</Param>
-		<Param id="1055" setter="true">
-			<Name>PollingManagerPeriodType</Name>
-			<Description>Period Type (Polling Manager)</Description>
-			<Type>write</Type>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type>togglebutton</Type>
-				<Discreets>
-					<Discreet>
-						<Display>Default Period</Display>
-						<Value>1</Value>
-					</Discreet>
-					<Discreet>
-						<Display>Custom Period</Display>
-						<Value>2</Value>
-					</Discreet>
-				</Discreets>
-			</Measurement>
-		</Param>
-		<Param id="1006" trending="false">
-			<Name>PollingManagerLastPoll</Name>
-			<Description>Last Poll (Polling Manager)</Description>
-			<Type>read</Type>
-			<Information>
-				<Subtext>Time of the last poll attempt.</Subtext>
-			</Information>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-				<Decimals>8</Decimals>
-				<Exceptions>
-					<Exception id="1" value="-2">
-						<Display state="disabled">Not Polled</Display>
-						<Value>-2</Value>
-					</Exception>
-				</Exceptions>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-				<Decimals>8</Decimals>
-			</Display>
-			<Measurement>
-				<Type options="datetime">number</Type>
-			</Measurement>
-		</Param>
-		<Param id="1007" trending="false">
-			<Name>PollingManagerStatus</Name>
-			<Description>Status (Polling Manager)</Description>
-			<Type>read</Type>
-			<Information>
-				<Subtext>Status of the last poll attempt.</Subtext>
-			</Information>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-				<Exceptions>
-					<Exception id="1" value="-2">
-						<Display state="disabled">Not Polled</Display>
-						<Value>-2</Value>
-					</Exception>
-					<Exception id="2" value="-1">
-						<Display state="disabled">Disabled</Display>
-						<Value>-1</Value>
-					</Exception>
-				</Exceptions>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type>discreet</Type>
-				<Discreets>
-					<Discreet>
-						<Display>Failed</Display>
-						<Value>0</Value>
-					</Discreet>
-					<Discreet>
-						<Display>Succeeded</Display>
-						<Value>1</Value>
-					</Discreet>
-				</Discreets>
-			</Measurement>
-		</Param>
-		<Param id="1008" trending="false">
-			<Name>PollingManagerReason</Name>
-			<Description>Reason (Polling Manager)</Description>
-			<Type>read</Type>
-			<Information>
-				<Subtext>Additional information regarding polling status.</Subtext>
-			</Information>
-			<Interprete>
-				<RawType>other</RawType>
-				<Type>string</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type>string</Type>
-			</Measurement>
-		</Param>
-		<Param id="1059">
-			<Name>PollingManagerPoll</Name>
-			<Description>Poll (Polling Manager)</Description>
-			<Type>write</Type>
-			<Information>
-				<Subtext>Polls the row regardless whether period time has elapsed.</Subtext>
-			</Information>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type width="110">button</Type>
-				<Discreets>
-					<Discreet>
-						<Display>Poll</Display>
-						<Value>1</Value>
-					</Discreet>
-				</Discreets>
-			</Measurement>
-		</Param>
-		<Param id="1010" trending="false">
-			<Name>PollingManagerState</Name>
-			<Description>State (Polling Manager)</Description>
-			<Type>read</Type>
-			<Information>
-				<Subtext>Current state of the row.</Subtext>
-			</Information>
-			<Interprete>
-				<RawType>numeric text</RawType>
-				<Type>double</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type>discreet</Type>
-				<Discreets>
-					<Discreet options=";rowTextColor=#979797">
-						<Display>Disabled</Display>
-						<Value>1</Value>
-					</Discreet>
-					<Discreet>
-						<Display>Enabled</Display>
-						<Value>2</Value>
-					</Discreet>
-				</Discreets>
-			</Measurement>
-		</Param>
-		<Param id="1099" trending="false">
-			<Name>PollingManagerDisplayKey</Name>
-			<Description>Display Key (Polling Manager)</Description>
-			<Type>read</Type>
-			<Information>
-				<Subtext>User friendly identificator of the row.</Subtext>
-			</Information>
-			<Interprete>
-				<RawType>other</RawType>
-				<Type>string</Type>
-				<LengthType>next param</LengthType>
-			</Interprete>
-			<Display>
-				<RTDisplay>true</RTDisplay>
-			</Display>
-			<Measurement>
-				<Type>string</Type>
-			</Measurement>
-		</Param>
-		<Param id="1100">
+		<Param id="998">
 			<Name>PollingManager_ContextMenu</Name>
 			<Description>Context Menu for Polling Manager</Description>
 			<Type>write</Type>
@@ -470,38 +161,385 @@ Any inquiries can be addressed to:
 				</Discreets>
 			</Measurement>
 		</Param>
+		<Param id="999" trending="false">
+			<Name>PollingManager_DisplayKey</Name>
+			<Description>Full Description (Polling Manager)</Description>
+			<Type>read</Type>
+			<Information>
+				<Subtext>A unique and user-friendly key used to identify the Stream Resource.</Subtext>
+			</Information>
+			<Interprete>
+				<RawType>other</RawType>
+				<Type>string</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type>string</Type>
+			</Measurement>
+		</Param>
+		<Param id="1000">
+			<Name>PollingManager</Name>
+			<Description>Polling Manager</Description>
+			<Type>array</Type>
+			<ArrayOptions index="0">
+				<NamingFormat>,1001, : ,1002</NamingFormat>
+				<ColumnOption idx="0" pid="1001" type="retrieved" options=""/>
+				<ColumnOption idx="1" pid="1002" type="retrieved" options=";save"/>
+				<ColumnOption idx="2" pid="1003" type="retrieved" options=";save"/>
+				<ColumnOption idx="3" pid="1004" type="retrieved" options=";save"/>
+				<ColumnOption idx="4" pid="1005" type="retrieved" options=";save"/>
+				<ColumnOption idx="5" pid="1006" type="retrieved" options=""/>
+				<ColumnOption idx="6" pid="1007" type="retrieved" options=""/>
+				<ColumnOption idx="7" pid="1008" type="retrieved" options=""/>
+				<ColumnOption idx="8" pid="1059" type="retrieved" options=""/>
+				<ColumnOption idx="9" pid="1010" type="retrieved" options=";rowTextColoring"/>
+				<ColumnOption idx="10" pid="999" type="displaykey" options=""/>
+			</ArrayOptions>
+			<Information>
+				<Subtext>Polling manager table provides customizable polling periods.</Subtext>
+			</Information>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+				<Positions>
+					<Position>
+						<Page>Polling Settings</Page>
+						<Column>0</Column>
+						<Row>0</Row>
+					</Position>
+				</Positions>
+			</Display>
+			<Measurement>
+				<!-- SuppressValidator 2.31.9 Sorting table by date doesn't make sense here. -->
+				<Type options="tab=columns:1001|0-1002|1-999|10-1003|2-1004|3-1005|4-1006|5-1007|6-1008|7-1059|8-1010|9,width:0-0-122-138-128-150-144-80-100-100-0,sort:STRING-STRING-STRING|ASC|0-INT-INT-INT-STRING-STRING-STRING-STRING-STRING,lines:25,filter:true">table</Type>
+				<!-- /SuppressValidator 2.31.9 -->
+			</Measurement>
+		</Param>
+		<Param id="1001" trending="false">
+			<Name>PollingManager_ID</Name>
+			<Description>ID (Polling Manager)</Description>
+			<Type>read</Type>
+			<Information>
+				<Subtext>
+					<![CDATA[This is the unique key used internally by DataMiner to identify the table entries.]]>
+				</Subtext>
+			</Information>
+			<Interprete>
+				<RawType>other</RawType>
+				<Type>string</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type>string</Type>
+			</Measurement>
+		</Param>
+		<Param id="1002" trending="false">
+			<Name>PollingManager_Name</Name>
+			<Description>Name (Polling Manager)</Description>
+			<Type>read</Type>
+			<Information>
+				<Subtext>Name of the row.</Subtext>
+			</Information>
+			<Interprete>
+				<RawType>other</RawType>
+				<Type>string</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type>string</Type>
+			</Measurement>
+		</Param>
+		<Param id="1003" trending="false">
+			<Name>PollingManager_Period</Name>
+			<Description>Period (Polling Manager)</Description>
+			<Type>read</Type>
+			<Information>
+				<Subtext>Period defines how often to attempt to poll the row.</Subtext>
+			</Information>
+			<Interprete>
+				<RawType>numeric text</RawType>
+				<Type>double</Type>
+				<LengthType>next param</LengthType>
+				<Decimals>8</Decimals>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type options="time">number</Type>
+			</Measurement>
+		</Param>
+		<Param id="1053" setter="true">
+			<Name>PollingManager_Period</Name>
+			<Description>Period (Polling Manager)</Description>
+			<Type>write</Type>
+			<Interprete>
+				<RawType>numeric text</RawType>
+				<Type>double</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type options="time">number</Type>
+			</Measurement>
+		</Param>
+		<Param id="1004" trending="false">
+			<Name>PollingManager_DefaultPeriod</Name>
+			<Description>Default Period (Polling Manager)</Description>
+			<Type>read</Type>
+			<Information>
+				<Subtext>Default polling period. Definied by the developer.</Subtext>
+			</Information>
+			<Interprete>
+				<RawType>numeric text</RawType>
+				<Type>double</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type options="time">number</Type>
+			</Measurement>
+		</Param>
+		<Param id="1005" trending="false">
+			<Name>PollingManager_PeriodType</Name>
+			<Description>Period Type (Polling Manager)</Description>
+			<Type>read</Type>
+			<Information>
+				<Subtext>Defines whether to use default or custom period time for polling.</Subtext>
+			</Information>
+			<Interprete>
+				<RawType>numeric text</RawType>
+				<Type>double</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type>discreet</Type>
+				<Discreets>
+					<Discreet>
+						<Display>Default Period</Display>
+						<Value>1</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Custom Period</Display>
+						<Value>2</Value>
+					</Discreet>
+				</Discreets>
+			</Measurement>
+		</Param>
+		<Param id="1055" setter="true">
+			<Name>PollingManager_PeriodType</Name>
+			<Description>Period Type (Polling Manager)</Description>
+			<Type>write</Type>
+			<Interprete>
+				<RawType>numeric text</RawType>
+				<Type>double</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type>togglebutton</Type>
+				<Discreets>
+					<Discreet>
+						<Display>Default Period</Display>
+						<Value>1</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Custom Period</Display>
+						<Value>2</Value>
+					</Discreet>
+				</Discreets>
+			</Measurement>
+		</Param>
+		<Param id="1006" trending="false">
+			<Name>PollingManager_LastPoll</Name>
+			<Description>Last Poll (Polling Manager)</Description>
+			<Type>read</Type>
+			<Information>
+				<Subtext>Time of the last poll attempt.</Subtext>
+			</Information>
+			<Interprete>
+				<RawType>numeric text</RawType>
+				<Type>double</Type>
+				<LengthType>next param</LengthType>
+				<Decimals>8</Decimals>
+				<Exceptions>
+					<Exception id="1" value="-2">
+						<Display state="disabled">Not Polled</Display>
+						<Value>-2</Value>
+					</Exception>
+				</Exceptions>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+				<Decimals>8</Decimals>
+			</Display>
+			<Measurement>
+				<Type options="datetime">number</Type>
+			</Measurement>
+		</Param>
+		<Param id="1007" trending="false">
+			<Name>PollingManager_Status</Name>
+			<Description>Status (Polling Manager)</Description>
+			<Type>read</Type>
+			<Information>
+				<Subtext>Status of the last poll attempt.</Subtext>
+			</Information>
+			<Interprete>
+				<RawType>numeric text</RawType>
+				<Type>double</Type>
+				<LengthType>next param</LengthType>
+				<Exceptions>
+					<Exception id="1" value="-2">
+						<Display state="disabled">Not Polled</Display>
+						<Value>-2</Value>
+					</Exception>
+					<Exception id="2" value="-1">
+						<Display state="disabled">Disabled</Display>
+						<Value>-1</Value>
+					</Exception>
+				</Exceptions>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type>discreet</Type>
+				<Discreets>
+					<Discreet>
+						<Display>Failed</Display>
+						<Value>0</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Succeeded</Display>
+						<Value>1</Value>
+					</Discreet>
+				</Discreets>
+			</Measurement>
+		</Param>
+		<Param id="1008" trending="false">
+			<Name>PollingManager_Reason</Name>
+			<Description>Reason (Polling Manager)</Description>
+			<Type>read</Type>
+			<Information>
+				<Subtext>Additional information regarding polling status.</Subtext>
+			</Information>
+			<Interprete>
+				<RawType>other</RawType>
+				<Type>string</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type>string</Type>
+			</Measurement>
+		</Param>
+		<Param id="1059">
+			<Name>PollingManager_Poll</Name>
+			<Description>Poll (Polling Manager)</Description>
+			<Type>write</Type>
+			<Information>
+				<Subtext>Polls the row regardless whether period time has elapsed.</Subtext>
+			</Information>
+			<Interprete>
+				<RawType>numeric text</RawType>
+				<Type>double</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type width="110">button</Type>
+				<Discreets>
+					<Discreet>
+						<Display>Poll</Display>
+						<Value>1</Value>
+					</Discreet>
+				</Discreets>
+			</Measurement>
+		</Param>
+		<Param id="1010" trending="false">
+			<Name>PollingManager_State</Name>
+			<Description>State (Polling Manager)</Description>
+			<Type>read</Type>
+			<Information>
+				<Subtext>Current state of the row.</Subtext>
+			</Information>
+			<Interprete>
+				<RawType>numeric text</RawType>
+				<Type>double</Type>
+				<LengthType>next param</LengthType>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+			</Display>
+			<Measurement>
+				<Type>discreet</Type>
+				<Discreets>
+					<Discreet options=";rowTextColor=#979797">
+						<Display>Disabled</Display>
+						<Value>1</Value>
+					</Discreet>
+					<Discreet>
+						<Display>Enabled</Display>
+						<Value>2</Value>
+					</Discreet>
+				</Discreets>
+			</Measurement>
+		</Param>
 	</Params>
 
 	<QActions>
 		<QAction id="1" name="Precompiled Code" encoding="csharp" options="precompile" />
+		<QAction id="2" name="After Startup" encoding="csharp" triggers="2" />
 
-		<QAction id="2" name="Polling Manager" encoding="csharp" triggers="998;999" entryPoint="PollingManagerInit;PollingManagerCheck"/>
-		<QAction id="3" name="Polling Manager Update" encoding="csharp" row="true" triggers="1053;1055;1059" />
-		<QAction id="4" name="Polling Manager Context Menu" encoding="csharp" triggers="1100" />
+		<QAction id="990" name="Polling Manager - Process" encoding="csharp" triggers="990" />
+		<QAction id="998" name="Polling Manager - ContextMenu" encoding="csharp" triggers="998" />
+		<QAction id="1050" name="Polling Manager - Sets" encoding="csharp" triggers="1053;1055;1059" row="true" />
 	</QActions>
 
 	<Groups>
-		<Group id="1">
-			<Name>PollingManagerInitGroup</Name>
-			<Description>Polling Manager Init Group</Description>
+		<Group id="2">
+			<Name>After Startup</Name>
+			<Description>After Startup</Description>
 			<Type>poll action</Type>
 			<Content>
 				<Action>2</Action>
 			</Content>
 		</Group>
-		<Group id="2">
-			<Name>PollingManagerCheckGroup</Name>
-			<Description>Polling Manager Check Group</Description>
+
+		<Group id="990">
+			<Name>PollingManager_Process</Name>
+			<Description>Polling Manager - Process</Description>
 			<Type>poll action</Type>
 			<Content>
-				<Action>3</Action>
+				<Action>990</Action>
 			</Content>
 		</Group>
 	</Groups>
 
 	<Triggers>
 		<Trigger id="1">
-			<Name>PollingManagerInitTrigger</Name>
+			<Name>After Startup</Name>
 			<On>protocol</On>
 			<Time>after startup</Time>
 			<Type>action</Type>
@@ -513,29 +551,30 @@ Any inquiries can be addressed to:
 
 	<Actions>
 		<Action id="1">
-			<Name>Execute Polling Manager Init Group</Name>
-			<On id="1">group</On>
+			<Name>After Startup Group</Name>
+			<On id="2">group</On>
 			<Type>execute next</Type>
 		</Action>
 		<Action id="2">
-			<Name>Execute Polling Manager Init QAction</Name>
-			<On id="998">parameter</On>
+			<Name>After Startup QAction</Name>
+			<On id="2">parameter</On>
 			<Type>run actions</Type>
 		</Action>
-		<Action id="3">
-			<Name>Execute Polling Manager Check QAction</Name>
-			<On id="999">parameter</On>
+
+		<Action id="990">
+			<Name>Polling Manager - Process</Name>
+			<On id="990">parameter</On>
 			<Type>run actions</Type>
 		</Action>
 	</Actions>
 
 	<Timers>
 		<Timer id="1" fixedTimer="true">
-			<Name>Fast Timer (1s)</Name>
+			<Name>Very Fast Timer (1s)</Name>
 			<Time initial="true">1000</Time>
 			<Interval>75</Interval>
 			<Content>
-				<Group>2</Group>
+				<Group>990</Group>
 			</Content>
 		</Timer>
 	</Timers>
@@ -543,24 +582,21 @@ Any inquiries can be addressed to:
 	<VersionHistory>
 		<Branches>
 			<Branch id="1">
-				<Comment>Main Branch</Comment>
+				<Comment>Initial Branch</Comment>
 				<SystemVersions>
 					<SystemVersion id="0">
 						<MajorVersions>
 							<MajorVersion id="0">
 								<MinorVersions>
 									<MinorVersion id="1">
-										<Date>2023-10-10</Date>
+										<Date>2024-04-10</Date>
 										<Provider>
-											<Author>EdibSU</Author>
+											<Author>ESU</Author>
 											<Company>Skyline Communications</Company>
 										</Provider>
 										<Changes>
 											<NewFeature>Initial version</NewFeature>
 										</Changes>
-										<References>
-											<TaskId>222440</TaskId>
-										</References>
 									</MinorVersion>
 								</MinorVersions>
 							</MajorVersion>

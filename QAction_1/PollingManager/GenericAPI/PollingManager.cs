@@ -1,13 +1,10 @@
-﻿namespace Skyline.DataMiner.Protocol.PollingManager
+﻿namespace Skyline.DataMiner.PollingManager
 {
 	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Linq;
 
-	using Skyline.DataMiner.Net;
-	using Skyline.DataMiner.Protocol.PollingManager.Enums;
-	using Skyline.DataMiner.Protocol.PollingManager.Pollable;
 	using Skyline.DataMiner.Scripting;
 
 	/// <summary>
@@ -553,15 +550,15 @@
 		{
 			return new PollingmanagerQActionRow
 			{
-				Pollingmanagerindex_1001 = key,
-				Pollingmanagername_1002 = value.Name,
-				Pollingmanagerperiod_1003 = value.PeriodType == PeriodType.Custom ? value.Period : value.DefaultPeriod,
-				Pollingmanagerdefaultperiod_1004 = value.DefaultPeriod,
-				Pollingmanagerperiodtype_1005 = value.PeriodType,
-				Pollingmanagerlastpoll_1006 = value.LastPoll == default ? Convert.ToDouble(Status.NotPolled) : value.LastPoll.ToOADate(),
-				Pollingmanagerstatus_1007 = value.State == State.Disabled ? Status.Disabled : value.Status,
-				Pollingmanagerreason_1008 = value.Reason,
-				Pollingmanagerstate_1010 = value.State,
+				Pollingmanager_id = key,
+				Pollingmanager_name = value.Name,
+				Pollingmanager_period = value.PeriodType == PeriodType.Custom ? value.Period : value.DefaultPeriod,
+				Pollingmanager_defaultperiod = value.DefaultPeriod,
+				Pollingmanager_periodtype = value.PeriodType,
+				Pollingmanager_lastpoll = value.LastPoll == default ? Convert.ToDouble(Status.NotPolled) : value.LastPoll.ToOADate(),
+				Pollingmanager_status = value.State == State.Disabled ? Status.Disabled : value.Status,
+				Pollingmanager_reason = value.Reason,
+				Pollingmanager_state = value.State,
 			};
 		}
 

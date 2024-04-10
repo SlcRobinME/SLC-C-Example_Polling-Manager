@@ -1,9 +1,8 @@
-﻿namespace Skyline.DataMiner.Protocol.PollingManager.Pollable
+﻿namespace Skyline.DataMiner.PollingManager
 {
 	using System.Collections.Generic;
 	using System.Linq;
 
-	using Skyline.DataMiner.Protocol.PollingManager.Structs;
 	using Skyline.DataMiner.Scripting;
 
 	public abstract class PollingManagerConfigurationBase

@@ -1,4 +1,4 @@
-﻿namespace Skyline.DataMiner.Protocol.PollingManager.Enums
+﻿namespace Skyline.DataMiner.PollingManager
 {
     using Skyline.DataMiner.Scripting;
 
