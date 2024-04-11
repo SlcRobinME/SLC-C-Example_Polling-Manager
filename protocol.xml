@@ -69,7 +69,7 @@ Any inquiries can be addressed to:
 			<Description>After Startup</Description>
 			<Type>dummy</Type>
 		</Param>
-		
+
 		<Param id="9" trending="false">
 			<Name>ReadMe</Name>
 			<Description>Read Me</Description>
@@ -101,7 +101,7 @@ TODO
 				<Type lines="10">string</Type>
 			</Measurement>
 		</Param>
-		
+
 		<Param id="990">
 			<Name>PollingManager_RunQAction</Name>
 			<Description>Polling Manager - Run QAction</Description>
@@ -195,7 +195,7 @@ TODO
 				<ColumnOption idx="6" pid="1007" type="retrieved" options=""/>
 				<ColumnOption idx="7" pid="1008" type="retrieved" options=""/>
 				<ColumnOption idx="8" pid="1059" type="retrieved" options=""/>
-				<ColumnOption idx="9" pid="1010" type="retrieved" options=";rowTextColoring"/>
+				<ColumnOption idx="9" pid="1010" type="retrieved" options=";save;rowTextColoring"/>
 				<ColumnOption idx="10" pid="999" type="displaykey" options=""/>
 			</ArrayOptions>
 			<Information>
@@ -213,7 +213,7 @@ TODO
 			</Display>
 			<Measurement>
 				<!-- SuppressValidator 2.31.9 Sorting table by date doesn't make sense here. -->
-				<Type options="tab=columns:1001|0-1002|1-999|10-1003|2-1004|3-1005|4-1006|5-1007|6-1008|7-1059|8-1010|9,width:0-0-122-138-128-150-144-80-100-100-0,sort:STRING-STRING-STRING|ASC|0-INT-INT-INT-STRING-STRING-STRING-STRING-STRING,lines:25,filter:true">table</Type>
+				<Type options="tab=columns:1001|0-1002|1-999|10-1010|9-1003|2-1004|3-1005|4-1006|5-1007|6-1008|7-1059|8,width:0-0-122-60-138-128-150-144-80-100-100,sort:STRING-STRING-STRING|ASC|0-STRING-INT-INT-INT-STRING-STRING-STRING-STRING,lines:25,filter:true">table</Type>
 				<!-- /SuppressValidator 2.31.9 -->
 			</Measurement>
 		</Param>
