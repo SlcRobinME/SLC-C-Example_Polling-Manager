@@ -19,9 +19,9 @@
 		{
 			Protocol = protocol;
 			Name = name;
-			Period = 5;
-			DefaultPeriod = 10;
-			PeriodType = PeriodType.Default;
+			Interval = 5;
+			DefaultInterval = 10;
+			IntervalType = IntervalType.Default;
 			LastPoll = default;
 			Status = Status.NotPolled;
 			Reason = string.Empty;
@@ -32,11 +32,11 @@
 
 		public string Name { get; set; }
 
-		public double Period { get; set; }
+		public double Interval { get; set; }
 
-		public double DefaultPeriod { get; set; }
+		public double DefaultInterval { get; set; }
 
-		public PeriodType PeriodType { get; set; }
+		public IntervalType IntervalType { get; set; }
 
 		public DateTime LastPoll { get; set; }
 
@@ -72,9 +72,9 @@
 			}
 
 			Name = Convert.ToString(row[(int)Column.Name]) ?? string.Empty;
-			Period = Convert.ToDouble(row[(int)Column.Period]);
-			DefaultPeriod = Convert.ToDouble(row[(int)Column.DefaultPeriod]);
-			PeriodType = (PeriodType)Convert.ToDouble(row[(int)Column.PeriodType]);
+			Interval = Convert.ToDouble(row[(int)Column.Interval]);
+			DefaultInterval = Convert.ToDouble(row[(int)Column.DefaultInterval]);
+			IntervalType = (IntervalType)Convert.ToDouble(row[(int)Column.IntervalType]);
 			LastPoll = DateTime.FromOADate(Convert.ToDouble(row[(int)Column.LastPoll]));
 			Status = (Status)Convert.ToDouble(row[(int)Column.Status]);
 			Reason = Convert.ToString(row[(int)Column.Reason]) ?? string.Empty;

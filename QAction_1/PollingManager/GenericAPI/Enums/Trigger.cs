@@ -9,8 +9,8 @@
 	/// </summary>
 	public enum Trigger
     {
-        Period = 1053,
-        PeriodType = 1055,
+        Interval = 1053,
+        IntervalType = 1055,
         Poll = 1059,
     }
 
@@ -29,17 +29,17 @@
         {
             switch (trigger)
             {
-                case Trigger.Period:
-                    return Column.Period;
+                case Trigger.Interval:
+                    return Column.Interval;
 
-                case Trigger.PeriodType:
-                    return Column.PeriodType;
+                case Trigger.IntervalType:
+                    return Column.IntervalType;
 
                 case Trigger.Poll:
                     return Column.Poll;
 
                 default:
-                    throw new ArgumentException($"Unsupported PeriodType '{trigger}'.");
+                    throw new ArgumentException($"Unsupported IntervalType '{trigger}'.");
             }
         }
     }

@@ -9,9 +9,9 @@
     {
         Id = 0,
         Name = 1,
-        Period = 2,
-        DefaultPeriod = 3,
-        PeriodType = 4,
+        Interval = 2,
+        DefaultInterval = 3,
+        IntervalType = 4,
         LastPoll = 5,
         Status = 6,
         Reason = 7,
