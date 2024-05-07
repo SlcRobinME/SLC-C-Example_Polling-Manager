@@ -30,10 +30,10 @@
             switch (trigger)
             {
                 case Trigger.Period:
-                    return Column.Period;
+                    return Column.Interval;
 
                 case Trigger.PeriodType:
-                    return Column.PeriodType;
+                    return Column.IntervalConfig;
 
                 case Trigger.Poll:
                     return Column.Poll;

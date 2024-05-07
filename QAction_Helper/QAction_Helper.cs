@@ -22,14 +22,14 @@ public static class Parameter
 		public const int pollingmanager_contextmenu = 998;
 		/// <summary>PID: 1053 | Type: write</summary>
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public const int pollingmanager_period_1053 = 1053;
+		public const int pollingmanager_interval_1053 = 1053;
 		/// <summary>PID: 1053 | Type: write</summary>
-		public const int pollingmanager_period = 1053;
+		public const int pollingmanager_interval = 1053;
 		/// <summary>PID: 1055 | Type: write</summary>
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public const int pollingmanager_periodtype_1055 = 1055;
+		public const int pollingmanager_intervalconfig_1055 = 1055;
 		/// <summary>PID: 1055 | Type: write</summary>
-		public const int pollingmanager_periodtype = 1055;
+		public const int pollingmanager_intervalconfig = 1055;
 	}
 	public class Pollingmanager
 	{
@@ -53,19 +53,19 @@ public static class Parameter
 			public const int pollingmanager_name = 1002;
 			/// <summary>PID: 1003 | Type: read</summary>
 			[EditorBrowsable(EditorBrowsableState.Never)]
-			public const int pollingmanager_period_1003 = 1003;
+			public const int pollingmanager_interval_1003 = 1003;
 			/// <summary>PID: 1003 | Type: read</summary>
-			public const int pollingmanager_period = 1003;
+			public const int pollingmanager_interval = 1003;
 			/// <summary>PID: 1004 | Type: read</summary>
 			[EditorBrowsable(EditorBrowsableState.Never)]
-			public const int pollingmanager_defaultperiod_1004 = 1004;
+			public const int pollingmanager_defaultinterval_1004 = 1004;
 			/// <summary>PID: 1004 | Type: read</summary>
-			public const int pollingmanager_defaultperiod = 1004;
+			public const int pollingmanager_defaultinterval = 1004;
 			/// <summary>PID: 1005 | Type: read</summary>
 			[EditorBrowsable(EditorBrowsableState.Never)]
-			public const int pollingmanager_periodtype_1005 = 1005;
+			public const int pollingmanager_intervalconfig_1005 = 1005;
 			/// <summary>PID: 1005 | Type: read</summary>
-			public const int pollingmanager_periodtype = 1005;
+			public const int pollingmanager_intervalconfig = 1005;
 			/// <summary>PID: 1006 | Type: read</summary>
 			[EditorBrowsable(EditorBrowsableState.Never)]
 			public const int pollingmanager_lastpoll_1006 = 1006;
@@ -114,19 +114,19 @@ public static class Parameter
 			public const int pollingmanager_name = 1;
 			/// <summary>IDX: 2 | Type: read</summary>
 			[EditorBrowsable(EditorBrowsableState.Never)]
-			public const int pollingmanager_period_1003 = 2;
+			public const int pollingmanager_interval_1003 = 2;
 			/// <summary>IDX: 2 | Type: read</summary>
-			public const int pollingmanager_period = 2;
+			public const int pollingmanager_interval = 2;
 			/// <summary>IDX: 3 | Type: read</summary>
 			[EditorBrowsable(EditorBrowsableState.Never)]
-			public const int pollingmanager_defaultperiod_1004 = 3;
+			public const int pollingmanager_defaultinterval_1004 = 3;
 			/// <summary>IDX: 3 | Type: read</summary>
-			public const int pollingmanager_defaultperiod = 3;
+			public const int pollingmanager_defaultinterval = 3;
 			/// <summary>IDX: 4 | Type: read</summary>
 			[EditorBrowsable(EditorBrowsableState.Never)]
-			public const int pollingmanager_periodtype_1005 = 4;
+			public const int pollingmanager_intervalconfig_1005 = 4;
 			/// <summary>IDX: 4 | Type: read</summary>
-			public const int pollingmanager_periodtype = 4;
+			public const int pollingmanager_intervalconfig = 4;
 			/// <summary>IDX: 5 | Type: read</summary>
 			[EditorBrowsable(EditorBrowsableState.Never)]
 			public const int pollingmanager_lastpoll_1006 = 5;
@@ -160,9 +160,9 @@ public class WriteParameters
 	/// <summary>PID: 998  | Type: write | DISCREETS: Poll All = 1, Separator 1 = -1, Disable = 2, Enable = 3, Force Disable = 4, Force Enable = 5, Separator 2 = -2, Disable All = 6, Enable All = 7</summary>
 	public System.Object Pollingmanager_contextmenu {get { return Protocol.GetParameter(998); }set { Protocol.SetParameter(998, value); }}
 	/// <summary>PID: 1053  | Type: write</summary>
-	public System.Object Pollingmanager_period {get { return Protocol.GetParameter(1053); }set { Protocol.SetParameter(1053, value); }}
+	public System.Object Pollingmanager_interval {get { return Protocol.GetParameter(1053); }set { Protocol.SetParameter(1053, value); }}
 	/// <summary>PID: 1055  | Type: write | DISCREETS: Default Period = 1, Custom Period = 2</summary>
-	public System.Object Pollingmanager_periodtype {get { return Protocol.GetParameter(1055); }set { Protocol.SetParameter(1055, value); }}
+	public System.Object Pollingmanager_intervalconfig {get { return Protocol.GetParameter(1055); }set { Protocol.SetParameter(1055, value); }}
 	/// <summary>PID: 1059  | Type: write | DISCREETS: Poll = 1</summary>
 	public System.Object Pollingmanager_poll {get { return Protocol.GetParameter(1059); }set { Protocol.SetParameter(1059, value); }}
 	public SLProtocolExt Protocol;
@@ -187,12 +187,12 @@ public interface SLProtocolExt : SLProtocol
 	object Pollingmanager_id { get; set; }
 	object Pollingmanager_name_1002 { get; set; }
 	object Pollingmanager_name { get; set; }
-	object Pollingmanager_period_1003 { get; set; }
-	object Pollingmanager_period { get; set; }
-	object Pollingmanager_defaultperiod_1004 { get; set; }
-	object Pollingmanager_defaultperiod { get; set; }
-	object Pollingmanager_periodtype_1005 { get; set; }
-	object Pollingmanager_periodtype { get; set; }
+	object Pollingmanager_interval_1003 { get; set; }
+	object Pollingmanager_interval { get; set; }
+	object Pollingmanager_defaultinterval_1004 { get; set; }
+	object Pollingmanager_defaultinterval { get; set; }
+	object Pollingmanager_intervalconfig_1005 { get; set; }
+	object Pollingmanager_intervalconfig { get; set; }
 	object Pollingmanager_lastpoll_1006 { get; set; }
 	object Pollingmanager_lastpoll { get; set; }
 	object Pollingmanager_status_1007 { get; set; }
@@ -201,8 +201,8 @@ public interface SLProtocolExt : SLProtocol
 	object Pollingmanager_reason { get; set; }
 	object Pollingmanager_state_1010 { get; set; }
 	object Pollingmanager_state { get; set; }
-	object Pollingmanager_period_1053 { get; set; }
-	object Pollingmanager_periodtype_1055 { get; set; }
+	object Pollingmanager_interval_1053 { get; set; }
+	object Pollingmanager_intervalconfig_1055 { get; set; }
 	object Pollingmanager_poll_1059 { get; set; }
 	object Pollingmanager_poll { get; set; }
 	WriteParameters Write { get; set; }
@@ -241,19 +241,19 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Pollingmanager_name {get { return GetParameter(1002); }set { SetParameter(1002, value); }}
 	/// <summary>PID: 1003  | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanager_period_1003 {get { return GetParameter(1003); }set { SetParameter(1003, value); }}
+	public System.Object Pollingmanager_interval_1003 {get { return GetParameter(1003); }set { SetParameter(1003, value); }}
 	/// <summary>PID: 1003  | Type: read</summary>
-	public System.Object Pollingmanager_period {get { return GetParameter(1003); }set { SetParameter(1003, value); }}
+	public System.Object Pollingmanager_interval {get { return GetParameter(1003); }set { SetParameter(1003, value); }}
 	/// <summary>PID: 1004  | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanager_defaultperiod_1004 {get { return GetParameter(1004); }set { SetParameter(1004, value); }}
+	public System.Object Pollingmanager_defaultinterval_1004 {get { return GetParameter(1004); }set { SetParameter(1004, value); }}
 	/// <summary>PID: 1004  | Type: read</summary>
-	public System.Object Pollingmanager_defaultperiod {get { return GetParameter(1004); }set { SetParameter(1004, value); }}
+	public System.Object Pollingmanager_defaultinterval {get { return GetParameter(1004); }set { SetParameter(1004, value); }}
 	/// <summary>PID: 1005  | Type: read | DISCREETS: Default Period = 1, Custom Period = 2</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanager_periodtype_1005 {get { return GetParameter(1005); }set { SetParameter(1005, value); }}
+	public System.Object Pollingmanager_intervalconfig_1005 {get { return GetParameter(1005); }set { SetParameter(1005, value); }}
 	/// <summary>PID: 1005  | Type: read | DISCREETS: Default Period = 1, Custom Period = 2</summary>
-	public System.Object Pollingmanager_periodtype {get { return GetParameter(1005); }set { SetParameter(1005, value); }}
+	public System.Object Pollingmanager_intervalconfig {get { return GetParameter(1005); }set { SetParameter(1005, value); }}
 	/// <summary>PID: 1006  | Type: read | EXCEPTIONS: Not Polled = -2</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public System.Object Pollingmanager_lastpoll_1006 {get { return GetParameter(1006); }set { SetParameter(1006, value); }}
@@ -276,10 +276,10 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Pollingmanager_state {get { return GetParameter(1010); }set { SetParameter(1010, value); }}
 	/// <summary>PID: 1053  | Type: write</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanager_period_1053 {get { return GetParameter(1053); }set { SetParameter(1053, value); }}
+	public System.Object Pollingmanager_interval_1053 {get { return GetParameter(1053); }set { SetParameter(1053, value); }}
 	/// <summary>PID: 1055  | Type: write | DISCREETS: Default Period = 1, Custom Period = 2</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanager_periodtype_1055 {get { return GetParameter(1055); }set { SetParameter(1055, value); }}
+	public System.Object Pollingmanager_intervalconfig_1055 {get { return GetParameter(1055); }set { SetParameter(1055, value); }}
 	/// <summary>PID: 1059  | Type: write | DISCREETS: Poll = 1</summary>
 	public System.Object Pollingmanager_poll_1059 {get { return GetParameter(1059); }set { SetParameter(1059, value); }}
 	/// <summary>PID: 1059  | Type: write | DISCREETS: Poll = 1</summary>
@@ -313,19 +313,19 @@ public class PollingmanagerQActionRow : QActionTableRow
 	public System.Object Pollingmanager_name { get { if (base.Columns.ContainsKey(1)) { return base.Columns[1]; } else { return null; } } set { if (base.Columns.ContainsKey(1)) { base.Columns[1] = value; } else { base.Columns.Add(1, value); } } }
 	/// <summary>PID: 1003 | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanager_period_1003 { get { if (base.Columns.ContainsKey(2)) { return base.Columns[2]; } else { return null; } } set { if (base.Columns.ContainsKey(2)) { base.Columns[2] = value; } else { base.Columns.Add(2, value); } } }
+	public System.Object Pollingmanager_interval_1003 { get { if (base.Columns.ContainsKey(2)) { return base.Columns[2]; } else { return null; } } set { if (base.Columns.ContainsKey(2)) { base.Columns[2] = value; } else { base.Columns.Add(2, value); } } }
 	/// <summary>PID: 1003 | Type: read</summary>
-	public System.Object Pollingmanager_period { get { if (base.Columns.ContainsKey(2)) { return base.Columns[2]; } else { return null; } } set { if (base.Columns.ContainsKey(2)) { base.Columns[2] = value; } else { base.Columns.Add(2, value); } } }
+	public System.Object Pollingmanager_interval { get { if (base.Columns.ContainsKey(2)) { return base.Columns[2]; } else { return null; } } set { if (base.Columns.ContainsKey(2)) { base.Columns[2] = value; } else { base.Columns.Add(2, value); } } }
 	/// <summary>PID: 1004 | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanager_defaultperiod_1004 { get { if (base.Columns.ContainsKey(3)) { return base.Columns[3]; } else { return null; } } set { if (base.Columns.ContainsKey(3)) { base.Columns[3] = value; } else { base.Columns.Add(3, value); } } }
+	public System.Object Pollingmanager_defaultinterval_1004 { get { if (base.Columns.ContainsKey(3)) { return base.Columns[3]; } else { return null; } } set { if (base.Columns.ContainsKey(3)) { base.Columns[3] = value; } else { base.Columns.Add(3, value); } } }
 	/// <summary>PID: 1004 | Type: read</summary>
-	public System.Object Pollingmanager_defaultperiod { get { if (base.Columns.ContainsKey(3)) { return base.Columns[3]; } else { return null; } } set { if (base.Columns.ContainsKey(3)) { base.Columns[3] = value; } else { base.Columns.Add(3, value); } } }
+	public System.Object Pollingmanager_defaultinterval { get { if (base.Columns.ContainsKey(3)) { return base.Columns[3]; } else { return null; } } set { if (base.Columns.ContainsKey(3)) { base.Columns[3] = value; } else { base.Columns.Add(3, value); } } }
 	/// <summary>PID: 1005 | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Pollingmanager_periodtype_1005 { get { if (base.Columns.ContainsKey(4)) { return base.Columns[4]; } else { return null; } } set { if (base.Columns.ContainsKey(4)) { base.Columns[4] = value; } else { base.Columns.Add(4, value); } } }
+	public System.Object Pollingmanager_intervalconfig_1005 { get { if (base.Columns.ContainsKey(4)) { return base.Columns[4]; } else { return null; } } set { if (base.Columns.ContainsKey(4)) { base.Columns[4] = value; } else { base.Columns.Add(4, value); } } }
 	/// <summary>PID: 1005 | Type: read</summary>
-	public System.Object Pollingmanager_periodtype { get { if (base.Columns.ContainsKey(4)) { return base.Columns[4]; } else { return null; } } set { if (base.Columns.ContainsKey(4)) { base.Columns[4] = value; } else { base.Columns.Add(4, value); } } }
+	public System.Object Pollingmanager_intervalconfig { get { if (base.Columns.ContainsKey(4)) { return base.Columns[4]; } else { return null; } } set { if (base.Columns.ContainsKey(4)) { base.Columns[4] = value; } else { base.Columns.Add(4, value); } } }
 	/// <summary>PID: 1006 | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public System.Object Pollingmanager_lastpoll_1006 { get { if (base.Columns.ContainsKey(5)) { return base.Columns[5]; } else { return null; } } set { if (base.Columns.ContainsKey(5)) { base.Columns[5] = value; } else { base.Columns.Add(5, value); } } }
