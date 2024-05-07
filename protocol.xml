@@ -258,11 +258,11 @@ TODO
 			</Measurement>
 		</Param>
 		<Param id="1003" trending="false">
-			<Name>PollingManager_Interval</Name>
-			<Description>Interval (Polling Manager)</Description>
+			<Name>PollingManager_Period</Name>
+			<Description>Period (Polling Manager)</Description>
 			<Type>read</Type>
 			<Information>
-				<Subtext>Polling interval defines how often to attempt to poll the row.</Subtext>
+				<Subtext>Period defines how often to attempt to poll the row.</Subtext>
 			</Information>
 			<Interprete>
 				<RawType>numeric text</RawType>
@@ -278,8 +278,8 @@ TODO
 			</Measurement>
 		</Param>
 		<Param id="1053" setter="true">
-			<Name>PollingManager_Interval</Name>
-			<Description>Interval (Polling Manager)</Description>
+			<Name>PollingManager_Period</Name>
+			<Description>Period (Polling Manager)</Description>
 			<Type>write</Type>
 			<Interprete>
 				<RawType>numeric text</RawType>
@@ -294,11 +294,11 @@ TODO
 			</Measurement>
 		</Param>
 		<Param id="1004" trending="false">
-			<Name>PollingManager_DefaultInterval</Name>
-			<Description>Default Interval (Polling Manager)</Description>
+			<Name>PollingManager_DefaultPeriod</Name>
+			<Description>Default Period (Polling Manager)</Description>
 			<Type>read</Type>
 			<Information>
-				<Subtext>Default polling interval. Defined by the developer.</Subtext>
+				<Subtext>Default polling period. Definied by the developer.</Subtext>
 			</Information>
 			<Interprete>
 				<RawType>numeric text</RawType>
@@ -313,8 +313,8 @@ TODO
 			</Measurement>
 		</Param>
 		<Param id="1005" trending="false">
-			<Name>PollingManager_IntervalConfig</Name>
-			<Description>Interval Configuration (Polling Manager)</Description>
+			<Name>PollingManager_PeriodType</Name>
+			<Description>Period Type (Polling Manager)</Description>
 			<Type>read</Type>
 			<Information>
 				<Subtext>Defines whether to use default or custom period time for polling.</Subtext>
@@ -342,8 +342,8 @@ TODO
 			</Measurement>
 		</Param>
 		<Param id="1055" setter="true">
-			<Name>PollingManager_IntervalConfig</Name>
-			<Description>Interval Configuration (Polling Manager)</Description>
+			<Name>PollingManager_PeriodType</Name>
+			<Description>Period Type (Polling Manager)</Description>
 			<Type>write</Type>
 			<Interprete>
 				<RawType>numeric text</RawType>

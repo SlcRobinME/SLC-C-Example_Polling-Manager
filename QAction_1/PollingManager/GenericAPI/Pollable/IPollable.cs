@@ -14,11 +14,11 @@
 
         string Name { get; set; }
 
-        double Interval { get; set; }
+        double Period { get; set; }
 
-        double DefaultInterval { get; set; }
+        double DefaultPeriod { get; set; }
 
-        IntervalConfig IntervalConfig { get; set; }
+        PeriodType PeriodType { get; set; }
 
         DateTime LastPoll { get; set; }
 

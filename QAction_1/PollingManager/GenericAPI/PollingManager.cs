@@ -151,7 +151,7 @@
 		/// Checks <see cref="PollingmanagerQActionTable"/> for rows that are ready to be polled and polls them.
 		/// </summary>
 		/// <exception cref="ArgumentException">
-		/// Throws if <see cref="PollableBase.IntervalConfig"/> is not <see cref="IntervalConfig.Default"/> or <see cref="IntervalConfig.Custom"/>.
+		/// Throws if <see cref="PollableBase.PeriodType"/> is not <see cref="PeriodType.Default"/> or <see cref="PeriodType.Custom"/>.
 		/// </exception>
 		public void CheckForUpdate()
 		{
@@ -168,18 +168,18 @@
 
 				bool readyToPoll;
 
-				switch (currentRow.IntervalConfig)
+				switch (currentRow.PeriodType)
 				{
-					case IntervalConfig.Default:
-						readyToPoll = CheckLastPollTime(currentRow.DefaultInterval, currentRow.LastPoll);
+					case PeriodType.Default:
+						readyToPoll = CheckLastPollTime(currentRow.DefaultPeriod, currentRow.LastPoll);
 						break;
 
-					case IntervalConfig.Custom:
-						readyToPoll = CheckLastPollTime(currentRow.Interval, currentRow.LastPoll);
+					case PeriodType.Custom:
+						readyToPoll = CheckLastPollTime(currentRow.Period, currentRow.LastPoll);
 						break;
 
 					default:
-						throw new ArgumentException($"Unsupported PeriodType '{currentRow.IntervalConfig}'.");
+						throw new ArgumentException($"Unsupported PeriodType '{currentRow.PeriodType}'.");
 				}
 
 				if (readyToPoll)
@@ -201,7 +201,7 @@
 		/// <param name="column">Column on which set was performed.</param>
 		/// <exception cref="ArgumentException">Throws if <paramref name="rowId"/> doesn't exist in the table.</exception>
 		/// <exception cref="ArgumentException">
-		/// Throws if <paramref name="column"/> is not <see cref="Column.Interval"/>, <see cref="Column.IntervalConfig"/> or <see cref="Column.Poll"/>.
+		/// Throws if <paramref name="column"/> is not <see cref="Column.Period"/>, <see cref="Column.PeriodType"/> or <see cref="Column.Poll"/>.
 		/// </exception>
 		public void HandleRowUpdate(string rowId, Column column)
 		{
@@ -214,16 +214,16 @@
 
 			switch (column)
 			{
-				case Column.Interval:
+				case Column.Period:
 					tableRow = LoadRow(rowId);
-					tableRow.IntervalConfig = IntervalConfig.Custom;
+					tableRow.PeriodType = PeriodType.Custom;
 					break;
 
-				case Column.IntervalConfig:
-					double period = _rows[rowId].Interval;
+				case Column.PeriodType:
+					double period = _rows[rowId].Period;
 					tableRow = LoadRow(rowId);
-					if (tableRow.IntervalConfig == IntervalConfig.Custom)
-						tableRow.Interval = period;
+					if (tableRow.PeriodType == PeriodType.Custom)
+						tableRow.Period = period;
 					break;
 
 				case Column.Poll:
@@ -552,9 +552,9 @@
 			{
 				Pollingmanager_id = key,
 				Pollingmanager_name = value.Name,
-				Pollingmanager_interval = value.IntervalConfig == IntervalConfig.Custom ? value.Interval : value.DefaultInterval,
-				Pollingmanager_defaultinterval = value.DefaultInterval,
-				Pollingmanager_intervalconfig = value.IntervalConfig,
+				Pollingmanager_period = value.PeriodType == PeriodType.Custom ? value.Period : value.DefaultPeriod,
+				Pollingmanager_defaultperiod = value.DefaultPeriod,
+				Pollingmanager_periodtype = value.PeriodType,
 				Pollingmanager_lastpoll = value.LastPoll == default ? Convert.ToDouble(Status.NotPolled) : value.LastPoll.ToOADate(),
 				Pollingmanager_status = value.State == State.Disabled ? Status.Disabled : value.Status,
 				Pollingmanager_reason = value.Reason,
