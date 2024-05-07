@@ -253,8 +253,8 @@
 		/// <exception cref="ArgumentException">Throws if boxed <paramref name="parameter"/> type is not double.</exception>
 		private bool CheckDoubleParameter(object parameter, object value)
 		{
-			return parameter is double
-				? (double)parameter == (double)value
+			return parameter is double d
+				? d == (double)value
 				: throw new ArgumentException($"{nameof(parameter)} is not of type double.");
 		}
 
@@ -267,8 +267,8 @@
 		/// <exception cref="ArgumentException">Throws if boxed <paramref name="parameter"/> type is not string.</exception>
 		private bool CheckStringParameter(object parameter, object value)
 		{
-			return parameter is string
-				? (string)parameter == (string)value
+			return parameter is string s
+				? s == (string)value
 				: throw new ArgumentException($"{nameof(parameter)} is not of type string.");
 		}
 	}
