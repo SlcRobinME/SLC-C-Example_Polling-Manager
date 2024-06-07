@@ -77,7 +77,16 @@
 				throw new ArgumentException($"Parameter '{nameof(row)}' must have at least 9 elements, but has '{row.Length}'.");
 			}
 
-			Name = Convert.ToString(row[(int)Column.Name]) ?? string.Empty;
+			var name = Convert.ToString(row[(int)Column.Name]);
+			if (String.IsNullOrEmpty(name))
+			{
+				// BugFix: when a new poll item is added, the LoadRows() method call this Update()-method to overwrite the in memory row (newly added) with a not yet existing row -> null values.
+				// This stops the element from polling completely and forces the user to recreate the element.
+				// Checking if this value is not empty prevents unwanted behavior by overwriting.
+				return;
+			}
+
+			Name = name;
 			Interval = Convert.ToDouble(row[(int)Column.Interval]);
 			DefaultInterval = Convert.ToDouble(row[(int)Column.DefaultInterval]);
 			IntervalType = (IntervalType)Convert.ToDouble(row[(int)Column.IntervalType]);

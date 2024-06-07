@@ -113,7 +113,7 @@
 		/// Initializes a new instance of the <see cref="PollingManager"/> class.
 		/// </summary>
 		/// <param name="protocol">Link with SLProtocol process.</param>
-		/// <param name="table">Polling manager table instance.</param>
+		/// <param name="tablePid">Polling manager table instance.</param>
 		/// <param name="rows">Rows to add to the <paramref name="table"/>.</param>
 		/// <exception cref="ArgumentException">Throws if <paramref name="rows"/> contains duplicate names.</exception>
 		/// <exception cref="ArgumentException">Throws if <paramref name="rows"/> contains null values.</exception>
