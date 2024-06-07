@@ -36,6 +36,8 @@
 
         bool Poll();
 
+        void Disable();
+
         bool CheckDependencies();
 
         void AddDependency(int paramId, Dependency dependency);

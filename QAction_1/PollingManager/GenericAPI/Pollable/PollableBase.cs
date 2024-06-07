@@ -15,12 +15,13 @@
 		/// </summary>
 		/// <param name="protocol">Link with SLProtocol process.</param>
 		/// <param name="name">Name of the PollingManager table row.</param>
-		public PollableBase(SLProtocol protocol, string name)
+		/// <param name="interval">Default polling interval.</param>
+		public PollableBase(SLProtocol protocol, string name, TimeSpan interval)
 		{
 			Protocol = protocol;
 			Name = name;
-			Interval = 5;
-			DefaultInterval = 10;
+			Interval = interval.TotalSeconds;
+			DefaultInterval = interval.TotalSeconds;
 			IntervalType = IntervalType.Default;
 			LastPoll = default;
 			Status = Status.NotPolled;
@@ -60,6 +61,11 @@
 		public abstract bool Poll();
 
 		/// <summary>
+		/// Method to be implemented by extending class. This method gets called by <see cref="PollingManager"/> context menu when disabling or force disabling the item.
+		/// </summary>
+		public abstract void Disable();
+
+		/// <summary>
 		/// Updates current state of <see cref="PollableBase"/>.
 		/// </summary>
 		/// <param name="row">Row on which to base the update.</param>
@@ -92,7 +98,7 @@
 				foreach (KeyValuePair<int, Dependency> dependency in Dependencies)
 				{
 					object parameter = Protocol.GetParameter(dependency.Key)
-						?? throw new Exception($"Parameter with ID '{dependency.Key}' doesn't exist.");
+						?? throw new InvalidOperationException($"Parameter with ID '{dependency.Key}' doesn't exist.");
 
 					if (dependency.Value.Value is double)
 					{
@@ -251,7 +257,7 @@
 		/// <param name="value">Object to compare value against.</param>
 		/// <returns>True if the boxed values are the same, otherwise false.</returns>
 		/// <exception cref="ArgumentException">Throws if boxed <paramref name="parameter"/> type is not double.</exception>
-		private bool CheckDoubleParameter(object parameter, object value)
+		private static bool CheckDoubleParameter(object parameter, object value)
 		{
 			return parameter is double d
 				? d == (double)value
@@ -265,7 +271,7 @@
 		/// <param name="value">Object to compare value against.</param>
 		/// <returns>True if the boxed values are the same, otherwise false.</returns>
 		/// <exception cref="ArgumentException">Throws if boxed <paramref name="parameter"/> type is not string.</exception>
-		private bool CheckStringParameter(object parameter, object value)
+		private static bool CheckStringParameter(object parameter, object value)
 		{
 			return parameter is string s
 				? s == (string)value

@@ -382,6 +382,7 @@
 						return;
 					}
 
+					row.Disable();
 					row.State = State.Disabled;
 					row.Status = Status.Disabled;
 					return;
@@ -398,6 +399,7 @@
 					return;
 
 				case State.ForceDisabled:
+					row.Disable();
 					row.State = State.Disabled;
 					row.Status = Status.Disabled;
 					UpdateStates(row.Children, State.ForceDisabled);
